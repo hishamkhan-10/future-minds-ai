@@ -5,7 +5,6 @@ export interface Course {
   duration: string;
   level: 'Beginner' | 'Intermediate' | 'Advanced' | 'All Levels';
   gradient: string;
-  icon: string;
   price: number;
   originalPrice: number;
   instructor: string;

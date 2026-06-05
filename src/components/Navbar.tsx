@@ -61,7 +61,7 @@ const Navbar: React.FC = () => {
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`} id="navbar" aria-label="Primary">
       <div className="container nav-container">
         <a href="#" className="nav-logo">
-          <img src="assets/_LOGO%20FMA.png" alt="Future Minds AI Training Logo" />
+          <img src="assets/FMA%20LOGO.svg" alt="Future Minds AI Training Logo" />
           <span>Future Minds AI</span>
         </a>
 

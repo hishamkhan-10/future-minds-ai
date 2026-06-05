@@ -10,7 +10,9 @@
       "Bash(taskkill //F //IM node.exe)",
       "Bash(npm run *)",
       "Bash(curl -s -o /dev/null -w \"server:%{http_code}\\\\n\" http://localhost:5181/)",
-      "Bash(node run.js \"C:\\\\Users\\\\User\\\\AppData\\\\Local\\\\Temp\\\\playwright-carousel.js\")"
+      "Bash(node run.js \"C:\\\\Users\\\\User\\\\AppData\\\\Local\\\\Temp\\\\playwright-carousel.js\")",
+      "Bash(npx tsc *)",
+      "Bash(npx vite *)"
     ]
   }
 }

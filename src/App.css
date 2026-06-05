@@ -872,30 +872,6 @@
   background: linear-gradient(180deg, transparent 55%, rgba(10, 22, 40, 0.35) 100%);
 }
 
-/* Emoji framed in a frosted-glass circle */
-.course-img-placeholder span {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 64px;
-  height: 64px;
-  font-size: 1.9rem;
-  line-height: 1;
-  border-radius: var(--radius-full);
-  background: rgba(255, 255, 255, 0.14);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  box-shadow: 0 6px 18px rgba(10, 22, 40, 0.25);
-  transition: transform var(--transition-base);
-}
-
-.course-card:hover .course-img-placeholder span {
-  transform: scale(1.08) translateY(-2px);
-}
-
 .course-content {
   padding: 1.25rem;
   flex: 1;

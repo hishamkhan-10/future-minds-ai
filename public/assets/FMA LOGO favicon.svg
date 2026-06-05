@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 178.55 115.5">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        fill: #0091f4;
+      }
+
+      .cls-3 {
+        fill: #0096f5;
+      }
+
+      .cls-4 {
+        fill: #0193f6;
+      }
+
+      .cls-5 {
+        fill: #0191f3;
+      }
+
+      .cls-6 {
+        fill: #0092f7;
+      }
+
+      .cls-7 {
+        fill: #0191f1;
+      }
+
+      .cls-8 {
+        fill: #0094f4;
+      }
+
+      .cls-9 {
+        fill: none;
+      }
+
+      .cls-10 {
+        fill: #068dfd;
+      }
+
+      .cls-11 {
+        fill: #098cf0;
+      }
+
+      .cls-12 {
+        fill: #0292f5;
+      }
+
+      .cls-13 {
+        fill: #fcfcfc;
+      }
+
+      /* Light-theme browsers only: make the F and A the same blue as the M
+         so the whole wordmark reads as one color. Dark theme is untouched. */
+      @media (prefers-color-scheme: light) {
+        .cls-1,
+        .cls-13 {
+          fill: #0094f4;
+        }
+      }
+    </style>
+  </defs>
+  <polygon class="cls-1" points=".44 55.42 39.42 56.29 39.42 65.5 9.2 65.06 9.2 74.7 36.36 75.14 30.66 84.78 10.07 83.91 10.07 104.95 0 111.96 .44 55.42"/>
+  <polygon class="cls-8" points="32.07 39.3 32.07 17.12 83.27 58.59 116.89 28.21 121.41 28.21 121.91 34 128.94 34.96 130.45 76.92 113.88 106.33 113.38 54.73 84.27 81.26 32.07 39.3"/>
+  <polygon class="cls-3" points="43.11 55.22 59.67 68.24 60.18 105.85 43.61 115.5 43.11 55.22"/>
+  <polygon class="cls-13" points="119.6 106.39 149.29 52.81 178.55 106.82 168.07 105.96 149.29 71.67 130.08 106.39 119.6 106.39"/>
+  <polygon class="cls-6" points="143.71 94.12 154.32 94.12 154.32 104.73 143.71 105.21 143.71 94.12"/>
+  <polygon class="cls-6" points="130.2 19.89 137.6 19.89 137.72 27.97 129.82 27.85 130.2 19.89"/>
+  <polygon class="cls-5" points="131.07 16.88 131.07 14.23 133.96 14.35 133.96 17.12 131.07 16.88"/>
+  <polygon class="cls-5" points="138.23 19.65 138.23 15.55 142.49 15.67 142.49 19.77 138.23 19.65"/>
+  <polygon class="cls-11" points="144.12 21.7 144.25 24.35 147.14 24.47 147.14 21.46 144.12 21.7"/>
+  <polygon class="cls-2" points="146.26 13.86 146.51 11.33 148.89 11.33 148.77 13.86 146.26 13.86"/>
+  <polygon class="cls-12" points="139.48 9.89 139.36 6.99 142.37 6.99 142.62 10.01 139.48 9.89"/>
+  <polygon class="cls-2" points="146.72 2.05 146.72 0 148.89 .12 148.89 2.17 146.72 2.05"/>
+  <rect class="cls-10" x="139.86" y="27.61" width="1.76" height="1.57"/>
+  <polygon class="cls-7" points="133.21 31.23 136.72 31.1 136.72 33.88 133.33 33.88 133.21 31.23"/>
+  <polygon class="cls-4" points="125.43 27.85 129.82 27.85 129.69 31.95 125.05 31.95 125.43 27.85"/>
+  <polygon class="cls-9" points="121.16 34.6 123.54 34.6 123.54 37.01 121.41 37.01 121.16 34.6"/>
+  <polygon class="cls-9" points="115.51 34.48 117.52 34.48 117.52 36.53 115.39 36.53 115.51 34.48"/>
+  <polygon class="cls-9" points="110.12 39.3 111.87 39.3 111.87 40.87 109.87 40.99 110.12 39.3"/>
+  <rect class="cls-9" x="115.3" y="27.61" width="2.23" height="2.14"/>
+</svg>

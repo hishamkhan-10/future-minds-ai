@@ -47,7 +47,7 @@ const Footer: React.FC = () => {
         <div className="footer-grid">
           <div className="footer-brand">
             <a href="#" className="footer-logo">
-              <img src="assets/_LOGO%20FMA.png" alt="Future Minds AI Training Logo" />
+              <img src="assets/FMA%20LOGO.svg" alt="Future Minds AI Training Logo" />
               <span>Future Minds AI</span>
             </a>
             <p>Practical AI training for working professionals. No fluff, no degree gatekeeping, no subscription traps.</p>

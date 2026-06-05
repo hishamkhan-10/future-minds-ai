@@ -166,9 +166,7 @@ const Courses: React.FC = () => {
                       <div
                         className="course-img-placeholder"
                         style={{ background: course.gradient }}
-                      >
-                        <span>{course.icon}</span>
-                      </div>
+                      />
                     </div>
                     <div className="course-content">
                       <h3>{course.title}</h3>
