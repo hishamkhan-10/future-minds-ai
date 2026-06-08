@@ -1,86 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 178.55 115.5">
+<!-- Official Future Minds AI logo, framed as a square dark tile for crisp,
+     theme-independent rendering in the browser tab. Artwork is unmodified;
+     it is only centered with padding inside a square viewport. -->
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 200 200">
   <defs>
     <style>
       .cls-1 {
-        fill: #fff;
+        fill: url(#linear-gradient-2);
       }
 
       .cls-2 {
-        fill: #0091f4;
+        fill: #fff;
       }
 
       .cls-3 {
-        fill: #0096f5;
+        fill: #0091f4;
       }
 
       .cls-4 {
-        fill: #0193f6;
+        fill: #0096f5;
       }
 
       .cls-5 {
-        fill: #0191f3;
+        fill: #0193f6;
       }
 
       .cls-6 {
-        fill: #0092f7;
+        fill: #0191f3;
       }
 
       .cls-7 {
-        fill: #0191f1;
+        fill: #0092f7;
       }
 
       .cls-8 {
-        fill: #0094f4;
+        fill: #0191f1;
       }
 
       .cls-9 {
-        fill: none;
+        fill: url(#linear-gradient-5);
       }
 
       .cls-10 {
-        fill: #068dfd;
+        fill: #0094f4;
       }
 
       .cls-11 {
-        fill: #098cf0;
+        fill: #068dfd;
       }
 
       .cls-12 {
-        fill: #0292f5;
+        fill: url(#linear-gradient-3);
       }
 
       .cls-13 {
-        fill: #fcfcfc;
+        fill: url(#linear-gradient);
       }
 
-      /* Light-theme browsers only: make the F and A the same blue as the M
-         so the whole wordmark reads as one color. Dark theme is untouched. */
-      @media (prefers-color-scheme: light) {
-        .cls-1,
-        .cls-13 {
-          fill: #0094f4;
-        }
+      .cls-14 {
+        fill: #098cf0;
+      }
+
+      .cls-15 {
+        fill: #0292f5;
+      }
+
+      .cls-16 {
+        fill: url(#linear-gradient-4);
+      }
+
+      .cls-17 {
+        fill: #fcfcfc;
       }
     </style>
+    <linearGradient id="linear-gradient" x1="0" y1="100" x2="200" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0a2540"/>
+      <stop offset="1" stop-color="#000"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="138.54" y1="66.59" x2="140.92" y2="66.59" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0a1628"/>
+      <stop offset=".52" stop-color="#0a2540"/>
+      <stop offset="1" stop-color="#1e5bb8"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-3" x1="132.77" y1="66.29" x2="134.9" y2="66.29" xlink:href="#linear-gradient-2"/>
+    <linearGradient id="linear-gradient-4" x1="127.25" y1="70.93" x2="129.25" y2="70.93" xlink:href="#linear-gradient-2"/>
+    <linearGradient id="linear-gradient-5" x1="132.68" y1="59.46" x2="134.91" y2="59.46" xlink:href="#linear-gradient-2"/>
   </defs>
-  <polygon class="cls-1" points=".44 55.42 39.42 56.29 39.42 65.5 9.2 65.06 9.2 74.7 36.36 75.14 30.66 84.78 10.07 83.91 10.07 104.95 0 111.96 .44 55.42"/>
-  <polygon class="cls-8" points="32.07 39.3 32.07 17.12 83.27 58.59 116.89 28.21 121.41 28.21 121.91 34 128.94 34.96 130.45 76.92 113.88 106.33 113.38 54.73 84.27 81.26 32.07 39.3"/>
-  <polygon class="cls-3" points="43.11 55.22 59.67 68.24 60.18 105.85 43.61 115.5 43.11 55.22"/>
-  <polygon class="cls-13" points="119.6 106.39 149.29 52.81 178.55 106.82 168.07 105.96 149.29 71.67 130.08 106.39 119.6 106.39"/>
-  <polygon class="cls-6" points="143.71 94.12 154.32 94.12 154.32 104.73 143.71 105.21 143.71 94.12"/>
-  <polygon class="cls-6" points="130.2 19.89 137.6 19.89 137.72 27.97 129.82 27.85 130.2 19.89"/>
-  <polygon class="cls-5" points="131.07 16.88 131.07 14.23 133.96 14.35 133.96 17.12 131.07 16.88"/>
-  <polygon class="cls-5" points="138.23 19.65 138.23 15.55 142.49 15.67 142.49 19.77 138.23 19.65"/>
-  <polygon class="cls-11" points="144.12 21.7 144.25 24.35 147.14 24.47 147.14 21.46 144.12 21.7"/>
-  <polygon class="cls-2" points="146.26 13.86 146.51 11.33 148.89 11.33 148.77 13.86 146.26 13.86"/>
-  <polygon class="cls-12" points="139.48 9.89 139.36 6.99 142.37 6.99 142.62 10.01 139.48 9.89"/>
-  <polygon class="cls-2" points="146.72 2.05 146.72 0 148.89 .12 148.89 2.17 146.72 2.05"/>
-  <rect class="cls-10" x="139.86" y="27.61" width="1.76" height="1.57"/>
-  <polygon class="cls-7" points="133.21 31.23 136.72 31.1 136.72 33.88 133.33 33.88 133.21 31.23"/>
-  <polygon class="cls-4" points="125.43 27.85 129.82 27.85 129.69 31.95 125.05 31.95 125.43 27.85"/>
-  <polygon class="cls-9" points="121.16 34.6 123.54 34.6 123.54 37.01 121.41 37.01 121.16 34.6"/>
-  <polygon class="cls-9" points="115.51 34.48 117.52 34.48 117.52 36.53 115.39 36.53 115.51 34.48"/>
-  <polygon class="cls-9" points="110.12 39.3 111.87 39.3 111.87 40.87 109.87 40.99 110.12 39.3"/>
-  <rect class="cls-9" x="115.3" y="27.61" width="2.23" height="2.14"/>
+  <rect class="cls-13" width="200" height="200"/>
+  <g transform="translate(-6.655 11.465)">
+    <polygon class="cls-2" points="17.82 86.2 56.8 87.08 56.8 96.28 26.58 95.85 26.58 105.49 53.74 105.93 48.04 115.57 27.45 114.69 27.45 135.73 17.38 142.75 17.82 86.2"/>
+    <polygon class="cls-10" points="49.45 70.09 49.45 47.91 100.64 89.38 134.27 59 138.79 59 139.29 64.78 146.32 65.75 147.83 107.7 131.26 137.12 130.76 85.52 101.65 112.04 49.45 70.09"/>
+    <polygon class="cls-4" points="60.49 86 77.05 99.02 77.56 136.64 60.99 146.28 60.49 86"/>
+    <polygon class="cls-17" points="136.97 137.17 166.67 83.59 195.93 137.6 185.45 136.74 166.67 102.45 147.46 137.17 136.97 137.17"/>
+    <polygon class="cls-7" points="161.09 124.9 171.7 124.9 171.7 135.51 161.09 135.99 161.09 124.9"/>
+    <polygon class="cls-7" points="147.57 50.68 154.98 50.68 155.1 58.76 147.2 58.64 147.57 50.68"/>
+    <polygon class="cls-6" points="148.45 47.66 148.45 45.01 151.34 45.13 151.34 47.91 148.45 47.66"/>
+    <polygon class="cls-6" points="155.6 50.44 155.6 46.34 159.87 46.46 159.87 50.56 155.6 50.44"/>
+    <polygon class="cls-14" points="161.5 52.49 161.63 55.14 164.51 55.26 164.51 52.25 161.5 52.49"/>
+    <polygon class="cls-3" points="163.64 44.65 163.89 42.12 166.27 42.12 166.15 44.65 163.64 44.65"/>
+    <polygon class="cls-15" points="156.86 40.67 156.73 37.78 159.75 37.78 160 40.79 156.86 40.67"/>
+    <polygon class="cls-3" points="164.1 32.84 164.1 30.79 166.27 30.91 166.27 32.96 164.1 32.84"/>
+    <rect class="cls-11" x="157.24" y="58.39" width="1.76" height="1.57"/>
+    <polygon class="cls-8" points="150.59 62.01 154.1 61.89 154.1 64.66 150.71 64.66 150.59 62.01"/>
+    <polygon class="cls-5" points="142.81 58.64 147.2 58.64 147.07 62.73 142.43 62.73 142.81 58.64"/>
+    <polygon class="cls-1" points="138.54 65.39 140.92 65.39 140.92 67.8 138.79 67.8 138.54 65.39"/>
+    <polygon class="cls-12" points="132.89 65.27 134.9 65.27 134.9 67.32 132.77 67.32 132.89 65.27"/>
+    <polygon class="cls-16" points="127.5 70.09 129.25 70.09 129.25 71.66 127.25 71.78 127.5 70.09"/>
+    <rect class="cls-9" x="132.68" y="58.39" width="2.23" height="2.14"/>
+  </g>
 </svg>

@@ -4,6 +4,75 @@ import Button from './ui/Button';
 const Hero: React.FC = () => {
   return (
     <section className="hero" id="hero">
+      {/* Decorative, code-generated curved background. Purely presentational
+          (aria-hidden) so it never alters the hero's content or layout.
+          Three smooth wavy bands matching the reference design:
+            • Part 1 (top)    — logo "M" blue (#0094f4)
+            • Part 2 (middle) — pure white (#ffffff)
+            • Part 3 (bottom) — logo "M" blue (#0094f4)
+          The exact blue is sampled from the large "M" polygon in the FMA logo
+          (public/assets/FMA LOGO.svg → class cls-8 = #0094f4).
+
+          Technique: one solid blue base layer renders BOTH the top (Part 1) and
+          bottom (Part 3) regions; a single white band is then painted on top of
+          it, bounded above by the upper wave and below by the lower wave. Filling
+          the middle over a continuous blue base means the Part 1↔2 and Part 2↔3
+          transitions are inherently seamless — there are no separate edges to
+          align. viewBox + "slice" keeps every curve scaling smoothly across
+          desktop, tablet and mobile. */}
+      <div className="hero-bg" aria-hidden="true">
+        <svg
+          className="hero-bg-svg"
+          viewBox="0 0 1440 810"
+          preserveAspectRatio="xMidYMid slice"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          {/* Blue base — supplies Part 1 (top) and Part 3 (bottom). */}
+          <rect width="1440" height="810" fill="#0094f4" />
+
+          {/* Part 2 — pure-white middle band that hosts all hero content.
+              Top edge = upper wave (left→right); bottom edge = lower wave
+              (right→left). The straight left edge (Z) closes the band.
+
+              Two variants of the same band are provided and toggled by CSS:
+              the "wide" wave reproduces the reference proportions on the
+              two-column desktop/tablet layout, while the "stack" wave lifts the
+              upper wave once the layout collapses to a single column (≤1024px)
+              so the taller stacked content stays on the white surface. The blue
+              base is shared, so both keep the exact Part 1/2/3 colour story. */}
+          <path
+            className="hero-wave hero-wave--wide"
+            fill="#ffffff"
+            d="M0 200
+               C160 185 300 172 450 180
+               C600 188 650 300 760 292
+               C880 284 950 250 1060 262
+               C1200 276 1330 360 1440 400
+               L1440 665
+               C1390 664 1340 662 1240 655
+               C1100 640 980 613 820 620
+               C700 625 600 686 450 688
+               C300 690 150 600 0 590
+               Z"
+          />
+          <path
+            className="hero-wave hero-wave--stack"
+            fill="#ffffff"
+            d="M0 70
+               C160 58 300 46 450 54
+               C600 62 650 96 760 90
+               C880 84 950 56 1060 64
+               C1200 74 1330 92 1440 84
+               L1440 712
+               C1390 716 1340 720 1240 716
+               C1100 710 980 690 820 696
+               C700 700 600 736 450 738
+               C300 740 150 718 0 706
+               Z"
+          />
+        </svg>
+      </div>
+
       <div className="container hero-container">
         <div className="hero-content">
           <h1 className="hero-title">
@@ -33,34 +102,6 @@ const Hero: React.FC = () => {
             </p>
           </div>
         </div>
-
-        <div className="hero-visual">
-          <div className="hero-visual-card">
-            <h3>Student Outcomes</h3>
-            <div className="hero-stat-row">
-              <span className="stat-number">63%</span>
-              <span className="stat-label">switched careers into AI/ML</span>
-            </div>
-            <div className="hero-stat-row">
-              <span className="stat-number">4.7</span>
-              <span className="stat-label">average course rating</span>
-            </div>
-            <p className="note">Based on 2024 student survey, n=312</p>
-          </div>
-          <div className="hero-next-cohort">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-            </svg>
-            <span>Next cohort starts <strong>June 15, 2026</strong></span>
-          </div>
-        </div>
-      </div>
-
-      <div className="hero-scroll">
-        <a href="#about" className="scroll-indicator">
-          <span>Scroll</span>
-          <div className="scroll-arrow" />
-        </a>
       </div>
     </section>
   );

@@ -31,6 +31,20 @@
   --text-soft: #5A6A7C;
   --border: #DDE3EB;
 
+  /* Navbar glass tokens — theme-aware so the floating pill stays readable
+     on the dark hero and over light sections alike. Light theme: frosted
+     white glass with dark navy text. */
+  --nav-bg: rgba(255, 255, 255, 0.62);
+  --nav-bg-scrolled: rgba(255, 255, 255, 0.82);
+  --nav-border: rgba(255, 255, 255, 0.7);
+  --nav-text: #0A2540;
+  --nav-text-soft: rgba(10, 37, 64, 0.66);
+  --nav-control-bg: rgba(10, 37, 64, 0.05);
+  --nav-control-border: rgba(10, 37, 64, 0.1);
+  --nav-control-hover: rgba(10, 37, 64, 0.1);
+  --nav-shadow: 0 12px 32px -12px rgba(10, 37, 64, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  --nav-drawer-bg: rgba(255, 255, 255, 0.97);
+
   --success: #10b981;
   --warning: #f59e0b;
   --error: #ef4444;
@@ -67,6 +81,18 @@
   --text: #E8EDF3;
   --text-soft: #9FB0C3;
   --border: #1E3148;
+
+  /* Navbar glass tokens — dark theme: tinted navy glass with light text. */
+  --nav-bg: rgba(16, 31, 51, 0.5);
+  --nav-bg-scrolled: rgba(16, 31, 51, 0.72);
+  --nav-border: rgba(255, 255, 255, 0.12);
+  --nav-text: #EAF0F7;
+  --nav-text-soft: rgba(234, 240, 247, 0.72);
+  --nav-control-bg: rgba(255, 255, 255, 0.07);
+  --nav-control-border: rgba(255, 255, 255, 0.16);
+  --nav-control-hover: rgba(255, 255, 255, 0.14);
+  --nav-shadow: 0 14px 36px -14px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --nav-drawer-bg: rgba(10, 22, 40, 0.97);
 
   color-scheme: dark;
 }

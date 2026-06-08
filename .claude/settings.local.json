@@ -12,7 +12,24 @@
       "Bash(curl -s -o /dev/null -w \"server:%{http_code}\\\\n\" http://localhost:5181/)",
       "Bash(node run.js \"C:\\\\Users\\\\User\\\\AppData\\\\Local\\\\Temp\\\\playwright-carousel.js\")",
       "Bash(npx tsc *)",
-      "Bash(npx vite *)"
+      "Bash(npx vite *)",
+      "Bash(node -e \"require\\('./lib/helpers'\\).detectDevServers\\(\\).then\\(servers => console.log\\(JSON.stringify\\(servers\\)\\)\\)\")",
+      "Bash(node run.js \"C:\\\\Users\\\\User\\\\AppData\\\\Local\\\\Temp\\\\playwright-test-hero.js\")",
+      "Bash(node run.js \"C:\\\\Users\\\\User\\\\AppData\\\\Local\\\\Temp\\\\playwright-logo.js\")",
+      "Bash(node run.js \"C:\\\\Users\\\\User\\\\AppData\\\\Local\\\\Temp\\\\playwright-measure.js\")",
+      "Bash(ls node_modules/pngjs)",
+      "Bash(npm install *)",
+      "Bash(node run.js ' *)",
+      "Bash(pkill -f vite)",
+      "PowerShell(try { [xml]$x = Get-Content \"c:\\\\Users\\\\User\\\\Desktop\\\\future-minds-ai\\\\public\\\\assets\\\\FMA LOGO favicon.svg\" -Raw; \"XML well-formed: OK\"; \"root viewBox: \" + $x.svg.viewBox; \"elements in group: \" + $x.svg.g.ChildNodes.Count; \"bg rect: \" + $x.svg.rect.width + \"x\" + $x.svg.rect.height } catch { \"XML ERROR: \" + $_.Exception.Message })",
+      "Read(//tmp/**)",
+      "Bash(node run.js \"C:/Users/User/AppData/Local/Temp/pw-nav.js\")",
+      "Read(//c/Users/User/Downloads/**)",
+      "Bash(grep -iE \"\\\\.\\(jpg|jpeg|png|webp\\)$\")",
+      "Bash(cp \"c:/Users/User/Desktop/HEROS.jpg\" \"c:/Users/User/Desktop/future-minds-ai/public/assets/hero-students.jpg\" && echo \"Copied.\" && ls -l \"c:/Users/User/Desktop/future-minds-ai/public/assets/hero-students.jpg\")"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\User\\Desktop"
     ]
   }
 }
