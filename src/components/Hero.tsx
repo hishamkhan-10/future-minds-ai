@@ -1,7 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from './ui/Button';
+import HeroBrain from './HeroBrain';
 
 const Hero: React.FC = () => {
+  // Mobile browsers report 100vh as the *largest* viewport (URL bar hidden), so
+  // a strictly-locked hero can still spill under the address bar. We mirror the
+  // real, currently-visible innerHeight into the --vh custom property; the hero
+  // height falls back to calc(var(--vh)*100) on browsers without 100dvh support.
+  useEffect(() => {
+    const setVH = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    };
+    setVH();
+    window.addEventListener('resize', setVH);
+    window.addEventListener('orientationchange', setVH);
+    return () => {
+      window.removeEventListener('resize', setVH);
+      window.removeEventListener('orientationchange', setVH);
+    };
+  }, []);
+
   return (
     <section className="hero" id="hero">
       {/* Decorative, code-generated curved background. Purely presentational
@@ -28,7 +47,7 @@ const Hero: React.FC = () => {
           xmlns="http://www.w3.org/2000/svg"
         >
           {/* Blue base — supplies Part 1 (top) and Part 3 (bottom). */}
-          <rect width="1440" height="810" fill="#0094f4" />
+          <rect width="1440" height="810" fill="#009ff5" />
 
           {/* Part 2 — pure-white middle band that hosts all hero content.
               Top edge = upper wave (left→right); bottom edge = lower wave
@@ -44,15 +63,13 @@ const Hero: React.FC = () => {
             className="hero-wave hero-wave--wide"
             fill="#ffffff"
             d="M0 200
-               C160 185 300 172 450 180
-               C600 188 650 300 760 292
-               C880 284 950 250 1060 262
-               C1200 276 1330 360 1440 400
-               L1440 665
-               C1390 664 1340 662 1240 655
-               C1100 640 980 613 820 620
-               C700 625 600 686 450 688
-               C300 690 150 600 0 590
+               C180 178 360 166 540 188
+               C720 210 820 380 1000 380
+               C1180 380 1320 318 1440 350
+               L1440 700
+               C1320 706 1200 706 1040 696
+               C860 684 720 730 540 726
+               C360 722 160 668 0 656
                Z"
           />
           <path
@@ -73,10 +90,18 @@ const Hero: React.FC = () => {
         </svg>
       </div>
 
+      {/* Right-side blue depth overlay. In the reference the right half sits on
+          a deeper blue than the bright hero field — this paints that darker
+          zone (above the wave layer, below the content) so the glowing brain
+          rests on blue instead of the white wave band. Decorative only. */}
+      <div className="hero-aura" aria-hidden="true" />
+
       <div className="container hero-container">
         <div className="hero-content">
           <h1 className="hero-title">
-            We teach working professionals AI that <em>delivers real results.</em>
+            We teach working<br className="hero-break" />
+            professionals AI that<br className="hero-break" />
+            <em>delivers real results.</em>
           </h1>
           <p className="hero-subtitle">
             No computer science degree needed. Just practical, hands-on AI and ML training
@@ -101,6 +126,13 @@ const Hero: React.FC = () => {
               <strong>1,847</strong> students since 2023
             </p>
           </div>
+        </div>
+
+        {/* Right column — fully code-generated glowing AI brain + network
+            visualization (SVG silhouette/mesh/traces + canvas particle field).
+            No images are used; see HeroBrain.tsx. */}
+        <div className="hero-visual">
+          <HeroBrain />
         </div>
       </div>
     </section>

@@ -26,10 +26,12 @@
       "Bash(node run.js \"C:/Users/User/AppData/Local/Temp/pw-nav.js\")",
       "Read(//c/Users/User/Downloads/**)",
       "Bash(grep -iE \"\\\\.\\(jpg|jpeg|png|webp\\)$\")",
-      "Bash(cp \"c:/Users/User/Desktop/HEROS.jpg\" \"c:/Users/User/Desktop/future-minds-ai/public/assets/hero-students.jpg\" && echo \"Copied.\" && ls -l \"c:/Users/User/Desktop/future-minds-ai/public/assets/hero-students.jpg\")"
+      "Bash(cp \"c:/Users/User/Desktop/HEROS.jpg\" \"c:/Users/User/Desktop/future-minds-ai/public/assets/hero-students.jpg\" && echo \"Copied.\" && ls -l \"c:/Users/User/Desktop/future-minds-ai/public/assets/hero-students.jpg\")",
+      "Bash(npm run dev > dev.log 2>&1 & *)"
     ],
     "additionalDirectories": [
-      "c:\\Users\\User\\Desktop"
+      "c:\\Users\\User\\Desktop",
+      "C:\\Users\\User\\Desktop\\future-minds-ai"
     ]
   }
 }

@@ -194,7 +194,7 @@ const Courses: React.FC = () => {
                           ${course.price}
                           <span>${course.originalPrice}</span>
                         </span>
-                        <Button variant="secondary" size="sm" href="#contact">
+                        <Button variant="primary" size="sm" href="#contact">
                           Enroll
                         </Button>
                       </div>

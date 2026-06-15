@@ -258,6 +258,12 @@
   gap: 2rem;
 }
 
+/* Drawer-only header (logo + brand name). Hidden on desktop where .nav-menu is
+   the horizontal bar; revealed only inside the mobile off-canvas drawer. */
+.drawer-header {
+  display: none;
+}
+
 .nav-link {
   font-size: 0.9375rem;
   font-weight: 500;
@@ -361,10 +367,16 @@
    ============================================ */
 .hero {
   position: relative;
-  min-height: 100vh;
-  /* dvh tracks the *visible* viewport on mobile (excludes the browser URL bar),
-     so the hero never gets taller than the screen the user can actually see. */
-  min-height: 100dvh;
+  /* Strictly lock the hero to exactly one viewport so the whole section is
+     visible without scrolling a single pixel. Three layered declarations give
+     the best result per browser (later wins where supported):
+       1. 100vh                     — universal fallback
+       2. calc(var(--vh)*100)       — JS-driven real innerHeight (mobile URL-bar
+                                       safe; see setVH() in Hero.tsx)
+       3. 100dvh                    — dynamic viewport height on modern browsers */
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -408,6 +420,37 @@
   width: 100%;
   height: 100%;
   display: block;
+}
+
+/* Right-side deeper-blue zone (above the waves, below the content). Covers the
+   white wave band on the right so the brain sits on blue, and reproduces the
+   reference's darker-blue right half on which the cyan bloom pops. */
+.hero-aura {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse 44% 80% at 78% 46%,
+      rgba(7, 56, 124, 0.55) 0%,
+      rgba(9, 74, 154, 0.25) 44%,
+      rgba(12, 110, 200, 0) 76%
+    ),
+    linear-gradient(
+      100deg,
+      rgba(0, 148, 244, 0) 46%,
+      rgba(11, 88, 178, 0.4) 70%,
+      rgba(8, 52, 118, 0.52) 100%
+    );
+}
+
+/* On the stacked layout the brain is centered in its own column, so the
+   right-side darkening is unnecessary (and would tint the centered content). */
+@media (max-width: 1024px) {
+  .hero-aura {
+    display: none;
+  }
 }
 
 /* Two white-band variants share the blue base (see Hero.tsx). The "wide" wave
@@ -463,6 +506,13 @@
   font-style: normal;
   color: #0094f4;
   -webkit-text-fill-color: #0094f4;
+}
+
+/* Forced line breaks in the hero heading. Inert on desktop/laptop (≥1180px):
+   the <br> does not render, so the heading wraps exactly as it always has.
+   They are switched on only for non-desktop widths in the media query below. */
+.hero-break {
+  display: none;
 }
 
 .hero-subtitle {
@@ -534,6 +584,315 @@
   flex-direction: column;
   gap: 1rem;
   animation: fadeInRight 0.8s ease 0.3s both;
+}
+
+/* ===== Code-generated AI brain visualization (HeroBrain.tsx) =====
+   Lives in the hero's right column. On the two-column desktop/tablet layout it
+   is allowed to grow past its column and bleed into the blue background (the
+   hero clips overflow, so no page scroll appears), reproducing the reference
+   where the glowing brain spans the whole right side. */
+.hero-brain {
+  position: relative;
+  /* Enlarged to fill the right column (reference Image 2). The box is wider than
+     its column and bleeds into the blue; with object-fit:contain the artwork is
+     height-governed and centered in the box, so shifting the box right walks the
+     brain + network toward the hero's right edge (matching Image 2) while the
+     extra box width is just empty space (it never overlaps the left text). */
+  width: 152%;            /* was 140% — wider bleed → more right-side coverage (Image 2) */
+  margin-left: 0%;        /* was -20% — box spans 0→152% so its centre lands right of
+                             the column centre, pushing the brain to the right edge */
+  /* Full-bleed: no padding, no background, no border, no card. The transparent
+     PNG sits directly on the hero's blue field and bleeds into it on every side.
+     Aspect ratio is locked to the artwork so the % positions of the firing
+     nodes and the mask of the shimmer sweep stay aligned at every size. */
+  aspect-ratio: 636 / 674;
+  /* Cap the brain's height so it can never push the hero past one screen, while
+     still letting it grow large. The hero reserves 80px (navbar padding-top) +
+     ~48px (container padding-bottom); subtracting 140px keeps the brain inside
+     that budget on short viewports, and the 82vh ceiling keeps it from becoming
+     oversized on tall ones. With aspect-ratio + object-fit:contain the artwork
+     scales to fit this height, staying centered with no crop. */
+  max-height: min(88vh, calc(100dvh - 88px));  /* was min(82vh, calc(100dvh - 140px))
+                             — taller cap → larger brain that fills more vertical
+                             height (Image 2); reserve only the 80px navbar so it
+                             stays height-bounded within a single viewport (no scroll) */
+  padding: 0;
+  background: transparent;
+  border: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* The brain artwork (genuinely transparent PNG). A continuous breathing glow +
+   brightness pulse runs on it so it always looks lit. */
+.hero-brain__img {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  animation: brainGlow 4.4s ease-in-out infinite;
+  will-change: filter;
+}
+
+@keyframes brainGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 16px rgba(86, 200, 255, 0.4)) brightness(1) saturate(1.02);
+  }
+  50% {
+    filter: drop-shadow(0 0 34px rgba(120, 222, 255, 0.7)) brightness(1.12) saturate(1.12);
+  }
+}
+
+/* Pulsing radial bloom behind the brain — the "always glowing" halo. */
+.hero-brain__bloom {
+  position: absolute;
+  z-index: 0;
+  left: 42%;
+  top: 50%;
+  width: 64%;
+  height: 60%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse 50% 48% at 48% 52%,
+    rgba(155, 228, 255, 0.3) 0%,
+    rgba(90, 190, 250, 0.13) 40%,
+    rgba(30, 120, 215, 0) 72%
+  );
+  filter: blur(10px);
+  animation: bloomPulse 4.4s ease-in-out infinite;
+}
+
+@keyframes bloomPulse {
+  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.94); }
+  50%      { opacity: 0.85; transform: translate(-50%, -50%) scale(1.05); }
+}
+
+/* Circuit-line shimmer. A bright diagonal band of light slides across the
+   visual; the brain PNG is used as a mask so the shimmer is only ever visible
+   *on* the brain and circuit traces, never on the surrounding blue. Screen
+   blend adds the light without darkening the hero. */
+.hero-brain__sweep {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background: linear-gradient(
+    115deg,
+    rgba(120, 224, 255, 0) 38%,
+    rgba(150, 235, 255, 0.55) 50%,
+    rgba(120, 224, 255, 0) 62%
+  );
+  background-size: 260% 100%;
+  -webkit-mask: url('/assets/hero-brain.png') center / contain no-repeat;
+          mask: url('/assets/hero-brain.png') center / contain no-repeat;
+  animation: circuitSweep 6s ease-in-out infinite;
+}
+
+@keyframes circuitSweep {
+  0%   { background-position: 130% 0; }
+  /* travels left→right, then holds dark before repeating (no jarring cut) */
+  55%  { background-position: -30% 0; }
+  100% { background-position: -30% 0; }
+}
+
+/* FIX 1 — the firing neural-node blooms (.hero-brain__node / .brain-node) were
+   the glassy "bubble sphere" elements (border-radius:50% + radial-gradient).
+   The element, its position variants and its @keyframes nodePulse have been
+   removed entirely so no orb/sphere can render at idle or on hover. */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-brain__img,
+  .hero-brain__bloom,
+  .hero-brain__sweep {
+    animation: none;
+  }
+}
+
+/* ===========================================================================
+   BRAIN HOVER INTERACTION — three coordinated, layered effects.
+   Everything below is scoped to .hero-brain (.brain-container) and its
+   children, and is inert at idle (all new layers start invisible), so the
+   hero layout, sizing, colours and every other element stay untouched.
+   =========================================================================== */
+
+/* The hover target. .hero-brain already establishes the positioned,
+   aspect-locked box; we only mark it as the interaction container. */
+.brain-container {
+  /* relative positioning is already provided by .hero-brain */
+  perspective: 800px; /* depth reference for the child tilt */
+}
+
+/* ----- .brain-visual: wraps the artwork so the FIX 2 halo, the FIX 3 vein
+   overlay and the shimmer read as one unit. The brain is intentionally static —
+   it does not tilt, shift or scale on hover. ----- */
+.brain-visual {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  filter: brightness(1) saturate(1);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FIX 1 — RECTANGULAR BOUNDARY OUTLINE: ELIMINATED.
+   The hover used to reveal two rectangular-extent layers whose soft edges read
+   as a glowing card border around the whole visual:
+     • .brain-flow-overlay  — a full-box linear-gradient (masked, but its
+                              animated rectangle still flashed an outline), and
+     • .brain-network-layer — a blurred, screen-blended copy of the entire PNG
+                              (its 636×674 footprint of scattered network dots +
+                              the bottom-right circuit grid formed the rectangle).
+   BOTH layers — their elements, CSS rules and the @keyframes branch-flow-sweep
+   that drove the overlay — have been deleted outright. No hover layer paints a
+   rectangle, border, outline or box-shadow on the container any longer. The only
+   things that glow on hover are the organic silhouette halo (FIX 2) and the
+   neural veins (FIX 3), both below.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ───────────────────── FIX 2 — Organic brain-shape edge glow ────────────────
+   A second copy of the brain image sits directly behind the artwork. At idle it
+   is fully transparent (zero change to the non-hover visual). On hover it fades
+   in and carries a stack of layered drop-shadow() filters. Because drop-shadow
+   follows the element's real alpha shape, the glow hugs the brain's natural,
+   irregular silhouette and feathers out to nothing — Circle 2's organic edge,
+   with no hard line and no rectangle. Its own brain fill sits under the opaque
+   artwork on top, so only the glow it casts beyond the silhouette is seen. */
+.hero-brain__halo {
+  position: absolute;
+  inset: 0;
+  z-index: 0; /* behind .hero-brain__img (z-index 1) within .brain-visual */
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
+  opacity: 0;
+  filter: drop-shadow(0 0 0 rgba(120, 220, 255, 0));
+  /* ≤600ms so the glow fully reverses on mouse-leave within budget. */
+  transition: opacity 0.6s ease, filter 0.6s ease;
+  will-change: opacity, filter;
+}
+.brain-awakened .hero-brain__halo {
+  opacity: 1;
+  filter:
+    drop-shadow(0 0 6px rgba(120, 220, 255, 0.70))
+    drop-shadow(0 0 18px rgba(90, 200, 255, 0.50))
+    drop-shadow(0 0 35px rgba(60, 170, 255, 0.30))
+    drop-shadow(0 0 60px rgba(40, 150, 255, 0.15));
+}
+
+/* ───────────────── FIX 3 — Sequential vein-by-vein neural flow ──────────────
+   An SVG overlay that shares the PNG's 636×674 coordinate space and is
+   contained 1:1 over the artwork, so every traced <path> rides a real brain
+   ridge. The JS engine (HeroBrain.tsx) draws one vein at a time via
+   stroke-dashoffset; finished veins keep a breathing glow until the whole
+   network is lit, then it holds and repeats. overflow:visible lets each vein's
+   drop-shadow bleed past the viewBox. */
+.brain-vein-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3; /* over the brain art + sweep, under the spotlight (z-index 4) */
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+.brain-vein {
+  fill: none;
+  stroke: rgba(120, 215, 255, 0.16); /* faint resting tint (only seen mid-fade) */
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0; /* invisible at idle → zero change to the non-hover visual */
+  transition: opacity 0.4s ease, stroke 0.4s ease, filter 0.4s ease;
+}
+.brain-awakened .brain-vein {
+  opacity: 1;
+}
+/* The bright travelling front being drawn along the active vein. */
+.brain-vein.vein-flowing {
+  stroke: rgba(205, 248, 255, 1);
+  filter:
+    drop-shadow(0 0 5px rgba(160, 235, 255, 1))
+    drop-shadow(0 0 12px rgba(120, 210, 255, 0.8))
+    drop-shadow(0 0 20px rgba(80, 180, 255, 0.5));
+}
+/* A vein that has been lit and now retains a softer, breathing glow. */
+.brain-vein.vein-complete {
+  stroke: rgba(140, 222, 255, 0.8);
+  filter:
+    drop-shadow(0 0 3px rgba(120, 210, 255, 0.6))
+    drop-shadow(0 0 8px rgba(90, 190, 255, 0.3));
+  animation: vein-breathe 4s ease-in-out infinite;
+}
+@keyframes vein-breathe {
+  0%, 100% {
+    stroke: rgba(140, 222, 255, 0.75);
+    filter:
+      drop-shadow(0 0 3px rgba(120, 210, 255, 0.6))
+      drop-shadow(0 0 8px rgba(90, 190, 255, 0.3));
+  }
+  50% {
+    stroke: rgba(165, 236, 255, 0.95);
+    filter:
+      drop-shadow(0 0 5px rgba(140, 225, 255, 0.85))
+      drop-shadow(0 0 13px rgba(100, 200, 255, 0.45));
+  }
+}
+
+/* ───────────────────────────── EFFECT 2 — Data Pulse ───────────────────────
+   Rising data particles (JS-spawned every 180ms).
+   FIX 2: the sonar ripple rings (.brain-ripple + @keyframes ripple-expand) and
+   their JS emitter were removed entirely — no expanding circles render anymore. */
+
+/* upward-floating data particle (left/size/duration randomised in JS). */
+.brain-particle {
+  position: absolute;
+  bottom: 40%;
+  z-index: 3; /* in front of the brain, under the spotlight overlay */
+  border-radius: 50%;
+  background: rgba(150, 230, 255, 0.9);
+  box-shadow: 0 0 6px 2px rgba(100, 210, 255, 0.6);
+  mix-blend-mode: screen;
+  animation: particle-rise linear forwards;
+  pointer-events: none;
+}
+@keyframes particle-rise {
+  0%   { transform: translateY(0) scale(1);      opacity: 0.9; }
+  100% { transform: translateY(-120px) scale(0.3); opacity: 0; }
+}
+
+/* ────────────────────── EFFECT 3 — Cursor spotlight (PRESERVED) ─────────────
+   The brain is static (no tilt/parallax). We only define the spotlight overlay
+   that follows the cursor; its radial-gradient background is set inline on each
+   mousemove. The gradient fades to transparent at 60%, so it never paints a
+   hard edge — no rectangular boundary here either. */
+.brain-spotlight {
+  position: absolute;
+  inset: 0;
+  z-index: 4; /* topmost, subtle, never intercepts input */
+  /* No border-radius dependency: the radial gradient is already edge-soft. */
+  pointer-events: none;
+  opacity: 0;
+  transition: background 0.05s linear, opacity 0.3s ease-out;
+}
+.brain-awakened .brain-spotlight { opacity: 1; }
+
+/* Honour reduced-motion for the hover layers too (the JS interaction is also
+   disabled in that case, so these only guard any pre-rendered state). */
+@media (prefers-reduced-motion: reduce) {
+  .hero-brain__halo,
+  .brain-spotlight,
+  .brain-vein-overlay,
+  .brain-vein { opacity: 0 !important; }
+  .brain-vein.vein-complete { animation: none !important; }
+  .brain-particle { display: none !important; }
 }
 
 .hero-visual-card {
@@ -1745,6 +2104,25 @@
     margin: 0 auto;
     gap: 0.875rem;
   }
+  /* In the stacked layout the brain sits centered inside its column — no bleed,
+     so it can't overflow the single-column content. It gets its own soft dark
+     backdrop (the desktop .hero-aura is hidden here) so the cyan still pops. */
+  .hero-brain {
+    width: 100%;
+    max-width: 400px;
+    /* In the stack the brain sits below the text, so cap it to a slice of the
+       viewport height — both the text block above and the brain stay visible
+       within the single screen. */
+    max-height: 33vh;
+    margin: 0 auto;
+    border-radius: 24px;
+    background: radial-gradient(
+      ellipse 62% 58% at 50% 48%,
+      rgba(7, 50, 112, 0.6) 0%,
+      rgba(8, 42, 96, 0.32) 46%,
+      rgba(8, 40, 92, 0) 72%
+    );
+  }
   .about-inner {
     grid-template-columns: 1fr;
     gap: 2.5rem;
@@ -1770,40 +2148,416 @@
   }
 }
 
-/* Off-canvas menu kicks in early enough that the top row never overflows */
-@media (max-width: 992px) {
+/* Off-canvas menu kicks in early enough that the top row never overflows.
+   Drawer slides in from the LEFT (CHANGE 2). Glass stays theme-aware via
+   --nav-drawer-bg so light/dark mode both look right (CHANGE 6).
+   Breakpoint is 1024px so iPad Pro (1024px portrait) gets the hamburger
+   drawer just like the smaller tablets. */
+@media (max-width: 1024px) {
   .nav-menu {
     position: fixed;
     top: 0;
-    right: -100%;
-    width: 82%;
-    max-width: 340px;
+    left: -100%;            /* hidden off-screen to the LEFT */
+    right: auto;            /* clear the old right anchor */
+    width: 87%;             /* a touch wider — close button rides the right edge */
+    max-width: 366px;
     height: 100vh;
     height: 100dvh;
+    /* The frosted glass lives on ::before, NOT on .nav-menu itself. A
+       backdrop-filter here would make .nav-menu the containing block for the
+       position:fixed drawer logo (.drawer-header-left) — pulling that "fixed"
+       logo onto the panel so it rides the slide instead of staying locked to
+       the navbar pixel. Same pattern the pill uses on .nav-container::before. */
+    background: transparent;
+    border-right: 1px solid var(--nav-border);  /* edge now faces inward */
+    border-left: none;
+    flex-direction: column;
+    align-items: stretch;     /* full-width rows, text left-aligned */
+    justify-content: flex-start;
+    gap: 0;                   /* dividers replace the gap */
+    padding: 0 0 24px;        /* header supplies its own top padding */
+    transition: left var(--transition-slow);    /* animate the left edge */
+    box-shadow: 16px 0 40px -12px rgba(0, 0, 0, 0.35);  /* shadow to the right */
+    overflow-y: auto;
+  }
+  /* Glass surface (background + blur) for the drawer. Kept off .nav-menu so the
+     panel never becomes a containing block for the fixed, navbar-pinned logo. */
+  .nav-menu::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
     background: var(--nav-drawer-bg);
     -webkit-backdrop-filter: blur(24px) saturate(170%);
     backdrop-filter: blur(24px) saturate(170%);
-    border-left: 1px solid var(--nav-border);
-    flex-direction: column;
-    justify-content: center;
-    gap: 2rem;
-    padding: 2rem;
-    transition: right var(--transition-slow);
-    box-shadow: -16px 0 40px -12px rgba(0, 0, 0, 0.35);
-    overflow-y: auto;
   }
   .nav-menu.active {
-    right: 0;
+    left: 0;                  /* slides into view from the left */
   }
   .nav-link {
     font-size: 1.125rem;
   }
-  .nav-cta {
-    margin-left: 0;
-    margin-top: 1rem;
-  }
   .hamburger {
     display: flex;
+  }
+}
+
+/* ============================================================
+   MOBILE / TABLET NAVBAR — glass morphism + reordered bar
+   Scoped strictly to the hamburger breakpoint (max-width: 1024px) —
+   the exact width at which .nav-menu goes off-canvas and .hamburger
+   appears (see the block above). Desktop (>= 1025px) is untouched.
+
+   Bar order on these devices:  [Hamburger]  [Logo + Name] .... [Theme]
+   DOM order in Navbar.tsx already matches, so no CSS `order` hacks.
+
+   NOTE: the frosted-glass surface stays on .nav-container::before, NOT
+   on .navbar/.nav-container. A backdrop-filter on an ancestor of the
+   position:fixed drawer (.nav-menu) would become its containing block
+   and tear it off the viewport edge — the existing ::before pattern
+   avoids that, so we extend it rather than replace it.
+   ============================================================ */
+@media (max-width: 1024px) {
+  /* Floating bar: the fixed .navbar wrapper supplies the top + side gaps so the
+     pill sits inset from every screen edge, exactly like the reference image.
+     (Gutters live here, not on .nav-container, so the fixed drawer below — a
+     child of .nav-container — still anchors to the true viewport edge.) */
+  .navbar,
+  .navbar.scrolled {
+    padding: 12px 16px 0;
+  }
+
+  .nav-container {
+    width: 100%;
+    justify-content: flex-start;
+    gap: clamp(8px, 3vw, 16px);   /* space between hamburger and logo */
+    padding: 10px 18px;
+    min-height: 54px;
+    max-height: 68px;
+    border-radius: 50px;          /* fully rounded pill like the reference */
+  }
+
+  /* Glass over the hero (page at top, not scrolled) — floating pill shadow */
+  .nav-container::before {
+    background: rgba(26, 155, 230, 0.12);          /* blue-tinted glass */
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.12),
+      0 1px 0 rgba(255, 255, 255, 0.15) inset;
+  }
+
+  /* Deepen the glass once scrolled past the hero */
+  .navbar.scrolled .nav-container::before {
+    background: rgba(255, 255, 255, 0.15);          /* neutral glass */
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    box-shadow:
+      0 12px 40px rgba(0, 0, 0, 0.18),
+      0 1px 0 rgba(255, 255, 255, 0.20) inset;
+  }
+
+  /* 1. Hamburger — first on the left */
+  .hamburger {
+    flex-shrink: 0;
+  }
+
+  /* 2. Logo + brand name — second, beside the hamburger */
+  .nav-logo {
+    flex-shrink: 0;
+    font-size: 1.05rem;
+  }
+  .nav-logo img {
+    width: 32px;
+  }
+
+  /* 3. Theme toggle — pinned to the far-right corner */
+  .nav-theme-mobile {
+    display: inline-flex;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  /* FIX 1 — when the drawer is open, hide the floating pill's logo/brand so it
+     does not overlap the drawer-header logo (which has z-index:1001 and would
+     otherwise bleed on top of the open panel). The drawer's own .drawer-header
+     remains the single source of truth for the logo inside the panel. */
+  .navbar.menu-open .nav-logo {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  /* When the drawer is open, also hide the hamburger so its active "X" state
+     does not overlap the drawer-header logo on the left. The drawer is still
+     dismissable via a nav link or by tapping outside the panel. */
+  .navbar.menu-open .hamburger {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+}
+
+/* ============================================================
+   MOBILE DRAWER CONTENTS — header, left-aligned items, dividers
+   Scoped to the hamburger breakpoint (max-width: 1024px). Every rule
+   below only affects the off-canvas drawer; desktop (>= 1025px) keeps
+   its horizontal .nav-menu exactly as-is. (CHANGES 3, 4, 5)
+   ============================================================ */
+@media (max-width: 1024px) {
+
+  /* CHANGE 3 — the in-bar theme toggle (.nav-theme-mobile) already covers
+     this device, so hide the duplicate theme toggle that lives inside the
+     drawer list. The whole <li> is removed so no empty divider remains.
+     NOTE: this targets ONLY the drawer copy; the desktop .nav-menu theme
+     toggle (>= 1025px) is never matched here, so it stays untouched. */
+  .nav-theme-drawer-item {
+    display: none !important;
+  }
+
+  /* CHANGE 4 — drawer header: logo + brand name on the left, close button
+     pinned to the far right, all centred on one row. (FIX 1 + FIX 2) */
+  .drawer-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;  /* logo-title left, close button right */
+    gap: 0;
+    padding: 18px 20px 16px 20px;    /* reduced from previous larger padding */
+    width: 100%;
+    box-sizing: border-box;
+    border-bottom: 1px solid var(--drawer-header-divider);
+    margin-bottom: 6px;
+
+    /* fades + slides in just after the drawer starts opening */
+    opacity: 0;
+    transform: translateX(-12px);
+    transition:
+      opacity 0.35s ease 0.15s,
+      transform 0.35s ease 0.15s;
+  }
+  .nav-menu.active .drawer-header {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .nav-menu:not(.active) .drawer-header {
+    opacity: 0;
+    transform: translateX(-12px);
+    transition: none;          /* instant reset for the next open */
+  }
+
+  /* ── SHARED-ELEMENT TRANSITION (hamburger devices only) ──────────────────
+     The drawer's logo + brand name must appear to never move: it lands exactly
+     where the pill navbar logo (.nav-logo) sat, then glides to its drawer
+     resting spot. The motion is driven by a JS FLIP transform on
+     .drawer-header-left (see Navbar.tsx), matched to the panel's 350ms ease
+     left-slide. So the *group* (.drawer-header-left) owns all movement; the
+     surrounding .drawer-header must NOT fade or slide on its own, or it would
+     fight the FLIP and delay the logo's visibility. These overrides win by
+     coming later in the same @media block. Desktop (>= 1025px) never sees any
+     of this. */
+  .drawer-header {
+    opacity: 1;                 /* logo group is visible the whole time */
+    transform: none;            /* the inner group carries the motion */
+    transition: none;
+  }
+  .nav-menu.active .drawer-header,
+  .nav-menu:not(.active) .drawer-header {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  /* The group that actually travels (logo + brand name). The JS sets its
+     transform; we just hint the compositor and keep the close button — which
+     lives in .drawer-header but outside this group — perfectly still. */
+  .drawer-header-left {
+    will-change: transform;
+  }
+
+  /* Left group — logo image and brand name together */
+  .drawer-header-left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /* Gap, logo size and brand font below all mirror the pill .nav-logo so the
+       shared-element icon + wordmark are pixel-identical at the open handoff —
+       no size pop as the drawer logo materialises over the fading pill logo. */
+    gap: 0.75rem;       /* matches .nav-logo gap */
+    flex: 1;
+    min-width: 0;       /* prevents flex overflow */
+  }
+
+  /* Logo image — mirrors the pill .nav-logo img exactly (width:32px + the same
+     optical-centre nudge) so the shared element doesn't change size mid-FLIP. */
+  .drawer-logo {
+    width: 32px;                 /* matches .nav-logo img width */
+    height: auto;
+    object-fit: contain;
+    flex-shrink: 0;
+    display: block;
+    background-color: #0a192f;
+    border-radius: 6px;
+    transform: translateY(-3.8%);  /* matches .nav-logo img optical nudge */
+  }
+
+  /* Brand name text — matches the pill .nav-logo span exactly (font size AND
+     line-height) so the title overlays pixel-perfect during the shared-element
+     handoff. The pill span inherits the body line-height (1.65); a tighter
+     value here would sit the title a few px higher than the navbar line. */
+  .drawer-brand-name {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;          /* matches mobile .nav-logo font-size */
+    font-weight: 600;
+    line-height: 1.65;           /* matches inherited .nav-logo span line-height */
+    color: var(--nav-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 0.01em;
+    max-width: 160px;
+  }
+
+  /* Close button — pinned to the far right of the header row (rides the right
+     edge as the drawer widens). Its vertical centre is aligned to the navbar
+     logo/title line in JS via --close-nudge-y (the logo is pinned out of flow,
+     so flex centring alone would sit it a few px high). The nudge is folded
+     into transform so the :hover rotate still composes on top of it. */
+  .drawer-close {
+    position: relative;
+    margin-left: auto;      /* pushes it to the far right within the flex row */
+    flex-shrink: 0;
+
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 0;
+    color: var(--nav-text);
+
+    transform: translateY(var(--close-nudge-y, 0px));
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .drawer-close:hover {
+    background: rgba(255, 255, 255, 0.10);
+    transform: translateY(var(--close-nudge-y, 0px)) rotate(90deg);
+  }
+  .drawer-close svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+  }
+
+  /* CHANGE 5 — left-aligned menu items with underline dividers.
+     The drawer-header and the hidden theme <li> are excluded so only real
+     links (and the CTA) get dividers + the staggered entrance. */
+  .nav-menu > li:not(.drawer-header):not(.nav-theme-drawer-item) {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--drawer-divider-color);
+
+    opacity: 0;
+    transform: translateX(-16px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  /* Staggered entrance. Children are: 1=header, 2-7=links, 8=theme(hidden),
+     9=CTA — so delays are keyed to those real positions. */
+  .nav-menu.active > li:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.18s; }
+  .nav-menu.active > li:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.23s; }
+  .nav-menu.active > li:nth-child(4) { opacity: 1; transform: none; transition-delay: 0.28s; }
+  .nav-menu.active > li:nth-child(5) { opacity: 1; transform: none; transition-delay: 0.33s; }
+  .nav-menu.active > li:nth-child(6) { opacity: 1; transform: none; transition-delay: 0.38s; }
+  .nav-menu.active > li:nth-child(7) { opacity: 1; transform: none; transition-delay: 0.43s; }
+  .nav-menu.active > li:nth-child(9) { opacity: 1; transform: none; transition-delay: 0.48s; }
+
+  /* Reset items instantly when the drawer closes */
+  .nav-menu:not(.active) > li:not(.drawer-header):not(.nav-theme-drawer-item) {
+    opacity: 0;
+    transform: translateX(-16px);
+    transition: none;
+  }
+
+  /* Last visible row drops its divider (in both themes). !important wins over
+     the higher-specificity :not() divider rule above. */
+  .nav-menu > li:last-child {
+    border-bottom: none !important;
+  }
+
+  /* Links fill the row, text flush left, with breathing room */
+  .nav-menu > li > .nav-link {
+    display: block;
+    width: 100%;
+    padding: 15px 24px;
+    text-align: left;
+    letter-spacing: 0.02em;
+    color: var(--nav-text-soft);
+    transition: background 0.2s ease, padding-left 0.2s ease, color 0.2s ease;
+  }
+  /* The desktop animated underline isn't wanted in the drawer */
+  .nav-menu > li > .nav-link::after {
+    display: none;
+  }
+  .nav-menu > li > .nav-link:hover {
+    background: rgba(255, 255, 255, 0.07);
+    padding-left: 32px;        /* slight nudge on hover */
+    color: var(--nav-text);
+  }
+  .nav-menu > li > .nav-link.active {
+    color: var(--primary-light);
+    font-weight: 600;
+  }
+
+  /* CTA row ("Enroll Now") — left aligned, full-width tap target */
+  .nav-menu > li > .nav-cta {
+    margin: 12px 24px;
+    width: calc(100% - 48px);
+    justify-content: center;
+  }
+}
+
+/* Tablets (iPad mini 768px / iPad Air 820px / iPad Pro 1024px) still in the
+   hamburger range — wider floating gutters so the pill stays nicely centred
+   (CHANGE 1) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .navbar,
+  .navbar.scrolled {
+    padding: 14px 24px 0;
+  }
+  .nav-container {
+    padding: 12px 28px;
+    min-height: 60px;
+  }
+  .nav-logo {
+    font-size: 1.15rem;
+  }
+
+  /* Drawer header — slightly larger on tablet for proportion (FIX 1).
+     Logo keeps the base width:32px so it still matches the pill .nav-logo img
+     (unchanged at tablet); only the wordmark grows to the pill's tablet size. */
+  .drawer-header {
+    padding: 22px 24px 18px 24px;
+  }
+  .drawer-brand-name {
+    font-size: 1.15rem;          /* matches tablet .nav-logo font-size */
+    max-width: 200px;
+  }
+}
+
+/* Desktop full navbar: keep the extra bar theme toggle hidden so the
+   desktop layout (logo left, full nav-menu right) stays exactly as-is.
+   Starts at 1025px so iPad Pro (1024px) stays on the hamburger drawer. */
+@media (min-width: 1025px) {
+  .nav-theme-mobile {
+    display: none;
   }
 }
 
@@ -1896,6 +2650,31 @@
 @media (max-width: 380px) {
   :root {
     --container-padding: 0.875rem;
+  }
+  /* Tighter floating gutters on tiny screens (CHANGE 1) */
+  .navbar,
+  .navbar.scrolled {
+    padding: 10px 12px 0;
+  }
+  .nav-container {
+    padding: 9px 14px;
+  }
+  /* Drawer header — tighter padding on tiny screens. Logo + wordmark keep the
+     base size (width:32px / 1.05rem) because the pill .nav-logo is NOT shrunk
+     here either, so the shared element stays seamless down to 320px. */
+  .drawer-header {
+    padding: 16px 16px 14px 16px;
+  }
+  .drawer-brand-name {
+    max-width: 150px;
+  }
+  .drawer-close {
+    width: 30px;
+    height: 30px;
+  }
+  .drawer-close svg {
+    width: 18px;
+    height: 18px;
   }
   .hero-title {
     font-size: 1.55rem;
@@ -2032,5 +2811,277 @@
   }
   .hero-next-cohort {
     padding: 0.6rem 1.1rem;
+  }
+}
+
+/* ============================================================================
+   HERO BLUE-ZONE EXTENSION  —  MOBILE / TABLET / iPad ONLY
+   ----------------------------------------------------------------------------
+   Grows the hero's TOP (Zone 1) and BOTTOM (Zone 3) blue areas on small
+   screens so the white middle band (Zone 2 — the existing .hero-wave--stack
+   white SVG band) is the only light region; everything above Circle 1 and
+   below Circle 2 becomes the hero blue.
+
+   Mechanism: two feathered blue overlay bands painted on .hero-bg
+   (::before = Zone 1 top, ::after = Zone 3 bottom). They sit at z-index:1 —
+   ABOVE the wave SVG (z-index auto) but BELOW .hero-container (z-index:2), so
+   all text, buttons, social proof and the brain stay fully on top and the
+   brain reads on blue. The inner edge is gradient-feathered, so the blue →
+   white transition is soft, never a hard pixel line.
+
+   BLUE VALUE: #009ff5 — sampled exactly from the hero SVG base rect
+   (Hero.tsx → <rect fill="#009ff5">). No approximation.
+
+   DEVICE SCOPE: every rule below lives inside a media query bounded at
+   max-width:1179px. Nothing here can ever apply at >=1180px (laptops,
+   desktops, large monitors) — that layout is left completely untouched.
+   ========================================================================= */
+
+/* ---- MOBILE PHONES — max-width: 767px ---- */
+@media (max-width: 767px) {
+  .hero-bg::before,
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 1;            /* above the wave SVG, below .hero-container (z-index:2) */
+    pointer-events: none;
+  }
+  /* Zone 1 — top blue, extending down to the Circle 1 line (~23% of hero) */
+  .hero-bg::before {
+    top: 0;
+    height: 26%;
+    background: linear-gradient(
+      to bottom,
+      #009ff5 0%,
+      #009ff5 78%,
+      rgba(0, 159, 245, 0) 100%
+    );
+  }
+  /* Zone 3 — bottom blue, extending up to the Circle 2 line (~32% of hero) */
+  .hero-bg::after {
+    bottom: 0;
+    height: 34%;
+    background: linear-gradient(
+      to top,
+      #009ff5 0%,
+      #009ff5 78%,
+      rgba(0, 159, 245, 0) 100%
+    );
+  }
+}
+
+/* ---- TABLETS & iPads (incl. large tablets) — 768px to 1179px ---- */
+@media (min-width: 768px) and (max-width: 1179px) {
+  .hero-bg::before,
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 1;            /* above the wave SVG, below .hero-container (z-index:2) */
+    pointer-events: none;
+  }
+  /* Zone 1 — top blue (~20% of hero on tablet proportions) */
+  .hero-bg::before {
+    top: 0;
+    height: 22%;
+    background: linear-gradient(
+      to bottom,
+      #009ff5 0%,
+      #009ff5 80%,
+      rgba(0, 159, 245, 0) 100%
+    );
+  }
+  /* Zone 3 — bottom blue (~32% of hero on tablet proportions) */
+  .hero-bg::after {
+    bottom: 0;
+    height: 32%;
+    background: linear-gradient(
+      to top,
+      #009ff5 0%,
+      #009ff5 80%,
+      rgba(0, 159, 245, 0) 100%
+    );
+  }
+}
+
+/* ---- HERO HEADING: FORCED 3-LINE WRAP (NON-DESKTOP ONLY) ----
+   Scoped entirely to widths below the 1180px desktop breakpoint, so desktop
+   and laptop layouts are completely untouched. The two <br class="hero-break">
+   in Hero.tsx force the exact structure:
+     Line 1: We teach working
+     Line 2: professionals AI that
+     Line 3: delivers real results.   (the highlighted <em>) */
+@media (max-width: 1179px) {
+  .hero-break {
+    display: block;
+  }
+  /* Keep each forced line intact: never break a word, never auto-hyphenate. */
+  .hero-title {
+    word-break: keep-all;
+    overflow-wrap: normal;
+    hyphens: none;
+  }
+  /* Line 3 ("delivers real results.") must stay whole on its own line and
+     never spill onto a 4th line. It already starts on a new line via the
+     preceding <br>; nowrap guarantees the phrase itself does not wrap. */
+  .hero-title em {
+    white-space: nowrap;
+
+    /* CONTRAST FIX (non-desktop only): line 3 is blue (#0094f4) and on
+       shorter viewports it can land on the blue overlay zone (.hero-bg::before),
+       where blue-on-blue becomes invisible. A white halo behind the glyphs
+       solves this for every width WITHOUT moving any layout:
+         • over the blue zone  → the white halo gives the blue text contrast
+         • over the white wave → the white halo is invisible, so the blue
+                                  text reads cleanly exactly as the reference shows.
+       The text-fill colour itself stays blue (#0094f4) — untouched. */
+    position: relative;
+    z-index: 2;
+    text-shadow:
+      0 0 20px rgba(255, 255, 255, 0.95),
+      0 0 40px rgba(255, 255, 255, 0.85),
+      0 2px 8px rgba(255, 255, 255, 0.90),
+      -1px 0 0 rgba(255, 255, 255, 0.70),
+       1px 0 0 rgba(255, 255, 255, 0.70),
+       0 -1px 0 rgba(255, 255, 255, 0.70),
+       0  1px 0 rgba(255, 255, 255, 0.70);
+  }
+}
+
+/* Smallest phones (≤340px, e.g. 320px iPhone SE): trim the heading a touch so
+   the nowrap "delivers real results." line always fits without overflow. */
+@media (max-width: 340px) {
+  .hero-title {
+    font-size: 1.4rem;
+    letter-spacing: -0.025em;
+  }
+}
+
+/* ---- HERO HEADING: FORCED 3-LINE WRAP (DESKTOP / LAPTOP — min-width: 1024px) ----
+   On desktop the heading previously wrapped naturally and rendered oversized.
+   Here we switch the same forced 3-line split used on smaller screens ON for
+   desktop, and trim the font size so the heading reads polished and balanced
+   rather than dominant. The two <br class="hero-break"> in Hero.tsx force:
+     Line 1: We teach working
+     Line 2: professionals AI that
+     Line 3: delivers real results.   (the highlighted <em>, blue — left untouched)
+   Strictly scoped to >=1024px: no mobile (<768px) or tablet (768–1023px) styles,
+   font sizes, line breaks, or any other element are affected. */
+@media (min-width: 1024px) {
+  .hero-break {
+    display: block;
+  }
+  .hero-title {
+    font-size: clamp(2.8rem, 3.2vw, 3.5rem);
+    line-height: 1.15;
+    /* Keep each forced line intact: never break a word, never auto-hyphenate. */
+    word-break: keep-all;
+    overflow-wrap: normal;
+    hyphens: none;
+  }
+  /* "delivers real results." stays whole on its own line — colour/fill untouched. */
+  .hero-title em {
+    white-space: nowrap;
+  }
+}
+
+/* ============================================================
+   NEST HUB (1024 × 600) — match the Nest Hub Max (1280 × 800) hero
+   ------------------------------------------------------------
+   At exactly 1024px wide the hero is otherwise caught by the
+   `max-width: 1024px` stacked layout, the `max-height: 820px`
+   compression, and the `max-width: 1179px` heading halo. Stacked
+   single-column content is far taller than the 600px viewport, so it
+   overflows a vertically-centred, overflow:hidden hero and the heading
+   gets clipped under the navbar.
+
+   This block, placed last so source order wins over those earlier
+   rules, restores the SAME two-column desktop layout that Nest Hub Max
+   renders (base `.hero*` styles + the `min-width: 1024px` heading) — the
+   heading size, line-height, spacing, alignment, container columns,
+   button row, student row, brain visual and aura are all reset 1:1 to
+   the desktop values. Heading font-size (2.8rem) and the forced 3-line
+   wrap already resolve identically at both widths, so they are left
+   alone. Nothing outside this query is touched; only Nest Hub layout/
+   sizing/spacing is affected. The two-column block is short enough to
+   sit fully inside 600px, so the heading is no longer clipped. */
+@media (width: 1024px) and (height: 600px) {
+  /* Right-side blue depth zone — visible on the two-column layout. */
+  .hero-aura {
+    display: block;
+  }
+  /* Wide wave (two-column) on, stacked wave off — as on the desktop. */
+  .hero-wave--wide {
+    display: block;
+  }
+  .hero-wave--stack {
+    display: none;
+  }
+  /* Two-column grid, left-aligned, desktop rhythm. */
+  .hero-container {
+    grid-template-columns: 1.1fr 0.9fr;
+    text-align: left;
+    gap: 4rem;
+    padding-bottom: 3rem;
+  }
+  /* Breathing room between the navbar and the heading (~20px) — applied to
+     the left text column container, not the navbar. */
+  .hero-content {
+    padding-top: 1.25rem;
+  }
+  /* Heading: blue line 3 sits on the white wave band, no contrast halo
+     (Nest Hub Max has none). margin-bottom matches the desktop. Font-size
+     stepped down from the 2.8rem desktop value to balance the 600px-tall
+     viewport, with a tighter line-height to keep the three lines snug. */
+  .hero-title {
+    font-size: 2.5rem;
+    line-height: 1.15;
+    margin-bottom: 1.25rem;
+  }
+  .hero-title em {
+    text-shadow: none;
+  }
+  /* Subtitle: left-aligned, desktop spacing. Max-width pulled in slightly
+     narrower than the heading block so the paragraph aligns under it, and
+     font-size reduced to stay proportional to the smaller heading. */
+  .hero-subtitle {
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 2.25rem;
+    max-width: 480px;
+    font-size: 0.875rem;
+  }
+  /* Button row: left-aligned, desktop spacing. */
+  .hero-cta {
+    justify-content: flex-start;
+    margin-bottom: 2.5rem;
+  }
+  /* Student / trust row: left-aligned. */
+  .hero-trust {
+    justify-content: flex-start;
+  }
+  /* Right column: release the centred 440px cap so the brain bleeds. */
+  .hero-visual {
+    width: auto;
+    max-width: none;
+    margin: 0;
+    gap: 1rem;
+  }
+  /* Brain: full desktop bleed (152% wide), transparent (no card/radius),
+     height-bounded to a single viewport exactly like the desktop. */
+  .hero-brain {
+    width: 152%;
+    max-width: none;
+    max-height: min(88vh, calc(100dvh - 88px));
+    margin: 0;
+    border-radius: 0;
+    background: transparent;
+    /* Nudge the brain visual inward toward the centre of the hero (~50px
+       left) so it reads as centred within its column rather than pinned to
+       the right edge. */
+    transform: translateX(-50px);
   }
 }
