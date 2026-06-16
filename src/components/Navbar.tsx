@@ -1,14 +1,28 @@
 import React, { useState, useEffect, useCallback, useRef, useLayoutEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useNavbarScroll } from '../hooks/useNavbarScroll';
 import { useTheme } from '../hooks/useTheme';
 import { navLinks } from '../data/siteData';
 import Button from './ui/Button';
 
 const Navbar: React.FC = () => {
+  const router = useRouter();
   const isScrolled = useNavbarScroll(50);
   const { theme, toggleTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
+
+  // "Enroll Now" navigates to the dedicated /signin route (client-side, no
+  // reload) instead of toggling an in-page modal. Nothing else in the navbar
+  // is affected.
+  const handleEnrollClick = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      setMenuOpen(false); // close the mobile drawer if it was open
+      router.push('/signin');
+    },
+    [router],
+  );
 
   // Shared-element transition (hamburger devices only). The pill navbar's
   // logo + brand name (.nav-logo) is the single logo/title pair visible on
@@ -216,7 +230,12 @@ const Navbar: React.FC = () => {
             </button>
           </li>
           <li>
-            <Button variant="primary" size="sm" href="#contact" className="nav-cta">
+            <Button
+              variant="primary"
+              size="sm"
+              className="nav-cta"
+              onClick={handleEnrollClick}
+            >
               Enroll Now
             </Button>
           </li>
