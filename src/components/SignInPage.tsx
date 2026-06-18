@@ -13,7 +13,7 @@ import Button from './ui/Button';
  *
  * Navigation is fully client-side via the Next.js router — the "Back" button and
  * the Escape key both `router.push('/')` (no hard reload), and the footer
- * "Create an account" link routes home to the enrollment section.
+ * "Create an account" link routes to the dedicated `/signup` screen.
  */
 const SignInPage: React.FC = () => {
   const router = useRouter();
@@ -27,12 +27,12 @@ const SignInPage: React.FC = () => {
     router.push('/');
   }, [router]);
 
-  // Footer "Create an account" — route home to the enrollment/pricing section
-  // (#courses — the "Practical training, real prices" section).
+  // Footer "Create an account" — route to the dedicated /signup screen where a
+  // new user can register (client-side, no reload).
   const handleEnroll = useCallback(
     (e: React.MouseEvent) => {
       e.preventDefault();
-      router.push('/#courses');
+      router.push('/signup');
     },
     [router],
   );
@@ -57,11 +57,11 @@ const SignInPage: React.FC = () => {
       aria-labelledby={titleId}
       aria-describedby={subtitleId}
     >
-      {/* Wave background — a bright-blue field crossed by two feathered bands
+      {/* Wave background — a bright-blue field crossed by two crisp bands
           (white middle, blue bottom), drawn purely as vectors so it scales
-          crisply at any size with no raster asset. preserveAspectRatio="none"
+          sharply at any size with no raster asset. preserveAspectRatio="none"
           stretches it edge-to-edge; the paths run past the viewBox on every
-          side so the soft blur never reveals the base colour at the borders. */}
+          side so the edges never reveal the base colour at the borders. */}
       <div className="signin-bg" aria-hidden="true">
         <svg
           className="signin-bg-svg"
@@ -78,10 +78,6 @@ const SignInPage: React.FC = () => {
               <stop offset="0" stopColor="#ffffff" />
               <stop offset="1" stopColor="#eef3fb" />
             </linearGradient>
-            {/* Soft feathered transition between the bands. */}
-            <filter id="signinSoft" x="-10%" y="-10%" width="120%" height="120%">
-              <feGaussianBlur stdDeviation="4" />
-            </filter>
           </defs>
 
           {/* Blue field — the base everything sits on. */}
@@ -91,14 +87,12 @@ const SignInPage: React.FC = () => {
               past the bottom of the viewBox. */}
           <path
             fill="url(#signinWhite)"
-            filter="url(#signinSoft)"
             d="M-40,150 C220,120 380,118 560,210 C720,295 870,366 1030,348 C1200,329 1340,300 1480,300 L1480,820 L-40,820 Z"
           />
 
           {/* Bottom blue wave — painted back over the white at the foot. */}
           <path
             fill="url(#signinBlue)"
-            filter="url(#signinSoft)"
             d="M-40,672 C240,650 480,708 760,708 C1040,708 1260,650 1480,668 L1480,820 L-40,820 Z"
           />
         </svg>
@@ -107,7 +101,7 @@ const SignInPage: React.FC = () => {
       {/* Back button — fixed to the top-left of the overlay (not the card).
           Returns the user to the homepage client-side (no reload). */}
       <button type="button" className="signin-back" onClick={goHome}>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <line x1="19" y1="12" x2="5" y2="12" />
           <polyline points="12 19 5 12 12 5" />
         </svg>
@@ -206,7 +200,7 @@ const SignInPage: React.FC = () => {
 
           <p className="signin-footer">
             New to Future Minds AI?{' '}
-            <a href="#courses" onClick={handleEnroll}>
+            <a href="/signup" onClick={handleEnroll}>
               Create an account
             </a>
           </p>
