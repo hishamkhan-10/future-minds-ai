@@ -991,55 +991,6 @@
 }
 
 /* ============================================
-   TRUST BAR — Social proof strip
-   ============================================ */
-.trust-bar {
-  padding: 2.25rem 0;
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
-}
-
-.trust-bar-label {
-  text-align: center;
-  font-family: var(--font-heading);
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-soft);
-  margin-bottom: 1.25rem;
-}
-
-.trust-bar-logos {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 1.5rem 3rem;
-}
-
-.trust-logo {
-  font-family: var(--font-heading);
-  font-size: 1.25rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: #000000;
-}
-
-:root[data-theme='dark'] .trust-logo {
-  color: #ffffff;
-}
-
-@media (max-width: 768px) {
-  .trust-bar-logos {
-    gap: 1rem 2rem;
-  }
-  .trust-logo {
-    font-size: 1.05rem;
-  }
-}
-
-/* ============================================
    ABOUT SECTION — Editorial Layout
    ============================================ */
 .about-inner {

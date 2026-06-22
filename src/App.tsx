@@ -1,7 +1,6 @@
 import React from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import TrustBar from './components/TrustBar';
 import About from './components/About';
 import Courses from './components/Courses';
 import WhyChooseUs from './components/WhyChooseUs';
@@ -18,7 +17,6 @@ const App: React.FC = () => {
       <Navbar />
       <main>
         <Hero />
-        <TrustBar />
         <About />
         <Courses />
         <WhyChooseUs />
