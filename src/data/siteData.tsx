@@ -133,7 +133,6 @@ export const testimonials: Testimonial[] = [
 ];
 
 export const stats: Stat[] = [
-  { id: 1, label: 'Students enrolled since 2023', target: 1847, suffix: '' },
   { id: 2, label: 'Average course rating', target: 4.7, suffix: '/5.0', decimals: 1 },
   { id: 3, label: 'Students who changed careers', target: 63, suffix: '%' },
   { id: 4, label: 'Instructor response time', target: 6, suffix: ' hours' },

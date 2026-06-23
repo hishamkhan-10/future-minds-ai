@@ -530,7 +530,7 @@ test.describe('Homepage — Full Interactive Test Suite', () => {
   // ─────────────────────────────────────────────────────────────────────────
   // FOOTER — SOCIAL LINKS
   // ─────────────────────────────────────────────────────────────────────────
-  test('15. Footer social links exist with correct hrefs and attributes', async ({ page }) => {
+  test('15. Footer social links exist with correct labels and no live URLs', async ({ page }) => {
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
     await page.waitForTimeout(300);
 
@@ -538,26 +538,20 @@ test.describe('Homepage — Full Interactive Test Suite', () => {
     const count = await socialLinks.count();
     expect(count).toBe(3);
 
-    // Verify each social link has the correct href and opens in new tab
-    const twitterLink = page.locator('.social-links a[aria-label="Twitter"]');
-    await expect(twitterLink).toBeVisible();
-    await expect(twitterLink).toHaveAttribute('href', 'https://twitter.com/futuremindsai');
-    await expect(twitterLink).toHaveAttribute('target', '_blank');
-    await expect(twitterLink).toHaveAttribute('rel', 'noopener noreferrer');
+    // Verify each social link exists with the correct label and has no external URL
+    const xLink = page.locator('.social-links a[aria-label="X"]');
+    await expect(xLink).toBeVisible();
+    await expect(xLink).toHaveAttribute('href', '#');
 
     const linkedInLink = page.locator('.social-links a[aria-label="LinkedIn"]');
     await expect(linkedInLink).toBeVisible();
-    await expect(linkedInLink).toHaveAttribute('href', 'https://linkedin.com/company/futuremindsai');
-    await expect(linkedInLink).toHaveAttribute('target', '_blank');
-    await expect(linkedInLink).toHaveAttribute('rel', 'noopener noreferrer');
+    await expect(linkedInLink).toHaveAttribute('href', '#');
 
-    const youTubeLink = page.locator('.social-links a[aria-label="YouTube"]');
-    await expect(youTubeLink).toBeVisible();
-    await expect(youTubeLink).toHaveAttribute('href', 'https://youtube.com/@futuremindsai');
-    await expect(youTubeLink).toHaveAttribute('target', '_blank');
-    await expect(youTubeLink).toHaveAttribute('rel', 'noopener noreferrer');
+    const facebookLink = page.locator('.social-links a[aria-label="Facebook"]');
+    await expect(facebookLink).toBeVisible();
+    await expect(facebookLink).toHaveAttribute('href', '#');
 
-    console.log('✓ Social links present with correct hrefs, target=_blank, and rel=noopener noreferrer');
+    console.log('✓ Social links present with correct labels and placeholder hrefs (no live URLs)');
   });
 
   // ─────────────────────────────────────────────────────────────────────────
