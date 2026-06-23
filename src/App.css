@@ -2128,12 +2128,15 @@
     justify-content: flex-start;
     gap: 0;                   /* dividers replace the gap */
     padding: 0 0 24px;        /* header supplies its own top padding */
-    transition: left var(--transition-slow);    /* animate the left edge */
-    box-shadow: 16px 0 40px -12px rgba(0, 0, 0, 0.35);  /* shadow to the right */
+    border-radius: 0 16px 16px 0;              /* rounded trailing edge */
+    transition: left 0.4s cubic-bezier(0.22, 1, 0.36, 1); /* spring-like slide */
+    box-shadow: 16px 0 48px -12px rgba(0, 0, 0, 0.35);  /* shadow to the right */
+    z-index: 999;                              /* above the backdrop (998) */
     overflow-y: auto;
   }
   /* Glass surface (background + blur) for the drawer. Kept off .nav-menu so the
-     panel never becomes a containing block for the fixed, navbar-pinned logo. */
+     panel never becomes a containing block for the fixed, navbar-pinned logo.
+     Includes a subtle noise texture overlay for depth. */
   .nav-menu::before {
     content: '';
     position: absolute;
@@ -2142,10 +2145,44 @@
     background: var(--nav-drawer-bg);
     -webkit-backdrop-filter: blur(24px) saturate(170%);
     backdrop-filter: blur(24px) saturate(170%);
+    border-radius: inherit;
+  }
+  /* Subtle noise/grain overlay — shares z-index:-1 with ::before so it stays
+     behind all content. Two stacked elements at the same z-index paint in DOM
+     order (::before first, ::after second), so the grain blends on top of the
+     glass beneath the links. */
+  .nav-menu::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+    border-radius: inherit;
   }
   .nav-menu.active {
     left: 0;                  /* slides into view from the left */
   }
+
+  /* Backdrop overlay — dims the page behind the drawer */
+  .nav-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 998;
+    background: rgba(0, 0, 0, 0);
+    pointer-events: none;
+    transition: background 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .nav-backdrop.active {
+    background: rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+  }
+  :root[data-theme='dark'] .nav-backdrop.active {
+    background: rgba(0, 0, 0, 0.65);
+  }
+
   .nav-link {
     font-size: 1.125rem;
   }
@@ -2224,11 +2261,16 @@
     width: 32px;
   }
 
-  /* 3. Theme toggle — pinned to the far-right corner */
-  .nav-theme-mobile {
+  /* 3. Theme toggle — pinned to the far-right corner of the pill navbar.
+     Only the theme toggle is shown here; the CTA stays inside the drawer. */
+  .nav-desktop-actions {
     display: inline-flex;
+    align-items: center;
     margin-left: auto;
     flex-shrink: 0;
+  }
+  .nav-desktop-actions .nav-cta {
+    display: none;
   }
 
   /* FIX 1 — when the drawer is open, hide the floating pill's logo/brand so it
@@ -2241,9 +2283,8 @@
     transition: opacity 0.2s ease;
   }
 
-  /* When the drawer is open, also hide the hamburger so its active "X" state
-     does not overlap the drawer-header logo on the left. The drawer is still
-     dismissable via a nav link or by tapping outside the panel. */
+  /* Hide the hamburger entirely when the drawer is open — the close button
+     (✕) inside the drawer header handles dismissal on that side. */
   .navbar.menu-open .hamburger {
     opacity: 0;
     pointer-events: none;
@@ -2279,10 +2320,32 @@
     padding: 18px 20px 16px 20px;    /* reduced from previous larger padding */
     width: 100%;
     box-sizing: border-box;
-    border-bottom: 1px solid var(--drawer-header-divider);
+    position: relative;
     margin-bottom: 6px;
 
-    /* fades + slides in just after the drawer starts opening */
+    /* Gradient border-bottom instead of solid */
+    border-bottom: 1px solid transparent;
+    background-clip: padding-box;
+  }
+  .drawer-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 20px;
+    right: 20px;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      var(--primary-light) 0%,
+      var(--drawer-header-divider) 40%,
+      var(--drawer-header-divider) 60%,
+      var(--primary-light) 100%
+    );
+    border-radius: 1px;
+  }
+
+  /* fades + slides in just after the drawer starts opening */
+  .drawer-header {
     opacity: 0;
     transform: translateX(-12px);
     transition:
@@ -2399,7 +2462,8 @@
   }
   .drawer-close:hover {
     background: rgba(255, 255, 255, 0.10);
-    transform: translateY(var(--close-nudge-y, 0px)) rotate(90deg);
+    transform: translateY(var(--close-nudge-y, 0px)) rotate(180deg) scale(1.1);
+    transition: background 0.2s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   .drawer-close svg {
     width: 20px;
@@ -2417,24 +2481,25 @@
     border-bottom: 1px solid var(--drawer-divider-color);
 
     opacity: 0;
-    transform: translateX(-16px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateX(-24px) scale(0.96);
+    transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  /* Staggered entrance. Children are: 1=header, 2-7=links, 8=theme(hidden),
-     9=CTA — so delays are keyed to those real positions. */
-  .nav-menu.active > li:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.18s; }
-  .nav-menu.active > li:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.23s; }
-  .nav-menu.active > li:nth-child(4) { opacity: 1; transform: none; transition-delay: 0.28s; }
-  .nav-menu.active > li:nth-child(5) { opacity: 1; transform: none; transition-delay: 0.33s; }
-  .nav-menu.active > li:nth-child(6) { opacity: 1; transform: none; transition-delay: 0.38s; }
-  .nav-menu.active > li:nth-child(7) { opacity: 1; transform: none; transition-delay: 0.43s; }
-  .nav-menu.active > li:nth-child(9) { opacity: 1; transform: none; transition-delay: 0.48s; }
+  /* Staggered entrance with scale-up. Children are: 1=header, 2-7=links,
+     8=theme(hidden), 9=CTA — so delays are keyed to those real positions. */
+  .nav-menu.active > li:nth-child(2) { opacity: 1; transform: translateX(0) scale(1); transition-delay: 0.12s; }
+  .nav-menu.active > li:nth-child(3) { opacity: 1; transform: translateX(0) scale(1); transition-delay: 0.17s; }
+  .nav-menu.active > li:nth-child(4) { opacity: 1; transform: translateX(0) scale(1); transition-delay: 0.22s; }
+  .nav-menu.active > li:nth-child(5) { opacity: 1; transform: translateX(0) scale(1); transition-delay: 0.27s; }
+  .nav-menu.active > li:nth-child(6) { opacity: 1; transform: translateX(0) scale(1); transition-delay: 0.32s; }
+  .nav-menu.active > li:nth-child(7) { opacity: 1; transform: translateX(0) scale(1); transition-delay: 0.37s; }
+  .nav-menu.active > li:nth-child(9) { opacity: 1; transform: translateX(0) scale(1); transition-delay: 0.42s; }
 
   /* Reset items instantly when the drawer closes */
   .nav-menu:not(.active) > li:not(.drawer-header):not(.nav-theme-drawer-item) {
     opacity: 0;
-    transform: translateX(-16px);
+    transform: translateX(-24px) scale(0.96);
     transition: none;
   }
 
@@ -2444,23 +2509,66 @@
     border-bottom: none !important;
   }
 
+  /* Link icon — sits to the left of the label */
+  .nav-link-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+  }
+  .nav-link:hover .nav-link-icon {
+    opacity: 1;
+  }
+
   /* Links fill the row, text flush left, with breathing room */
   .nav-menu > li > .nav-link {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 14px;
     width: 100%;
-    padding: 15px 24px;
+    padding: 16px 24px 16px 28px;
     text-align: left;
+    font-size: 1.05rem;
     letter-spacing: 0.02em;
     color: var(--nav-text-soft);
-    transition: background 0.2s ease, padding-left 0.2s ease, color 0.2s ease;
+    position: relative;
+    transition: background 0.25s ease, padding-left 0.25s ease, color 0.25s ease;
   }
   /* The desktop animated underline isn't wanted in the drawer */
   .nav-menu > li > .nav-link::after {
     display: none;
   }
+  /* Accent bar on the left edge for active and hover states */
+  .nav-menu > li > .nav-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 6px;
+    bottom: 6px;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: transparent;
+    transition: background 0.3s ease, top 0.3s ease, bottom 0.3s ease;
+  }
+  .nav-menu > li > .nav-link:hover::before {
+    background: var(--primary-light);
+    opacity: 0.4;
+    top: 10px;
+    bottom: 10px;
+  }
+  .nav-menu > li > .nav-link.active::before {
+    background: var(--primary-light);
+    opacity: 1;
+    top: 6px;
+    bottom: 6px;
+  }
   .nav-menu > li > .nav-link:hover {
     background: rgba(255, 255, 255, 0.07);
-    padding-left: 32px;        /* slight nudge on hover */
+    padding-left: 36px;        /* slight nudge on hover */
     color: var(--nav-text);
   }
   .nav-menu > li > .nav-link.active {
@@ -2473,7 +2581,32 @@
     margin: 12px 24px;
     width: calc(100% - 48px);
     justify-content: center;
+    position: relative;
+    overflow: hidden;
   }
+  /* Subtle shine animation on the CTA button */
+  .nav-menu > li > .nav-cta::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.15),
+      transparent
+    );
+    transform: skewX(-20deg);
+    animation: ctaShimmer 3s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes ctaShimmer {
+    0%, 100% { left: -100%; }
+    50% { left: 200%; }
+  }
+
 }
 
 /* Tablets (iPad mini 768px / iPad Air 820px / iPad Pro 1024px) still in the
@@ -2504,11 +2637,54 @@
   }
 }
 
-/* Desktop full navbar: keep the extra bar theme toggle hidden so the
-   desktop layout (logo left, full nav-menu right) stays exactly as-is.
+/* Desktop full navbar: centered max-width container with three-section layout.
+   Logo left, nav links centered, theme toggle + CTA right.
    Starts at 1025px so iPad Pro (1024px) stays on the hamburger drawer. */
 @media (min-width: 1025px) {
-  .nav-theme-mobile {
+  .navbar {
+    padding: 0.5rem 1.5rem 0;
+  }
+  .navbar.scrolled {
+    padding-top: 0.25rem;
+  }
+  .nav-container {
+    justify-content: space-between;
+    width: min(var(--container-max), 100%);
+    padding: 0.4rem 1rem;
+  }
+  .nav-logo {
+    position: static;
+    font-size: 1.05rem;
+    flex-shrink: 0;
+  }
+  .nav-logo img {
+    width: 32px;
+  }
+  .nav-menu {
+    flex: 1;
+    justify-content: center;
+    gap: 2rem;
+  }
+  .nav-link {
+    font-size: 0.9375rem;
+    white-space: nowrap;
+  }
+  /* Hide theme toggle and CTA inside nav-menu — they live in
+     .nav-desktop-actions on desktop instead */
+  .nav-menu > li.nav-theme-drawer-item {
+    display: none !important;
+  }
+  .nav-menu > li:last-child {
+    display: none !important;
+  }
+  /* Desktop actions: theme toggle + CTA on the far right */
+  .nav-desktop-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+  }
+  .nav-link-icon {
     display: none;
   }
 }
@@ -2910,6 +3086,11 @@
     font-size: 1.4rem;
     letter-spacing: -0.025em;
   }
+  /* Narrow drawer: shrink the brand name so the fixed pinned logo group
+     doesn't overlap the close (✕) button on the right. */
+  .drawer-brand-name {
+    max-width: 120px;
+  }
 }
 
 /* ---- HERO HEADING: FORCED 3-LINE WRAP (DESKTOP / LAPTOP — min-width: 1024px) ----
@@ -3104,13 +3285,10 @@
     flex-shrink: 0;
   }
 
-  /* Reveal the in-bar theme toggle, directly beside the hamburger. This
-     overrides the `min-width: 1025px` desktop rule (display:none) that
-     also matches at this width — this block comes later in source order. */
-  .nav-theme-mobile {
-    display: inline-flex;
-    order: 2;
-    flex-shrink: 0;
+  /* Hide the desktop actions section — this viewport uses the mobile
+     drawer with its own theme toggle + CTA inside. */
+  .nav-desktop-actions {
+    display: none;
   }
 
   /* The individual links + Enroll Now go off-canvas into the SAME mobile
@@ -3404,7 +3582,7 @@
 .signin-brand-tag {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #0a1f44;
+  color: #ffffff;
 }
 
 .signin-card {

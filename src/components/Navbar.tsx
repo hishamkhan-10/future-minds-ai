@@ -5,6 +5,8 @@ import { useTheme } from '../hooks/useTheme';
 import { navLinks } from '../data/siteData';
 import Button from './ui/Button';
 
+const DRAWER_TRANSITION_MS = 350;
+
 const Navbar: React.FC = () => {
   const router = useRouter();
   const isScrolled = useNavbarScroll(50);
@@ -35,6 +37,9 @@ const Navbar: React.FC = () => {
   const navMenuRef = useRef<HTMLUListElement>(null);
   const drawerHeaderLeftRef = useRef<HTMLDivElement>(null);
   const drawerCloseRef = useRef<HTMLButtonElement>(null);
+  const backdropRef = useRef<HTMLDivElement>(null);
+  const swipeStartX = useRef(0);
+  const swipeDeltaX = useRef(0);
 
   const handleToggle = useCallback(() => {
     setMenuOpen((prev) => !prev);
@@ -82,6 +87,89 @@ const Navbar: React.FC = () => {
       document.body.style.overflow = '';
     };
   }, [menuOpen]);
+
+  // ── Esc key closes the drawer ─────────────────────────────────────────────
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false);
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [menuOpen]);
+
+  // ── Focus trap: keep Tab cycling inside the open drawer ───────────────────
+  useEffect(() => {
+    if (!menuOpen) return;
+    const menu = navMenuRef.current;
+    if (!menu) return;
+
+    const focusable = menu.querySelectorAll<HTMLElement>(
+      'a, button, [tabindex]:not([tabindex="-1"])',
+    );
+    if (focusable.length === 0) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    // Focus the first element when drawer opens
+    first.focus();
+
+    const handleTabTrap = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return;
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleTabTrap);
+    return () => document.removeEventListener('keydown', handleTabTrap);
+  }, [menuOpen]);
+
+  // ── Swipe-to-close: drag the drawer closed on touch devices ──────────────
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    swipeStartX.current = e.touches[0].clientX;
+    swipeDeltaX.current = 0;
+  }, []);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    const dx = e.touches[0].clientX - swipeStartX.current;
+    if (dx > 0) {
+      swipeDeltaX.current = dx;
+      const menu = navMenuRef.current;
+      if (menu) {
+        const maxTranslate = Math.min(dx * 0.5, 150);
+        menu.style.transition = 'none';
+        menu.style.transform = `translateX(${maxTranslate}px)`;
+        menu.style.opacity = `${1 - (dx / 500)}`;
+      }
+      const backdrop = backdropRef.current;
+      if (backdrop) {
+        backdrop.style.opacity = `${0.6 - (dx / 500) * 0.6}`;
+      }
+    }
+  }, []);
+
+  const handleTouchEnd = useCallback(() => {
+    const menu = navMenuRef.current;
+    if (menu) {
+      menu.style.transition = '';
+      menu.style.transform = '';
+      menu.style.opacity = '';
+    }
+    const backdrop = backdropRef.current;
+    if (backdrop) {
+      backdrop.style.opacity = '';
+    }
+    if (swipeDeltaX.current > 120) {
+      setMenuOpen(false);
+    }
+    swipeDeltaX.current = 0;
+  }, []);
 
   // ── Shared element: drawer logo appears to never move ─────────────────────
   // Scoped strictly to the hamburger breakpoint (max-width: 1024px) so desktop
@@ -168,7 +256,22 @@ const Navbar: React.FC = () => {
           <span>Future Minds AI</span>
         </a>
 
-        <ul className={`nav-menu ${menuOpen ? 'active' : ''}`} id="navMenu" ref={navMenuRef}>
+        {/* Backdrop overlay — visible only when drawer is open */}
+        <div
+          className={`nav-backdrop ${menuOpen ? 'active' : ''}`}
+          ref={backdropRef}
+          onClick={() => setMenuOpen(false)}
+          aria-hidden="true"
+        />
+
+        <ul
+          className={`nav-menu ${menuOpen ? 'active' : ''}`}
+          id="navMenu"
+          ref={navMenuRef}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           {/* Drawer header — logo + brand name on the left, close button on the
               far right; shown only inside the mobile drawer (hidden on desktop
               via CSS). */}
@@ -197,6 +300,7 @@ const Navbar: React.FC = () => {
                 onClick={handleLinkClick}
                 aria-current={activeSection === link.href.slice(1) ? 'page' : undefined}
               >
+                {link.icon && <span className="nav-link-icon">{link.icon}</span>}
                 {link.label}
               </a>
             </li>
@@ -241,34 +345,44 @@ const Navbar: React.FC = () => {
           </li>
         </ul>
 
-        {/* 3. Theme toggle — far-right of the mobile bar (hidden on desktop;
-            the desktop theme toggle stays inside .nav-menu, untouched). */}
-        <button
-          className="theme-toggle nav-theme-mobile"
-          onClick={toggleTheme}
-          aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-          title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-        >
-          {theme === 'light' ? (
-            /* Moon — click to go dark */
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-            </svg>
-          ) : (
-            /* Sun — click to go light */
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="5" />
-              <line x1="12" y1="1" x2="12" y2="3" />
-              <line x1="12" y1="21" x2="12" y2="23" />
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-              <line x1="1" y1="12" x2="3" y2="12" />
-              <line x1="21" y1="12" x2="23" y2="12" />
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-            </svg>
-          )}
-        </button>
+        {/* Desktop-only actions section: CTA + theme toggle.
+            On mobile this is hidden; the drawer contains its own copies. */}
+        <div className="nav-desktop-actions">
+          <Button
+            variant="primary"
+            size="sm"
+            className="nav-cta"
+            onClick={handleEnrollClick}
+          >
+            Enroll Now
+          </Button>
+          <button
+            className="theme-toggle"
+            onClick={toggleTheme}
+            aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+            title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+          >
+            {theme === 'light' ? (
+              /* Moon — click to go dark */
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              </svg>
+            ) : (
+              /* Sun — click to go light */
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="5" />
+                <line x1="12" y1="1" x2="12" y2="3" />
+                <line x1="12" y1="21" x2="12" y2="23" />
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                <line x1="1" y1="12" x2="3" y2="12" />
+                <line x1="21" y1="12" x2="23" y2="12" />
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+              </svg>
+            )}
+          </button>
+        </div>
       </div>
     </nav>
   );
