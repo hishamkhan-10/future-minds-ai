@@ -422,37 +422,6 @@
   display: block;
 }
 
-/* Right-side deeper-blue zone (above the waves, below the content). Covers the
-   white wave band on the right so the brain sits on blue, and reproduces the
-   reference's darker-blue right half on which the cyan bloom pops. */
-.hero-aura {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background:
-    radial-gradient(
-      ellipse 44% 80% at 78% 46%,
-      rgba(7, 56, 124, 0.55) 0%,
-      rgba(9, 74, 154, 0.25) 44%,
-      rgba(12, 110, 200, 0) 76%
-    ),
-    linear-gradient(
-      100deg,
-      rgba(0, 148, 244, 0) 46%,
-      rgba(11, 88, 178, 0.4) 70%,
-      rgba(8, 52, 118, 0.52) 100%
-    );
-}
-
-/* On the stacked layout the brain is centered in its own column, so the
-   right-side darkening is unnecessary (and would tint the centered content). */
-@media (max-width: 1024px) {
-  .hero-aura {
-    display: none;
-  }
-}
-
 /* Two white-band variants share the blue base (see Hero.tsx). The "wide" wave
    matches the reference on the two-column layout; the "stack" wave takes over
    once the hero collapses to a single column so the taller content stays on
@@ -465,8 +434,7 @@
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 4rem;
+  grid-template-columns: 1fr;
   align-items: center;
   padding-bottom: 3rem;
 }
@@ -521,7 +489,6 @@
   color: #000000;
   line-height: 1.7;
   margin-bottom: 2.25rem;
-  max-width: 520px;
   animation: fadeInUp 0.7s ease 0.2s both;
 }
 
@@ -544,417 +511,6 @@
 .hero-cta .btn-outline:hover {
   border-color: var(--primary);
   background: rgba(30, 91, 184, 0.07);
-}
-
-.hero-visual {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  animation: fadeInRight 0.8s ease 0.3s both;
-}
-
-/* ===== Code-generated AI brain visualization (HeroBrain.tsx) =====
-   Lives in the hero's right column. On the two-column desktop/tablet layout it
-   is allowed to grow past its column and bleed into the blue background (the
-   hero clips overflow, so no page scroll appears), reproducing the reference
-   where the glowing brain spans the whole right side. */
-.hero-brain {
-  position: relative;
-  /* Enlarged to fill the right column (reference Image 2). The box is wider than
-     its column and bleeds into the blue; with object-fit:contain the artwork is
-     height-governed and centered in the box, so shifting the box right walks the
-     brain + network toward the hero's right edge (matching Image 2) while the
-     extra box width is just empty space (it never overlaps the left text). */
-  width: 152%;            /* was 140% — wider bleed → more right-side coverage (Image 2) */
-  margin-left: 0%;        /* was -20% — box spans 0→152% so its centre lands right of
-                             the column centre, pushing the brain to the right edge */
-  /* Full-bleed: no padding, no background, no border, no card. The transparent
-     PNG sits directly on the hero's blue field and bleeds into it on every side.
-     Aspect ratio is locked to the artwork so the % positions of the firing
-     nodes and the mask of the shimmer sweep stay aligned at every size. */
-  aspect-ratio: 636 / 674;
-  /* Cap the brain's height so it can never push the hero past one screen, while
-     still letting it grow large. The hero reserves 80px (navbar padding-top) +
-     ~48px (container padding-bottom); subtracting 140px keeps the brain inside
-     that budget on short viewports, and the 82vh ceiling keeps it from becoming
-     oversized on tall ones. With aspect-ratio + object-fit:contain the artwork
-     scales to fit this height, staying centered with no crop. */
-  max-height: min(88vh, calc(100dvh - 88px));  /* was min(82vh, calc(100dvh - 140px))
-                             — taller cap → larger brain that fills more vertical
-                             height (Image 2); reserve only the 80px navbar so it
-                             stays height-bounded within a single viewport (no scroll) */
-  padding: 0;
-  background: transparent;
-  border: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* The brain artwork (genuinely transparent PNG). A continuous breathing glow +
-   brightness pulse runs on it so it always looks lit. */
-.hero-brain__img {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-  animation: brainGlow 4.4s ease-in-out infinite;
-  will-change: filter;
-}
-
-@keyframes brainGlow {
-  0%, 100% {
-    filter: drop-shadow(0 0 16px rgba(86, 200, 255, 0.4)) brightness(1) saturate(1.02);
-  }
-  50% {
-    filter: drop-shadow(0 0 34px rgba(120, 222, 255, 0.7)) brightness(1.12) saturate(1.12);
-  }
-}
-
-/* Pulsing radial bloom behind the brain — the "always glowing" halo. */
-.hero-brain__bloom {
-  position: absolute;
-  z-index: 0;
-  left: 42%;
-  top: 50%;
-  width: 64%;
-  height: 60%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  border-radius: 50%;
-  background: radial-gradient(
-    ellipse 50% 48% at 48% 52%,
-    rgba(155, 228, 255, 0.3) 0%,
-    rgba(90, 190, 250, 0.13) 40%,
-    rgba(30, 120, 215, 0) 72%
-  );
-  filter: blur(10px);
-  animation: bloomPulse 4.4s ease-in-out infinite;
-}
-
-@keyframes bloomPulse {
-  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.94); }
-  50%      { opacity: 0.85; transform: translate(-50%, -50%) scale(1.05); }
-}
-
-/* Circuit-line shimmer. A bright diagonal band of light slides across the
-   visual; the brain PNG is used as a mask so the shimmer is only ever visible
-   *on* the brain and circuit traces, never on the surrounding blue. Screen
-   blend adds the light without darkening the hero. */
-.hero-brain__sweep {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  mix-blend-mode: screen;
-  background: linear-gradient(
-    115deg,
-    rgba(120, 224, 255, 0) 38%,
-    rgba(150, 235, 255, 0.55) 50%,
-    rgba(120, 224, 255, 0) 62%
-  );
-  background-size: 260% 100%;
-  -webkit-mask: url('/assets/hero-brain.png') center / contain no-repeat;
-          mask: url('/assets/hero-brain.png') center / contain no-repeat;
-  animation: circuitSweep 6s ease-in-out infinite;
-}
-
-@keyframes circuitSweep {
-  0%   { background-position: 130% 0; }
-  /* travels left→right, then holds dark before repeating (no jarring cut) */
-  55%  { background-position: -30% 0; }
-  100% { background-position: -30% 0; }
-}
-
-/* FIX 1 — the firing neural-node blooms (.hero-brain__node / .brain-node) were
-   the glassy "bubble sphere" elements (border-radius:50% + radial-gradient).
-   The element, its position variants and its @keyframes nodePulse have been
-   removed entirely so no orb/sphere can render at idle or on hover. */
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-brain__img,
-  .hero-brain__bloom,
-  .hero-brain__sweep {
-    animation: none;
-  }
-}
-
-/* ===========================================================================
-   BRAIN HOVER INTERACTION — three coordinated, layered effects.
-   Everything below is scoped to .hero-brain (.brain-container) and its
-   children, and is inert at idle (all new layers start invisible), so the
-   hero layout, sizing, colours and every other element stay untouched.
-   =========================================================================== */
-
-/* The hover target. .hero-brain already establishes the positioned,
-   aspect-locked box; we only mark it as the interaction container. */
-.brain-container {
-  /* relative positioning is already provided by .hero-brain */
-  perspective: 800px; /* depth reference for the child tilt */
-}
-
-/* ----- .brain-visual: wraps the artwork so the FIX 2 halo, the FIX 3 vein
-   overlay and the shimmer read as one unit. The brain is intentionally static —
-   it does not tilt, shift or scale on hover. ----- */
-.brain-visual {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  filter: brightness(1) saturate(1);
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   FIX 1 — RECTANGULAR BOUNDARY OUTLINE: ELIMINATED.
-   The hover used to reveal two rectangular-extent layers whose soft edges read
-   as a glowing card border around the whole visual:
-     • .brain-flow-overlay  — a full-box linear-gradient (masked, but its
-                              animated rectangle still flashed an outline), and
-     • .brain-network-layer — a blurred, screen-blended copy of the entire PNG
-                              (its 636×674 footprint of scattered network dots +
-                              the bottom-right circuit grid formed the rectangle).
-   BOTH layers — their elements, CSS rules and the @keyframes branch-flow-sweep
-   that drove the overlay — have been deleted outright. No hover layer paints a
-   rectangle, border, outline or box-shadow on the container any longer. The only
-   things that glow on hover are the organic silhouette halo (FIX 2) and the
-   neural veins (FIX 3), both below.
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-/* ───────────────────── FIX 2 — Organic brain-shape edge glow ────────────────
-   A second copy of the brain image sits directly behind the artwork. At idle it
-   is fully transparent (zero change to the non-hover visual). On hover it fades
-   in and carries a stack of layered drop-shadow() filters. Because drop-shadow
-   follows the element's real alpha shape, the glow hugs the brain's natural,
-   irregular silhouette and feathers out to nothing — Circle 2's organic edge,
-   with no hard line and no rectangle. Its own brain fill sits under the opaque
-   artwork on top, so only the glow it casts beyond the silhouette is seen. */
-.hero-brain__halo {
-  position: absolute;
-  inset: 0;
-  z-index: 0; /* behind .hero-brain__img (z-index 1) within .brain-visual */
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-  pointer-events: none;
-  opacity: 0;
-  filter: drop-shadow(0 0 0 rgba(120, 220, 255, 0));
-  /* ≤600ms so the glow fully reverses on mouse-leave within budget. */
-  transition: opacity 0.6s ease, filter 0.6s ease;
-  will-change: opacity, filter;
-}
-.brain-awakened .hero-brain__halo {
-  opacity: 1;
-  filter:
-    drop-shadow(0 0 6px rgba(120, 220, 255, 0.70))
-    drop-shadow(0 0 18px rgba(90, 200, 255, 0.50))
-    drop-shadow(0 0 35px rgba(60, 170, 255, 0.30))
-    drop-shadow(0 0 60px rgba(40, 150, 255, 0.15));
-}
-
-/* ───────────────── FIX 3 — Sequential vein-by-vein neural flow ──────────────
-   An SVG overlay that shares the PNG's 636×674 coordinate space and is
-   contained 1:1 over the artwork, so every traced <path> rides a real brain
-   ridge. The JS engine (HeroBrain.tsx) draws one vein at a time via
-   stroke-dashoffset; finished veins keep a breathing glow until the whole
-   network is lit, then it holds and repeats. overflow:visible lets each vein's
-   drop-shadow bleed past the viewBox. */
-.brain-vein-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 3; /* over the brain art + sweep, under the spotlight (z-index 4) */
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  overflow: visible;
-}
-.brain-vein {
-  fill: none;
-  stroke: rgba(120, 215, 255, 0.16); /* faint resting tint (only seen mid-fade) */
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  opacity: 0; /* invisible at idle → zero change to the non-hover visual */
-  transition: opacity 0.4s ease, stroke 0.4s ease, filter 0.4s ease;
-}
-.brain-awakened .brain-vein {
-  opacity: 1;
-}
-/* The bright travelling front being drawn along the active vein. */
-.brain-vein.vein-flowing {
-  stroke: rgba(205, 248, 255, 1);
-  filter:
-    drop-shadow(0 0 5px rgba(160, 235, 255, 1))
-    drop-shadow(0 0 12px rgba(120, 210, 255, 0.8))
-    drop-shadow(0 0 20px rgba(80, 180, 255, 0.5));
-}
-/* A vein that has been lit and now retains a softer, breathing glow. */
-.brain-vein.vein-complete {
-  stroke: rgba(140, 222, 255, 0.8);
-  filter:
-    drop-shadow(0 0 3px rgba(120, 210, 255, 0.6))
-    drop-shadow(0 0 8px rgba(90, 190, 255, 0.3));
-  animation: vein-breathe 4s ease-in-out infinite;
-}
-@keyframes vein-breathe {
-  0%, 100% {
-    stroke: rgba(140, 222, 255, 0.75);
-    filter:
-      drop-shadow(0 0 3px rgba(120, 210, 255, 0.6))
-      drop-shadow(0 0 8px rgba(90, 190, 255, 0.3));
-  }
-  50% {
-    stroke: rgba(165, 236, 255, 0.95);
-    filter:
-      drop-shadow(0 0 5px rgba(140, 225, 255, 0.85))
-      drop-shadow(0 0 13px rgba(100, 200, 255, 0.45));
-  }
-}
-
-/* ───────────────────────────── EFFECT 2 — Data Pulse ───────────────────────
-   Rising data particles (JS-spawned every 180ms).
-   FIX 2: the sonar ripple rings (.brain-ripple + @keyframes ripple-expand) and
-   their JS emitter were removed entirely — no expanding circles render anymore. */
-
-/* upward-floating data particle (left/size/duration randomised in JS). */
-.brain-particle {
-  position: absolute;
-  bottom: 40%;
-  z-index: 3; /* in front of the brain, under the spotlight overlay */
-  border-radius: 50%;
-  background: rgba(150, 230, 255, 0.9);
-  box-shadow: 0 0 6px 2px rgba(100, 210, 255, 0.6);
-  mix-blend-mode: screen;
-  animation: particle-rise linear forwards;
-  pointer-events: none;
-}
-@keyframes particle-rise {
-  0%   { transform: translateY(0) scale(1);      opacity: 0.9; }
-  100% { transform: translateY(-120px) scale(0.3); opacity: 0; }
-}
-
-/* ────────────────────── EFFECT 3 — Cursor spotlight (PRESERVED) ─────────────
-   The brain is static (no tilt/parallax). We only define the spotlight overlay
-   that follows the cursor; its radial-gradient background is set inline on each
-   mousemove. The gradient fades to transparent at 60%, so it never paints a
-   hard edge — no rectangular boundary here either. */
-.brain-spotlight {
-  position: absolute;
-  inset: 0;
-  z-index: 4; /* topmost, subtle, never intercepts input */
-  /* No border-radius dependency: the radial gradient is already edge-soft. */
-  pointer-events: none;
-  opacity: 0;
-  transition: background 0.05s linear, opacity 0.3s ease-out;
-}
-.brain-awakened .brain-spotlight { opacity: 1; }
-
-/* Honour reduced-motion for the hover layers too (the JS interaction is also
-   disabled in that case, so these only guard any pre-rendered state). */
-@media (prefers-reduced-motion: reduce) {
-  .hero-brain__halo,
-  .brain-spotlight,
-  .brain-vein-overlay,
-  .brain-vein { opacity: 0 !important; }
-  .brain-vein.vein-complete { animation: none !important; }
-  .brain-particle { display: none !important; }
-}
-
-.hero-visual-card {
-  background: var(--dark);
-  border: 1px solid var(--dark-lighter);
-  border-radius: var(--radius-lg);
-  padding: 1.75rem;
-}
-
-.hero-visual-card h3 {
-  font-family: var(--font-heading);
-  font-size: 0.875rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--gray-light);
-  margin-bottom: 0.75rem;
-}
-
-.hero-stat-row {
-  display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.hero-stat-row .stat-number {
-  font-family: var(--font-heading);
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--white);
-}
-
-.hero-stat-row .stat-label {
-  font-size: 0.9375rem;
-  color: var(--gray-light);
-}
-
-.hero-visual-card .note {
-  font-size: 0.8125rem;
-  color: var(--gray-light);
-  margin-top: 0.75rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--dark-lighter);
-}
-
-.hero-next-cohort {
-  background: var(--primary);
-  border-radius: var(--radius-md);
-  padding: 1rem 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.hero-next-cohort span {
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-.hero-next-cohort strong {
-  font-weight: 700;
-}
-
-.hero-scroll {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-}
-
-.scroll-indicator {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  color: rgba(255, 255, 255, 0.55);
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  transition: color var(--transition-fast);
-}
-
-.scroll-indicator:hover {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.scroll-arrow {
-  width: 18px;
-  height: 18px;
-  border-right: 1.5px solid currentColor;
-  border-bottom: 1.5px solid currentColor;
-  transform: rotate(45deg);
 }
 
 /* ============================================
@@ -2001,43 +1557,18 @@
      still fits within one viewport (incl. landscape tablets at 1024x768). */
   .hero-container {
     grid-template-columns: 1fr;
-    text-align: center;
+    text-align: left;
     gap: 2rem;
     padding-bottom: 1.5rem;
   }
   .hero-subtitle {
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 0;
+    margin-right: 0;
     margin-bottom: 1.5rem;
   }
   .hero-cta {
-    justify-content: center;
+    justify-content: flex-start;
     margin-bottom: 1.75rem;
-  }
-  .hero-visual {
-    width: 100%;
-    max-width: 440px;
-    margin: 0 auto;
-    gap: 0.875rem;
-  }
-  /* In the stacked layout the brain sits centered inside its column — no bleed,
-     so it can't overflow the single-column content. It gets its own soft dark
-     backdrop (the desktop .hero-aura is hidden here) so the cyan still pops. */
-  .hero-brain {
-    width: 100%;
-    max-width: 400px;
-    /* In the stack the brain sits below the text, so cap it to a slice of the
-       viewport height — both the text block above and the brain stay visible
-       within the single screen. */
-    max-height: 33vh;
-    margin: 0 auto;
-    border-radius: 24px;
-    background: radial-gradient(
-      ellipse 62% 58% at 50% 48%,
-      rgba(7, 50, 112, 0.6) 0%,
-      rgba(8, 42, 96, 0.32) 46%,
-      rgba(8, 40, 92, 0) 72%
-    );
   }
   .about-inner {
     grid-template-columns: 1fr;
@@ -2664,9 +2195,6 @@
   .hero-container {
     gap: 1.75rem;
   }
-  .hero-visual-card {
-    padding: 1.5rem;
-  }
   .courses-grid,
   .testimonials-grid {
     grid-template-columns: 1fr;
@@ -2684,7 +2212,7 @@
   }
   .hero-cta {
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
   }
   .btn-lg {
     width: 100%;
@@ -2730,9 +2258,6 @@
     grid-template-columns: 1fr;
     gap: 0.875rem;
   }
-  .hero-next-cohort {
-    flex-wrap: wrap;
-  }
   .testimonials-highlight {
     margin-top: 0;
   }
@@ -2771,12 +2296,6 @@
   .hero-title {
     font-size: 1.55rem;
   }
-  .hero-visual-card {
-    padding: 1.25rem;
-  }
-  .hero-stat-row .stat-number {
-    font-size: 1.65rem;
-  }
   .btn-lg {
     padding: 0.875rem 1.5rem;
     font-size: 0.9375rem;
@@ -2809,12 +2328,6 @@
   .hero-cta {
     margin-bottom: 1.25rem;
   }
-  .hero-visual {
-    gap: 0.75rem;
-  }
-  .hero-visual-card {
-    padding: 1.25rem;
-  }
 }
 
 /* Short phones (e.g. iPhone SE 375x667, small Android 360x640) */
@@ -2844,28 +2357,6 @@
     padding: 0.65rem 1.5rem;
     font-size: 0.9rem;
   }
-  .hero-visual {
-    gap: 0.5rem;
-  }
-  .hero-visual-card {
-    padding: 0.85rem 1.25rem;
-  }
-  .hero-visual-card h3 {
-    margin-bottom: 0.4rem;
-  }
-  .hero-stat-row {
-    margin-bottom: 0.2rem;
-  }
-  .hero-stat-row .stat-number {
-    font-size: 1.45rem;
-  }
-  .hero-visual-card .note {
-    margin-top: 0.45rem;
-    padding-top: 0.45rem;
-  }
-  .hero-next-cohort {
-    padding: 0.65rem 1.25rem;
-  }
 }
 
 /* Very short phones (e.g. 360x640) — final trim */
@@ -2888,15 +2379,6 @@
   }
   .btn-lg {
     padding: 0.6rem 1.5rem;
-  }
-  .hero-visual-card {
-    padding: 0.75rem 1.1rem;
-  }
-  .hero-stat-row .stat-number {
-    font-size: 1.35rem;
-  }
-  .hero-next-cohort {
-    padding: 0.6rem 1.1rem;
   }
 }
 
@@ -3065,6 +2547,9 @@
   .hero-break {
     display: block;
   }
+  .hero-content {
+    max-width: 620px;
+  }
   .hero-title {
     font-size: clamp(2.8rem, 3.2vw, 3.5rem);
     line-height: 1.15;
@@ -3090,20 +2575,16 @@
    gets clipped under the navbar.
 
    This block, placed last so source order wins over those earlier
-   rules, restores the SAME two-column desktop layout that Nest Hub Max
+   rules, restores the SAME single-column desktop layout that Nest Hub Max
    renders (base `.hero*` styles + the `min-width: 1024px` heading) — the
    heading size, line-height, spacing, alignment, container columns,
-   button row, student row, brain visual and aura are all reset 1:1 to
+   button row, and student row are all reset 1:1 to
    the desktop values. Heading font-size (2.8rem) and the forced 3-line
    wrap already resolve identically at both widths, so they are left
    alone. Nothing outside this query is touched; only Nest Hub layout/
-   sizing/spacing is affected. The two-column block is short enough to
+   sizing/spacing is affected. The single-column block is short enough to
    sit fully inside 600px, so the heading is no longer clipped. */
 @media (width: 1024px) and (height: 600px) {
-  /* Right-side blue depth zone — visible on the two-column layout. */
-  .hero-aura {
-    display: block;
-  }
   /* Wide wave (two-column) on, stacked wave off — as on the desktop. */
   .hero-wave--wide {
     display: block;
@@ -3111,11 +2592,10 @@
   .hero-wave--stack {
     display: none;
   }
-  /* Two-column grid, left-aligned, desktop rhythm. */
+  /* Single-column grid, left-aligned, desktop rhythm. */
   .hero-container {
-    grid-template-columns: 1.1fr 0.9fr;
+    grid-template-columns: 1fr;
     text-align: left;
-    gap: 4rem;
     padding-bottom: 3rem;
   }
   /* Breathing room between the navbar and the heading (~20px) — applied to
@@ -3142,34 +2622,12 @@
     margin-left: 0;
     margin-right: 0;
     margin-bottom: 2.25rem;
-    max-width: 480px;
     font-size: 0.875rem;
   }
   /* Button row: left-aligned, desktop spacing. */
   .hero-cta {
     justify-content: flex-start;
     margin-bottom: 2.5rem;
-  }
-  /* Right column: release the centred 440px cap so the brain bleeds. */
-  .hero-visual {
-    width: auto;
-    max-width: none;
-    margin: 0;
-    gap: 1rem;
-  }
-  /* Brain: full desktop bleed (152% wide), transparent (no card/radius),
-     height-bounded to a single viewport exactly like the desktop. */
-  .hero-brain {
-    width: 152%;
-    max-width: none;
-    max-height: min(88vh, calc(100dvh - 88px));
-    margin: 0;
-    border-radius: 0;
-    background: transparent;
-    /* Nudge the brain visual inward toward the centre of the hero (~50px
-       left) so it reads as centred within its column rather than pinned to
-       the right edge. */
-    transform: translateX(-50px);
   }
 }
 
@@ -3182,8 +2640,7 @@
    same .nav-menu / .hamburger / .drawer-* DOM is reused, nothing new is
    created. The individual nav links + the Enroll Now button move
    off-canvas into that drawer; the in-bar theme toggle is revealed and
-   parked on the right beside the hamburger; the hero brain is nudged
-   ~50px toward centre. Placed LAST in the file so it wins source-order
+   parked on the right beside the hamburger. Placed LAST in the file so it wins source-order
    ties against the `min-width: 1025px` desktop rule (which also matches
    at 1025–1028px). No other breakpoint, device, or screen size is
    touched. ============================================================ */
@@ -3404,12 +2861,6 @@
     margin: 12px 24px;
     width: calc(100% - 48px);
     justify-content: center;
-  }
-
-  /* Hero brain — nudge ~50px inward toward the centre so it is no longer
-     pinned to the right edge (same shift the Nest Hub block uses). */
-  .hero-brain {
-    transform: translateX(-50px);
   }
 }
 

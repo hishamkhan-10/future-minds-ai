@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import Button from './ui/Button';
-import HeroBrain from './HeroBrain';
 
 const Hero: React.FC = () => {
   // Mobile browsers report 100vh as the *largest* viewport (URL bar hidden), so
@@ -90,12 +89,6 @@ const Hero: React.FC = () => {
         </svg>
       </div>
 
-      {/* Right-side blue depth overlay. In the reference the right half sits on
-          a deeper blue than the bright hero field — this paints that darker
-          zone (above the wave layer, below the content) so the glowing brain
-          rests on blue instead of the white wave band. Decorative only. */}
-      <div className="hero-aura" aria-hidden="true" />
-
       <div className="container hero-container">
         <div className="hero-content">
           <h1 className="hero-title">
@@ -117,12 +110,6 @@ const Hero: React.FC = () => {
           </div>
         </div>
 
-        {/* Right column — fully code-generated glowing AI brain + network
-            visualization (SVG silhouette/mesh/traces + canvas particle field).
-            No images are used; see HeroBrain.tsx. */}
-        <div className="hero-visual">
-          <HeroBrain />
-        </div>
       </div>
     </section>
   );
