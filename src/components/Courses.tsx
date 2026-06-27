@@ -14,11 +14,11 @@ function getPerView(width: number): number {
   return 3;
 }
 
-const prefersReducedMotion =
-  typeof window !== 'undefined' &&
-  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
 const Courses: React.FC = () => {
+  const prefersReducedMotion = useRef(
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  ).current;
   const [activeFilter, setActiveFilter] = useState<Filter>('All');
   const [perView, setPerView] = useState(() =>
     typeof window !== 'undefined' ? getPerView(window.innerWidth) : 3
@@ -107,7 +107,7 @@ const Courses: React.FC = () => {
     if (paused || prefersReducedMotion || !canSlide) return;
     const id = window.setInterval(next, AUTOPLAY_MS);
     return () => window.clearInterval(id);
-  }, [paused, canSlide, next]);
+  }, [paused, prefersReducedMotion, canSlide, next]);
 
   const handleFilter = (filter: Filter) => {
     setActiveFilter(filter);
