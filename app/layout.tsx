@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: 'Future Minds AI Training - Master AI Skills for the Future',
     description:
       'Practical, hands-on AI, Machine Learning, and Prompt Engineering training for working professionals. Built by practitioners, not academics.',
-    images: ['/assets/_LOGO%20FMA.png'],
+    images: ['/assets/FMA%20LOGO.svg'],
     url: 'https://futuremindsai.com/',
   },
   twitter: {
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     title: 'Future Minds AI Training - Master AI Skills for the Future',
     description:
       'Practical, hands-on AI, Machine Learning, and Prompt Engineering training for working professionals.',
-    images: ['/assets/_LOGO%20FMA.png'],
+    images: ['/assets/FMA%20LOGO.svg'],
   },
 };
 

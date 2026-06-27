@@ -127,7 +127,6 @@ const Courses: React.FC = () => {
           tag="Courses"
           title="Practical training, real prices"
           subtitle="No hidden fees. No subscription traps. Pay once, learn forever."
-          dark
         />
         <div className="course-filters" role="tablist" aria-label="Filter courses by level">
           {filters.map((filter) => (

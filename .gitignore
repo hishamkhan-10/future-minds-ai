@@ -18,6 +18,7 @@ dist-ssr
 .next
 out
 next-env.d.ts
+tsconfig.tsbuildinfo
 
 # Editor / OS
 .vscode/*

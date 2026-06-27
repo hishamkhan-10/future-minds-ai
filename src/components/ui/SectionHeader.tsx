@@ -4,7 +4,6 @@ interface SectionHeaderProps {
   tag: string;
   title: string;
   subtitle?: string;
-  dark?: boolean;
 }
 
 const SectionHeader: React.FC<SectionHeaderProps> = ({ tag, title, subtitle }) => {

@@ -187,12 +187,6 @@ button {
   margin: 0 auto 3.5rem;
 }
 
-.section-header.left {
-  margin-left: 0;
-  margin-right: 0;
-  text-align: left;
-}
-
 .section-tag {
   display: inline-block;
   font-family: var(--font-heading);

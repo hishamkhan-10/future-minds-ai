@@ -232,7 +232,7 @@ test.describe('Homepage — Full Interactive Test Suite', () => {
     });
     expect(isReachable).toBeTruthy();
     await expect(page.locator('#contactForm')).toBeVisible();
-    console.log('✓ "See Upcoming Courses" scrolled to #contact');
+    console.log('✓ "Courses" scrolled to #contact');
   });
 
   test('7. "View Pricing" button scrolls to #courses', async ({ page }) => {

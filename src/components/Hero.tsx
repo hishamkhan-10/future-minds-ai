@@ -59,7 +59,7 @@ const Hero: React.FC = () => {
               so the taller stacked content stays on the white surface. The blue
               base is shared, so both keep the exact Part 1/2/3 colour story. */}
           <path
-            className="hero-wave hero-wave--wide"
+            className="hero-wave--wide"
             fill="#ffffff"
             d="M0 200
                C180 178 360 166 540 188

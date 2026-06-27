@@ -37,21 +37,6 @@
   box-shadow: 0 6px 16px rgba(30, 91, 184, 0.35);
 }
 
-.btn-secondary {
-  background: var(--surface);
-  color: var(--primary);
-  border-color: var(--border);
-}
-
-.btn-secondary:hover {
-  border-color: var(--primary);
-  background: var(--surface-2);
-}
-
-:root[data-theme='dark'] .btn-secondary {
-  color: var(--primary-light);
-}
-
 .btn-outline {
   background: transparent;
   color: var(--white);
@@ -2288,7 +2273,6 @@
   .section-title {
     font-size: 1.5rem;
   }
-  .about-card,
   .why-item,
   .testimonial-card,
   .contact-form {

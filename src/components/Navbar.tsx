@@ -5,8 +5,6 @@ import { useTheme } from '../hooks/useTheme';
 import { navLinks } from '../data/siteData';
 import Button from './ui/Button';
 
-const DRAWER_TRANSITION_MS = 350;
-
 const Navbar: React.FC = () => {
   const router = useRouter();
   const isScrolled = useNavbarScroll(50);
