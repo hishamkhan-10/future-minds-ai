@@ -415,6 +415,25 @@
   display: none;
 }
 
+/* Default: signin-style gradient background SVG hidden on desktop (≥1180px).
+   On mobile, tablet and iPad (≤1179px) it replaces the desktop SVG to match
+   the sign-in / sign-up overlay gradient background style. */
+.hero-bg-svg--signin {
+  display: none;
+}
+
+/* SVG toggle: desktop SVG visible by default, signin SVG hidden.
+   For ≤1179px the inverse is applied in the breakpoint below. */
+
+@media (max-width: 1179px) {
+  .hero-bg-svg--desktop {
+    display: none;
+  }
+  .hero-bg-svg--signin {
+    display: block;
+  }
+}
+
 .hero-container {
   position: relative;
   z-index: 2;
@@ -430,6 +449,30 @@
    contrast. */
 .hero-content {
   position: relative;
+}
+
+.hero-visual {
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.hero-visual img {
+  width: 100%;
+  height: auto;
+  max-height: 80vh;
+  object-fit: contain;
+  image-rendering: high-quality;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .hero-logo {
@@ -1538,13 +1581,42 @@
   .hero-wave--stack {
     display: block;
   }
-  /* Single-column stack — tighten the vertical rhythm so the whole hero
-     still fits within one viewport (incl. landscape tablets at 1024x768). */
+  /* 50/50 split: content top half, visual bottom half.
+     hero-bg is absolutely positioned, so it doesn't affect the flex
+     distribution. hero-container and hero-visual each get flex:1 to
+     evenly split the available space. Both regions are vertically
+     centred within their half so the layout reads clean and balanced
+     on every mobile, tablet, and iPad. */
   .hero-container {
     grid-template-columns: 1fr;
     text-align: center;
-    gap: 2rem;
-    padding-bottom: 1.5rem;
+    gap: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .hero-content {
+    max-width: 100%;
+  }
+  /* Visual now participates in the hero flex layout as the bottom half.
+     Width is NOT set here — the device-specific sub-queries handle it. */
+  .hero-visual {
+    flex: 1;
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    height: auto !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    z-index: 1;
   }
   .hero-subtitle {
     margin-left: 0;
@@ -2117,12 +2189,23 @@
   }
 }
 
-/* ---- TABLET HERO — match Surface Duo reference (768px–1024px) ----
-   Removes the gap between tablet and phone hero sizing/spacing so every
-   tablet and iPad renders the hero exactly as Surface Duo does: same
-   single-column centered layout, same typography scale, same CTA stacking,
-   and same button widths. */
+/* ---- TABLET HERO — 50/50 content + visual split (768px–1024px) ----
+   Content sits in the top grid row, visual in the bottom row.
+   Typography and spacing tuned for the single-column 50/50 split. */
 @media (min-width: 768px) and (max-width: 1024px) {
+  .hero-visual {
+    width: 80%;
+    opacity: 0.95;
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+  .hero-visual img {
+    max-height: none;
+    image-rendering: high-quality;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
   .hero-title {
     font-size: 2rem;
     margin-bottom: 1rem;
@@ -2259,10 +2342,6 @@
     font-size: 1.75rem;
     margin-bottom: 0.875rem;
   }
-  .hero-container {
-    gap: 1.5rem;
-    padding-bottom: 1rem;
-  }
   .hero-subtitle {
     margin-bottom: 1.125rem;
   }
@@ -2323,6 +2402,11 @@
   .hero-title {
     font-size: 1.55rem;
   }
+  .hero-visual {
+    width: 85%;
+    opacity: 0.95;
+    will-change: transform;
+  }
   .btn-lg {
     padding: 0.875rem 1.5rem;
     font-size: 0.9375rem;
@@ -2345,10 +2429,6 @@
 
 /* Landscape tablets / short medium screens (e.g. iPad landscape 1024x768) */
 @media (min-width: 769px) and (max-width: 1024px) and (max-height: 820px) {
-  .hero-container {
-    gap: 1.25rem;
-    padding-bottom: 1rem;
-  }
   .hero-subtitle {
     margin-bottom: 1rem;
   }
@@ -2409,96 +2489,19 @@
   }
 }
 
-/* ============================================================================
-   HERO BLUE-ZONE EXTENSION  —  MOBILE / TABLET / iPad ONLY
-   ----------------------------------------------------------------------------
-   Grows the hero's TOP (Zone 1) and BOTTOM (Zone 3) blue areas on small
-   screens so the white middle band (Zone 2 — the existing .hero-wave--stack
-   white SVG band) is the only light region; everything above Circle 1 and
-   below Circle 2 becomes the hero blue.
-
-   Mechanism: two feathered blue overlay bands painted on .hero-bg
-   (::before = Zone 1 top, ::after = Zone 3 bottom). They sit at z-index:1 —
-   ABOVE the wave SVG (z-index auto) but BELOW .hero-container (z-index:2), so
-   all text, buttons, social proof and the brain stay fully on top and the
-   brain reads on blue. The inner edge is gradient-feathered, so the blue →
-   white transition is soft, never a hard pixel line.
-
-   BLUE VALUE: #009ff5 — sampled exactly from the hero SVG base rect
-   (Hero.tsx → <rect fill="#009ff5">). No approximation.
-
-   DEVICE SCOPE: every rule below lives inside a media query bounded at
-   max-width:1179px. Nothing here can ever apply at >=1180px (laptops,
-   desktops, large monitors) — that layout is left completely untouched.
-   ========================================================================= */
-
 /* ---- MOBILE PHONES — max-width: 767px ---- */
 @media (max-width: 767px) {
-  .hero-bg::before,
-  .hero-bg::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    z-index: 1;            /* above the wave SVG, below .hero-container (z-index:2) */
-    pointer-events: none;
+  .hero-visual {
+    width: 90%;
+    opacity: 0.95;
+    will-change: transform;
+    backface-visibility: hidden;
   }
-  /* Zone 1 — top blue, extending down to the Circle 1 line (~23% of hero) */
-  .hero-bg::before {
-    top: 0;
-    height: 26%;
-    background: linear-gradient(
-      to bottom,
-      #009ff5 0%,
-      #009ff5 78%,
-      rgba(0, 159, 245, 0) 100%
-    );
-  }
-  /* Zone 3 — bottom blue, extending up to the Circle 2 line (~32% of hero) */
-  .hero-bg::after {
-    bottom: 0;
-    height: 34%;
-    background: linear-gradient(
-      to top,
-      #009ff5 0%,
-      #009ff5 78%,
-      rgba(0, 159, 245, 0) 100%
-    );
-  }
-}
-
-/* ---- TABLETS & iPads (incl. large tablets) — 768px to 1179px ---- */
-@media (min-width: 768px) and (max-width: 1179px) {
-  .hero-bg::before,
-  .hero-bg::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    z-index: 1;            /* above the wave SVG, below .hero-container (z-index:2) */
-    pointer-events: none;
-  }
-  /* Zone 1 — top blue (~20% of hero on tablet proportions) */
-  .hero-bg::before {
-    top: 0;
-    height: 22%;
-    background: linear-gradient(
-      to bottom,
-      #009ff5 0%,
-      #009ff5 80%,
-      rgba(0, 159, 245, 0) 100%
-    );
-  }
-  /* Zone 3 — bottom blue (~32% of hero on tablet proportions) */
-  .hero-bg::after {
-    bottom: 0;
-    height: 32%;
-    background: linear-gradient(
-      to top,
-      #009ff5 0%,
-      #009ff5 80%,
-      rgba(0, 159, 245, 0) 100%
-    );
+  .hero-visual img {
+    max-height: none;
+    image-rendering: high-quality;
+    transform: translateZ(0);
+    backface-visibility: hidden;
   }
 }
 
@@ -3376,11 +3379,10 @@
 }
 
 /* ============================================================================
-   NEST HUB (1024×600) — DESKTOP HERO LAYOUT
+   NEST HUB (1024×600) — 50/50 CONTENT + VISUAL SPLIT
    ----------------------------------------------------------------------------
-   The Nest Hub is 1024px wide, so it normally hits the tablet single-column
-   hero rules. This override at exactly 1024px with short height gives it the
-   same two-column, left-aligned, wide-wave hero layout as Nest Hub Max. */
+   Two-column layout with equal space: content left, visual right. The visual
+   fills its half fully so it reads as prominent as the text — no shrinking. */
 @media (min-width: 1024px) and (max-width: 1024px) and (max-height: 620px) {
   .hero-wave--wide {
     display: block;
@@ -3388,14 +3390,41 @@
   .hero-wave--stack {
     display: none;
   }
+  .hero {
+    justify-content: center;
+  }
   .hero-container {
+    display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
     text-align: left;
     gap: 2rem;
     padding-bottom: 1.5rem;
+    align-items: center;
+    flex: none;
+  }
+  .hero-visual {
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    right: 0 !important;
+    width: 50%;
+    height: 100% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    opacity: 0.95;
+    will-change: transform;
+  }
+  .hero-visual img {
+    max-height: none;
+    width: 95%;
+    object-fit: contain;
   }
   .hero-content {
-    max-width: 520px;
+    max-width: none;
+    display: block;
   }
   .hero-cta {
     justify-content: flex-start;
@@ -3422,6 +3451,134 @@
   .btn-lg {
     width: auto;
     max-width: none;
+  }
+}
+
+/* ============================================================================
+   NEST HUB MAX (1280×800) — VISUAL SPACING FROM SCROLLBAR
+   ----------------------------------------------------------------------------
+   The Nest Hub Max inherits the desktop hero layout (≥1180px) where the visual
+   fills its full column with width:100%. That pushes the books flush against
+   the right scrollbar boundary. This override reins the image back slightly so
+   the gap between the books and the scrollbar matches the clean spacing already
+   used on the Nest Hub (1024×600). */
+@media (min-width: 1280px) and (max-width: 1280px) and (max-height: 820px) {
+  .hero-visual img {
+    width: 95%;
+    max-height: none;
+    object-fit: contain;
+  }
+}
+
+/* ============================================================================
+   768×729 — SHORT TABLET VIEWPORT
+   ----------------------------------------------------------------------------
+   The visual must stay clear of the blue wave bands — sized so it sits within
+   the right portion of the white middle band without stretching into or
+   overlapping the blue zones. Sharp rendering is restored by removing the
+   GPU-compositing hacks that cause blur at non-standard viewports. */
+@media (min-width: 768px) and (max-width: 768px) and (min-height: 729px) and (max-height: 729px) {
+  .hero {
+    padding-top: 50px;
+    justify-content: center;
+  }
+  .hero-container {
+    gap: 0.8rem;
+    padding-bottom: 0.4rem;
+  }
+  .hero-title {
+    font-size: 1.65rem;
+    line-height: 1.12;
+    margin-top: 0;
+    margin-bottom: 0.55rem;
+  }
+  .hero-subtitle {
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    margin-bottom: 0.7rem;
+  }
+  .hero-cta {
+    gap: 0.6rem;
+    margin-bottom: 0.7rem;
+  }
+  .hero-visual {
+    width: 42%;
+    right: 3%;
+    opacity: 1;
+    will-change: auto;
+    backface-visibility: visible;
+  }
+  .hero-visual img {
+    max-height: none;
+    height: auto;
+    object-fit: contain;
+    image-rendering: auto;
+    transform: none;
+    backface-visibility: visible;
+  }
+  .btn-lg {
+    padding: 0.6rem 1.45rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* ============================================================================
+   1024×729 — DESKTOP-WIDE SHORT VIEWPORT
+   ----------------------------------------------------------------------------
+   At 1024px the desktop heading query (min-width:1024px) inflates the title to
+   2.8rem while the tablet visual query stretches the image to 80%. Combined
+   with the short 729px height this hides content past the viewport edge. The
+   visual also overlaps the blue wave bands. Both must be tamed so every piece
+   of the hero is fully visible and the visual renders cleanly. */
+@media (min-width: 1024px) and (max-width: 1024px) and (min-height: 729px) and (max-height: 729px) {
+  .hero {
+    padding-top: 64px;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .hero-container {
+    gap: 0.85rem;
+    padding-bottom: 0.3rem;
+    align-items: center;
+    min-height: 0;
+  }
+  .hero-content {
+    max-width: 460px;
+    width: 100%;
+  }
+  .hero-title {
+    font-size: 1.7rem;
+    line-height: 1.12;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+  .hero-subtitle {
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    margin-bottom: 0.65rem;
+  }
+  .hero-cta {
+    gap: 0.55rem;
+    margin-bottom: 0.65rem;
+  }
+  .hero-visual {
+    width: 40%;
+    right: 3%;
+    opacity: 1;
+    will-change: auto;
+    backface-visibility: visible;
+  }
+  .hero-visual img {
+    max-height: none;
+    height: auto;
+    object-fit: contain;
+    image-rendering: auto;
+    transform: none;
+    backface-visibility: visible;
+  }
+  .btn-lg {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.9rem;
   }
 }
 

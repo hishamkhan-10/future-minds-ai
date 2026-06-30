@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Button from './ui/Button';
+import HeroVisual from './HeroVisual';
 
 const Hero: React.FC = () => {
   // Mobile browsers report 100vh as the *largest* viewport (URL bar hidden), so
@@ -39,8 +40,10 @@ const Hero: React.FC = () => {
           align. viewBox + "slice" keeps every curve scaling smoothly across
           desktop, tablet and mobile. */}
       <div className="hero-bg" aria-hidden="true">
+        {/* Desktop SVG — navy + flat blue / white three-band wave.
+            Active at ≥1180px (laptops, desktops, large monitors). */}
         <svg
-          className="hero-bg-svg"
+          className="hero-bg-svg hero-bg-svg--desktop"
           viewBox="0 0 1440 810"
           preserveAspectRatio="xMidYMid slice"
           xmlns="http://www.w3.org/2000/svg"
@@ -87,6 +90,44 @@ const Hero: React.FC = () => {
                Z"
           />
         </svg>
+
+        {/* Sign-in-style gradient SVG — replaces the desktop wave on all
+            non-desktop devices (≤1179px). Colours, gradients, smoothness and
+            polish match the sign-in / sign-up overlay background exactly.
+            Active via CSS toggle so desktop (≥1180px) is completely untouched. */}
+        <svg
+          className="hero-bg-svg hero-bg-svg--signin"
+          viewBox="0 0 1440 760"
+          preserveAspectRatio="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <linearGradient id="heroBlue" x1="0" y1="0" x2="0.18" y2="1">
+              <stop offset="0" stopColor="#2f93f4" />
+              <stop offset="1" stopColor="#1877e2" />
+            </linearGradient>
+            <linearGradient id="heroWhite" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stopColor="#ffffff" />
+              <stop offset="1" stopColor="#eef3fb" />
+            </linearGradient>
+          </defs>
+
+          {/* Blue field — the base everything sits on. */}
+          <rect x="0" y="0" width="1440" height="760" fill="url(#heroBlue)" />
+
+          {/* White middle band — its top edge is the upper wave; it fills down
+              past the bottom of the viewBox. */}
+          <path
+            fill="url(#heroWhite)"
+            d="M-40,150 C220,120 380,118 560,210 C720,295 870,366 1030,348 C1200,329 1340,300 1480,300 L1480,820 L-40,820 Z"
+          />
+
+          {/* Bottom blue wave — painted back over the white at the foot. */}
+          <path
+            fill="url(#heroBlue)"
+            d="M-40,672 C240,650 480,708 760,708 C1040,708 1260,650 1480,668 L1480,820 L-40,820 Z"
+          />
+        </svg>
       </div>
 
       <div className="container hero-container">
@@ -109,8 +150,9 @@ const Hero: React.FC = () => {
             </Button>
           </div>
         </div>
-
       </div>
+
+      <HeroVisual />
     </section>
   );
 };

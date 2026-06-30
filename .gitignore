@@ -20,6 +20,9 @@ out
 next-env.d.ts
 tsconfig.tsbuildinfo
 
+# Agent / AI
+.commandcode/
+
 # Editor / OS
 .vscode/*
 !.vscode/extensions.json

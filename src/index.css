@@ -42,7 +42,7 @@
   --nav-control-bg: rgba(10, 37, 64, 0.05);
   --nav-control-border: rgba(10, 37, 64, 0.1);
   --nav-control-hover: rgba(10, 37, 64, 0.1);
-  --nav-shadow: 0 12px 32px -12px rgba(10, 37, 64, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  --nav-shadow: 0 12px 32px -12px rgba(10, 37, 64, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.65);
   --nav-drawer-bg: rgba(255, 255, 255, 0.97);
   /* Mobile drawer dividers — soft black so they stay visible on the light
      drawer background (FIX 2). */
@@ -62,10 +62,10 @@
   --radius-xl: 20px;
   --radius-full: 9999px;
 
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 12px -2px rgb(10 37 64 / 0.08);
-  --shadow-lg: 0 12px 24px -4px rgb(10 37 64 / 0.12);
-  --shadow-xl: 0 24px 40px -8px rgb(10 37 64 / 0.16);
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.06);
+  --shadow-md: 0 4px 12px -2px rgb(10 37 64 / 0.10);
+  --shadow-lg: 0 12px 24px -4px rgb(10 37 64 / 0.14);
+  --shadow-xl: 0 24px 40px -8px rgb(10 37 64 / 0.18);
 
   --transition-fast: 150ms ease;
   --transition-base: 250ms ease;
@@ -95,7 +95,7 @@
   --nav-control-bg: rgba(255, 255, 255, 0.07);
   --nav-control-border: rgba(255, 255, 255, 0.16);
   --nav-control-hover: rgba(255, 255, 255, 0.14);
-  --nav-shadow: 0 14px 36px -14px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --nav-shadow: 0 14px 36px -14px rgba(0, 0, 0, 0.72), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   --nav-drawer-bg: rgba(10, 22, 40, 0.97);
   /* Mobile drawer dividers — soft white on the dark drawer background (FIX 2). */
   --drawer-divider-color: rgba(255, 255, 255, 0.12);
@@ -114,6 +114,7 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
