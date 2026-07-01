@@ -298,8 +298,7 @@ const Navbar: React.FC = () => {
                 onClick={handleLinkClick}
                 aria-current={activeSection === link.href.slice(1) ? 'page' : undefined}
               >
-                {link.icon && <span className="nav-link-icon">{link.icon}</span>}
-                {link.label}
+                <span>{link.label}</span>
               </a>
             </li>
           ))}

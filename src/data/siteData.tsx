@@ -91,7 +91,7 @@ export const testimonials: Testimonial[] = [
     role: 'Voice Agent Developer',
     text: 'The voice agents module alone is worth the entire course. I built and deployed a production-ready voice agent for a UK client within two weeks of graduating. No other course in Pakistan teaches this.',
     rating: 5,
-    image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&h=100&fit=crop&crop=face',
+    image: 'https://images.unsplash.com/photo-1612203304476-2ed23c55b5b9?w=100&h=100&fit=crop&crop=face',
     featured: true,
   },
   {
@@ -100,7 +100,7 @@ export const testimonials: Testimonial[] = [
     role: 'WhatsApp Automation Specialist',
     text: 'Zero coding experience when I joined. By week three I had deployed a WhatsApp sales agent handling real conversations. The no-code approach is not a gimmick — it actually works.',
     rating: 5,
-    image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop&crop=face',
+    image: 'https://images.unsplash.com/photo-1518725522904-4b3939358342?w=100&h=100&fit=crop&crop=face',
     featured: false,
   },
   {
@@ -109,7 +109,7 @@ export const testimonials: Testimonial[] = [
     role: 'n8n Workflow Engineer',
     text: 'The n8n automation module paid for itself in one weekend. I automated my entire client onboarding process — CRM updates, calendar booking, email sequences — and started charging retainer fees.',
     rating: 5,
-    image: 'https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=100&h=100&fit=crop&crop=face',
+    image: 'https://images.unsplash.com/photo-1558499932-9609acb6f443?w=100&h=100&fit=crop&crop=face',
     featured: false,
   },
   {
@@ -118,7 +118,7 @@ export const testimonials: Testimonial[] = [
     role: 'AI Solutions Provider',
     text: 'The client hunting weeks changed everything. I landed my first international client before graduation using the outreach system we built in class. The course does not just teach you AI — it teaches you how to earn with it.',
     rating: 5,
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face',
+    image: 'https://images.unsplash.com/photo-1548810020-ea2f1da35cff?w=100&h=100&fit=crop&crop=face',
     featured: true,
   },
 ];

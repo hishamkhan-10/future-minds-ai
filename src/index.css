@@ -96,7 +96,7 @@
   --nav-control-border: rgba(255, 255, 255, 0.16);
   --nav-control-hover: rgba(255, 255, 255, 0.14);
   --nav-shadow: 0 14px 36px -14px rgba(0, 0, 0, 0.72), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  --nav-drawer-bg: rgba(10, 22, 40, 0.97);
+  --nav-drawer-bg: #000000;
   /* Mobile drawer dividers — soft white on the dark drawer background (FIX 2). */
   --drawer-divider-color: rgba(255, 255, 255, 0.12);
   --drawer-header-divider: rgba(255, 255, 255, 0.10);
