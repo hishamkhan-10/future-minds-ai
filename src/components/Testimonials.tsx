@@ -10,15 +10,9 @@ const Testimonials: React.FC = () => {
       <div className="container">
         <SectionHeader
           tag="Testimonials"
-          title="Real people, real outcomes"
-          subtitle="No paid actors. No script. Just students who were willing to share their honest experience."
+          title="From the classroom to international clients"
+          subtitle="Real students. Real builds. Real results that got them paying clients before graduation."
         />
-        <div className="testimonials-highlight">
-          <StarRating rating={5} />
-          <p>
-            <strong>4.7 / 5.0</strong> average rating from <strong>312 verified students</strong>
-          </p>
-        </div>
         <div className="testimonials-grid">
           {testimonials.map((testimonial, index) => (
             <ScrollReveal key={testimonial.id} delay={index * 80}>
@@ -26,7 +20,7 @@ const Testimonials: React.FC = () => {
                 <StarRating rating={testimonial.rating} />
                 <p className="testimonial-text">{testimonial.text}</p>
                 <div className="testimonial-author">
-                  <img src={testimonial.image} alt={testimonial.name} loading="lazy" decoding="async" width="44" height="44" />
+                  <img src={testimonial.image} alt={testimonial.name} loading="lazy" decoding="async" width="36" height="36" />
                   <div className="author-info">
                     <h4>{testimonial.name}</h4>
                     <span>{testimonial.role}</span>

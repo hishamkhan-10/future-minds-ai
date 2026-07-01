@@ -4,7 +4,7 @@ import ScrollReveal from './ui/ScrollReveal';
 import { faqItems } from '../data/siteData';
 
 const FAQ: React.FC = () => {
-  const [openId, setOpenId] = useState<number | null>(1);
+  const [openId, setOpenId] = useState<number | null>(null);
 
   const toggle = (id: number) => {
     setOpenId((prev) => (prev === id ? null : id));

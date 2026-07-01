@@ -499,12 +499,6 @@
   animation: fadeInUp 0.7s ease 0.1s both;
 }
 
-.hero-title em {
-  font-style: normal;
-  color: #0094f4;
-  -webkit-text-fill-color: #0094f4;
-}
-
 /* Forced line breaks in the hero heading. Inert on desktop/laptop (≥1180px):
    the <br> does not render, so the heading wraps exactly as it always has.
    They are switched on only for non-desktop widths in the media query below. */
@@ -542,6 +536,51 @@
 }
 
 /* ============================================
+   HERO HIGHLIGHTS — Compact one-line cards
+   ============================================ */
+.hero-highlights {
+  background: var(--dark);
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.highlights-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.highlight-card {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.9rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  color: var(--text-soft);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+  cursor: default;
+}
+
+.highlight-card:hover {
+  color: var(--primary);
+  border-color: var(--primary-light);
+  background: rgba(30, 91, 184, 0.05);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(30, 91, 184, 0.08);
+}
+
+/* Dark theme: highlight cards use dark navy instead of pure black */
+:root[data-theme='dark'] .highlight-card {
+  background: var(--surface);
+}
+
+/* ============================================
    ABOUT SECTION — Editorial Layout
    ============================================ */
 .about-inner {
@@ -558,6 +597,32 @@
   line-height: 1.3;
   color: var(--text);
   margin-bottom: 1.25rem;
+}
+
+.about-lead {
+  font-weight: 700;
+  color: var(--text) !important;
+  margin-bottom: 1rem;
+}
+
+.about-subheading {
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--primary);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  padding: 0.35rem 0.75rem;
+  background: rgba(30, 91, 184, 0.08);
+  border-radius: var(--radius-sm);
+  display: inline-block;
+}
+
+:root[data-theme='dark'] .about-subheading {
+  color: var(--primary-light);
+  background: rgba(74, 127, 212, 0.16);
 }
 
 .about-story p {
@@ -579,189 +644,618 @@
 
 .about-fact {
   padding: 1.25rem;
-  background: var(--surface-2);
+  background: #F4F8FF;
   border-radius: var(--radius-md);
-  border-left: 3px solid var(--primary);
+  border-left: 3px solid #2D7BEA;
+  transition: all var(--transition-base);
+  cursor: default;
+}
+
+.about-fact:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(45, 123, 234, 0.12);
+  border-left-color: #2D7BEA;
+  background: #EAF2FF;
 }
 
 .about-fact h4 {
   font-family: var(--font-heading);
   font-size: 0.9375rem;
   font-weight: 600;
-  color: var(--text);
+  color: #0B2545;
   margin-bottom: 0.25rem;
 }
 
 .about-fact p {
   font-size: 0.875rem;
-  color: var(--text-soft);
+  color: #5B6B82;
+}
+
+:root[data-theme='dark'] .about-fact {
+  background: #0F1F33;
+  border-left-color: #4A7FD4;
+}
+
+:root[data-theme='dark'] .about-fact h4 {
+  color: #E8EDF3;
+}
+
+:root[data-theme='dark'] .about-fact p {
+  color: #9FB0C3;
+}
+
+:root[data-theme='dark'] .about-fact:hover {
+  background: #16233D;
+  border-left-color: #4A7FD4;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
 }
 
 /* ============================================
-   COURSES SECTION
+   COURSE CURRICULUM
    ============================================ */
-.courses {
+.curriculum {
+  background: var(--bg);
   overflow: hidden;
 }
 
-.courses::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 80% 0%, rgba(30, 91, 184, 0.14) 0%, transparent 55%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.courses .container {
+.curriculum .container {
   position: relative;
   z-index: 1;
 }
 
-.course-filters {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-bottom: 2.5rem;
+.curriculum .section-header {
+  max-width: 720px;
 }
 
-.filter-tab {
-  font-family: var(--font-heading);
-  font-size: 0.875rem;
-  font-weight: 600;
-  padding: 0.5rem 1.25rem;
-  border-radius: var(--radius-full);
-  border: 1px solid var(--dark-lighter);
-  background: transparent;
-  color: var(--gray-light);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.filter-tab:hover {
-  color: var(--white);
-  border-color: var(--primary-light);
-}
-
-.filter-tab.active {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: var(--white);
-}
-
-/* ---- Course carousel ---- */
-.course-carousel {
-  position: relative;
-}
-
-.carousel-viewport {
-  overflow: hidden;
-}
-
-.carousel-track {
-  display: flex;
-  transition: transform 0.5s ease;
-  will-change: transform;
-}
-
-.carousel-track.is-centered {
-  justify-content: center;
-}
-
-.carousel-slide {
-  flex-grow: 0;
-  flex-shrink: 0;
-  padding: 0 0.75rem;
-  box-sizing: border-box;
-  display: flex;
-}
-
-.carousel-slide > * {
-  width: 100%;
-}
-
-/* Equalize card heights within the track */
-.course-carousel .course-card {
-  height: 100%;
-}
-
-.carousel-controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.curriculum-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 1.25rem;
-  margin-top: 2rem;
+  max-width: 960px;
+  margin: 0 auto;
 }
 
-.carousel-arrow {
+.curriculum-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.5rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.curriculum-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--primary);
+  box-shadow: 0 12px 32px -8px rgba(10, 22, 40, 0.18);
+}
+
+/* Dark theme: curriculum cards use dark navy instead of pure black */
+:root[data-theme='dark'] .curriculum-card {
+  background: var(--surface);
+}
+
+.curriculum-weeks {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--primary-light);
+  background: rgba(74, 127, 212, 0.14);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.75rem;
+  align-self: flex-start;
+}
+
+.curriculum-title {
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.625rem;
+  line-height: 1.3;
+}
+
+.curriculum-desc {
+  font-size: 0.875rem;
+  color: var(--text-soft);
+  line-height: 1.65;
+  margin-bottom: 0;
+}
+
+/* Card 5 — last card, sits in column 1 only */
+.curriculum-card--last {
+  grid-column: 1 / 2;
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .curriculum-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .curriculum-card--last {
+    grid-column: auto;
+  }
+
+  .curriculum-card {
+    padding: 1.25rem;
+  }
+
+  .curriculum-title {
+    font-size: 1rem;
+  }
+
+  .curriculum-desc {
+    font-size: 0.8125rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .curriculum .section-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .curriculum-card {
+    padding: 1rem 1.125rem 1.25rem;
+  }
+
+  .curriculum-title {
+    font-size: 0.9375rem;
+  }
+}
+
+/* ============================================
+   WHY THIS COURSE IS DIFFERENT
+   ============================================ */
+.why-different {
+  background: var(--bg);
+}
+
+.why-different .section-header {
+  max-width: 720px;
+}
+
+.why-different-intro {
+  text-align: center;
+  max-width: 680px;
+  margin: -1.5rem auto 2.5rem;
+  font-size: 1.0625rem;
+  color: var(--text-soft);
+  line-height: 1.7;
+}
+
+.advantages-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.advantage-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 1.75rem 2rem;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.advantage-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--primary);
+  box-shadow: 0 12px 28px -8px rgba(10, 22, 40, 0.12);
+}
+
+.advantage-icon {
   width: 44px;
   height: 44px;
-  flex-shrink: 0;
-  border-radius: var(--radius-full);
-  border: 1px solid var(--dark-lighter);
-  background: var(--dark-light);
-  color: var(--white);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
-}
-
-.carousel-arrow:hover {
   background: var(--primary);
-  border-color: var(--primary);
-  transform: translateY(-1px);
-}
-
-.carousel-dots {
+  color: var(--white);
+  border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-bottom: 1rem;
 }
 
-.carousel-dot {
-  width: 8px;
-  height: 8px;
-  padding: 0;
-  border: none;
-  border-radius: var(--radius-full);
-  background: var(--dark-lighter);
-  cursor: pointer;
-  transition: background var(--transition-fast), width var(--transition-fast);
+.advantage-title {
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.3rem;
+  line-height: 1.3;
 }
 
-.carousel-dot:hover {
-  background: var(--gray-light);
+.advantage-short {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--primary);
+  margin-bottom: 0.625rem;
 }
 
-.carousel-dot.active {
-  width: 24px;
-  background: var(--primary-light);
+.advantage-desc {
+  font-size: 0.875rem;
+  color: var(--text-soft);
+  line-height: 1.65;
+  margin-bottom: 0;
 }
 
-.courses-grid {
+/* Instructor section */
+.instructor-section {
+  margin-top: 4rem;
+  margin-bottom: 1.5rem;
+}
+
+.instructor-section .section-header {
+  margin-bottom: 2rem;
+}
+
+.instructor-card {
+  max-width: 800px;
+  margin: 0 auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2rem 2.25rem;
+  transition: transform var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.instructor-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--primary);
+  box-shadow: 0 12px 28px -8px rgba(10, 22, 40, 0.12);
+}
+
+.instructor-role {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--primary-light);
+  background: rgba(74, 127, 212, 0.14);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.875rem;
+}
+
+.instructor-heading {
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.875rem;
+  line-height: 1.35;
+}
+
+.instructor-desc {
+  font-size: 0.9375rem;
+  color: var(--text-soft);
+  line-height: 1.75;
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .advantages-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .advantage-card {
+    padding: 1.25rem;
+  }
+
+  .advantage-title {
+    font-size: 1rem;
+  }
+
+  .instructor-card {
+    padding: 1.5rem;
+  }
+
+  .instructor-heading {
+    font-size: 1rem;
+  }
+
+  .instructor-desc {
+    font-size: 0.875rem;
+  }
+
+  .why-different-intro {
+    font-size: 0.9375rem;
+    margin-bottom: 1.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .instructor-section {
+    margin-top: 3rem;
+  }
+
+  .advantage-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .advantage-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Highlights row inside why-different — matches hero-highlights style */
+.why-highlights {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  padding: 1rem var(--container-padding);
+  background: var(--dark);
+  border-bottom: 1px solid var(--border);
+  box-sizing: border-box;
+}
+
+.why-highlights .highlights-row {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  gap: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .why-highlights {
+    padding: 0.75rem var(--container-padding);
+  }
+
+  .why-highlights .highlights-row {
+    gap: 0.5rem;
+  }
+}
+
+/* ============================================
+   OUTCOMES & LOGISTICS
+   ============================================ */
+.outcomes .section-header {
+  max-width: 720px;
+}
+
+.outcomes-intro {
+  text-align: center;
+  max-width: 680px;
+  margin: -1.5rem auto 2.5rem;
+  font-size: 1.0625rem;
+  color: var(--text-soft);
+  line-height: 1.7;
+}
+
+.outcomes-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  gap: 1.25rem;
+  max-width: 960px;
+  margin: 0 auto;
 }
 
-.course-card {
-  position: relative;
-  background: var(--dark-light);
-  border: 1px solid var(--dark-lighter);
+.outcome-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  overflow: hidden;
-  transition: all var(--transition-base);
+  padding: 1.5rem 1.5rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.outcome-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--primary);
+  box-shadow: 0 12px 28px -8px rgba(10, 22, 40, 0.12);
+}
+
+.outcome-title {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.outcome-desc {
+  font-size: 0.85rem;
+  color: var(--text-soft);
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+/* Logistics */
+.logistics-section {
+  margin-top: 4.5rem;
+}
+
+.logistics-section .section-header {
+  margin-bottom: 0.5rem;
+}
+
+.logistics-intro {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 2.5rem;
+  font-size: 0.9375rem;
+  color: var(--text-soft);
+  line-height: 1.7;
+}
+
+.logistics-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.logistics-column {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  transition: transform var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.logistics-column:hover {
+  transform: translateY(-3px);
+  border-color: var(--primary);
+  box-shadow: 0 12px 28px -8px rgba(10, 22, 40, 0.12);
+}
+
+.logistics-heading {
+  font-family: var(--font-heading);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.625rem;
+  border-bottom: 2px solid var(--primary);
+}
+
+.rules-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.rules-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  font-size: 0.875rem;
+  color: var(--text-soft);
+  line-height: 1.55;
+}
+
+.rules-icon {
+  flex-shrink: 0;
+  color: var(--primary);
+  margin-top: 3px;
+}
+
+.cohort-list {
   display: flex;
   flex-direction: column;
 }
 
+.cohort-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.625rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.cohort-row:last-child {
+  border-bottom: none;
+}
+
+.cohort-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.cohort-value {
+  font-size: 0.875rem;
+  color: var(--text-soft);
+  text-align: right;
+}
+
+@media (max-width: 768px) {
+  .outcomes-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .outcome-card {
+    padding: 1.25rem;
+  }
+
+  .outcome-title {
+    font-size: 0.9375rem;
+  }
+
+  .outcome-desc {
+    font-size: 0.8125rem;
+  }
+
+  .logistics-layout {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .logistics-section {
+    margin-top: 3rem;
+  }
+
+  .logistics-column {
+    padding: 1.25rem;
+  }
+
+  .outcomes-intro {
+    font-size: 0.9375rem;
+    margin-bottom: 1.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .outcomes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cohort-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+  }
+
+  .cohort-value {
+    text-align: left;
+  }
+}
+
+/* ============================================
+   TESTIMONIALS SECTION
+   ============================================ */
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.testimonial-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  transition: all var(--transition-base);
+}
+
+.testimonial-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: transparent;
+}
+
 /* Animated top accent line on card hover */
-.course-card::after,
-.testimonial-card::after,
-.why-item::after {
+.testimonial-card::after {
   content: '';
   position: absolute;
   top: 0;
@@ -775,312 +1269,8 @@
   z-index: 3;
 }
 
-.course-card:hover::after,
-.testimonial-card:hover::after,
-.why-item:hover::after {
+.testimonial-card:hover::after {
   transform: scaleX(1);
-}
-
-.course-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--primary);
-  box-shadow: 0 12px 28px rgba(10, 22, 40, 0.35);
-}
-
-.course-image {
-  position: relative;
-  height: 160px;
-  overflow: hidden;
-  background: var(--dark);
-}
-
-.course-badge {
-  position: absolute;
-  top: 0.875rem;
-  left: 0.875rem;
-  background: var(--primary);
-  color: var(--white);
-  font-size: 0.6875rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  padding: 0.3rem 0.6rem;
-  border-radius: var(--radius-sm);
-  z-index: 2;
-}
-
-.course-img-placeholder {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-/* Subtle dot-grid texture over the gradient */
-.course-img-placeholder::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
-  background-size: 16px 16px;
-  mask-image: radial-gradient(ellipse at 30% 30%, #000 0%, transparent 75%);
-  -webkit-mask-image: radial-gradient(ellipse at 30% 30%, #000 0%, transparent 75%);
-}
-
-/* Depth fade toward the content below */
-.course-img-placeholder::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 55%, rgba(10, 22, 40, 0.35) 100%);
-}
-
-.course-content {
-  padding: 1.25rem;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.course-content h3 {
-  font-family: var(--font-heading);
-  font-size: 1.0625rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: var(--white);
-}
-
-.course-content p {
-  font-size: 0.875rem;
-  color: var(--gray-light);
-  line-height: 1.6;
-  margin-bottom: 1rem;
-}
-
-.course-meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-  font-size: 0.8125rem;
-}
-
-.duration {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  color: var(--gray-light);
-}
-
-.level {
-  color: var(--primary-light);
-  font-weight: 500;
-}
-
-.course-instructor {
-  font-size: 0.8125rem;
-  color: var(--gray-light);
-  margin-bottom: 0.75rem;
-}
-
-.course-instructor strong {
-  color: rgba(255, 255, 255, 0.85);
-  font-weight: 500;
-}
-
-.course-price-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: auto;
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--dark-lighter);
-}
-
-.course-price {
-  font-family: var(--font-heading);
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: var(--white);
-}
-
-.course-price span {
-  font-size: 0.75rem;
-  font-weight: 400;
-  color: var(--gray-light);
-  text-decoration: line-through;
-  margin-left: 0.35rem;
-}
-
-.course-next {
-  font-size: 0.75rem;
-  color: var(--accent-light);
-  margin-bottom: 0.75rem;
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-}
-
-/* ============================================
-   WHY CHOOSE US — Feature List
-   ============================================ */
-.why-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.why-item {
-  position: relative;
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 1.25rem;
-  padding: 1.5rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  transition: all var(--transition-base);
-}
-
-.why-item:hover {
-  border-color: var(--primary);
-  box-shadow: var(--shadow-md);
-}
-
-.why-icon {
-  width: 44px;
-  height: 44px;
-  background: var(--primary);
-  color: var(--white);
-  border-radius: var(--radius-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.why-item h3 {
-  font-family: var(--font-heading);
-  font-size: 1.0625rem;
-  font-weight: 600;
-  margin-bottom: 0.35rem;
-  color: var(--text);
-}
-
-.why-item p {
-  font-size: 0.9375rem;
-  color: var(--text-soft);
-  line-height: 1.65;
-}
-
-/* ============================================
-   STATS SECTION — Editorial Bar
-   ============================================ */
-.stats {
-  padding: 4rem 0;
-  background: var(--dark);
-  color: var(--white);
-}
-
-.stats-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-
-.stat-block {
-  flex: 1;
-  min-width: 200px;
-}
-
-.stat-block:not(:last-child) {
-  padding-right: 2rem;
-  border-right: 1px solid var(--dark-lighter);
-}
-
-.stat-number {
-  font-family: var(--font-heading);
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 800;
-  color: var(--white);
-  line-height: 1;
-  display: inline;
-}
-
-.stat-suffix {
-  font-family: var(--font-heading);
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  font-weight: 700;
-  color: var(--primary-light);
-  display: inline;
-}
-
-.stat-label {
-  margin-top: 0.5rem;
-  font-size: 0.9375rem;
-  color: var(--gray-light);
-  font-weight: 400;
-}
-
-/* ============================================
-   TESTIMONIALS SECTION
-   ============================================ */
-.testimonials-highlight {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.875rem;
-  flex-wrap: wrap;
-  margin: -1.5rem auto 2.5rem;
-  padding: 0.875rem 1.5rem;
-  max-width: fit-content;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-full);
-  box-shadow: var(--shadow-sm);
-}
-
-.testimonials-highlight .testimonial-stars {
-  margin-bottom: 0;
-}
-
-.testimonials-highlight p {
-  font-size: 0.9375rem;
-  color: var(--text-soft);
-}
-
-.testimonials-highlight strong {
-  color: var(--text);
-  font-weight: 600;
-}
-
-.testimonials-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-}
-
-.testimonial-card {
-  position: relative;
-  overflow: hidden;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 1.75rem;
-  transition: all var(--transition-base);
-}
-
-.testimonial-card:hover {
-  box-shadow: var(--shadow-md);
-  border-color: transparent;
 }
 
 .testimonial-card.featured {
@@ -1089,40 +1279,40 @@
 
 .testimonial-stars {
   color: var(--warning);
-  font-size: 1rem;
-  margin-bottom: 0.875rem;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
   letter-spacing: 1px;
 }
 
 .testimonial-text {
-  font-size: 0.9375rem;
-  line-height: 1.7;
+  font-size: 0.85rem;
+  line-height: 1.6;
   color: var(--text);
-  margin-bottom: 1.25rem;
+  margin-bottom: 0.75rem;
 }
 
 .testimonial-author {
   display: flex;
   align-items: center;
-  gap: 0.875rem;
+  gap: 0.75rem;
 }
 
 .testimonial-author img {
-  width: 44px;
-  height: 44px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   object-fit: cover;
 }
 
 .author-info h4 {
   font-family: var(--font-heading);
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   font-weight: 600;
   color: var(--text);
 }
 
 .author-info span {
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   color: var(--text-soft);
 }
 
@@ -1131,7 +1321,7 @@
    ============================================ */
 .cta-banner {
   background: var(--primary);
-  padding: 4.5rem 0;
+  padding: 2.5rem 0;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -1174,17 +1364,7 @@
   display: flex;
   gap: 1rem;
   justify-content: center;
-  margin-bottom: 1.25rem;
   flex-wrap: wrap;
-}
-
-.cta-guarantee {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.8);
 }
 
 /* ============================================
@@ -1630,18 +1810,6 @@
   .about-inner {
     grid-template-columns: 1fr;
     gap: 2.5rem;
-  }
-  .courses-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .stats-inner {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-  }
-  .stat-block:not(:last-child) {
-    padding-right: 0;
-    border-right: none;
   }
   .contact-wrapper {
     grid-template-columns: 1fr;
@@ -2193,6 +2361,9 @@
    Content sits in the top grid row, visual in the bottom row.
    Typography and spacing tuned for the single-column 50/50 split. */
 @media (min-width: 768px) and (max-width: 1024px) {
+  .hero {
+    padding-top: 96px;
+  }
   .hero-visual {
     width: 80%;
     opacity: 0.95;
@@ -2209,6 +2380,7 @@
   .hero-title {
     font-size: 2rem;
     margin-bottom: 1rem;
+    margin-top: 0.75rem;
   }
   .hero-subtitle {
     margin-bottom: 1.25rem;
@@ -2306,12 +2478,8 @@
   .hero-container {
     gap: 1.75rem;
   }
-  .courses-grid,
   .testimonials-grid {
     grid-template-columns: 1fr;
-  }
-  .stats-inner {
-    grid-template-columns: 1fr 1fr;
   }
   .footer-grid {
     grid-template-columns: 1fr;
@@ -2352,20 +2520,9 @@
   .section-title {
     font-size: 1.5rem;
   }
-  .why-item,
   .testimonial-card,
   .contact-form {
     padding: 1.25rem;
-  }
-  .stats-inner {
-    grid-template-columns: 1fr;
-  }
-  .why-item {
-    grid-template-columns: 1fr;
-    gap: 0.875rem;
-  }
-  .testimonials-highlight {
-    margin-top: 0;
   }
 }
 
@@ -2413,9 +2570,6 @@
   }
   .nav-logo span {
     font-size: 1.05rem;
-  }
-  .stat-number {
-    font-size: 1.85rem;
   }
 }
 
@@ -2509,51 +2663,40 @@
    Scoped entirely to widths below the 1180px desktop breakpoint, so desktop
    and laptop layouts are completely untouched. The two <br class="hero-break">
    in Hero.tsx force the exact structure:
-     Line 1: We teach working
-     Line 2: professionals AI that
-     Line 3: delivers real results.   (the highlighted <em>) */
+     Line 1: Don't Watch AI
+     Line 2: Take Over – Get
+     Line 3: Paid to Build It. */
 @media (max-width: 1179px) {
   .hero-break {
     display: block;
   }
-  /* Keep each forced line intact: never break a word, never auto-hyphenate. */
   .hero-title {
     word-break: keep-all;
     overflow-wrap: normal;
     hyphens: none;
   }
-  /* Line 3 ("delivers real results.") must stay whole on its own line and
-     never spill onto a 4th line. It already starts on a new line via the
-     preceding <br>; nowrap guarantees the phrase itself does not wrap. */
-  .hero-title em {
-    white-space: nowrap;
+}
 
-    /* CONTRAST FIX (non-desktop only): line 3 is blue (#0094f4) and on
-       shorter viewports it can land on the blue overlay zone (.hero-bg::before),
-       where blue-on-blue becomes invisible. A white halo behind the glyphs
-       solves this for every width WITHOUT moving any layout:
-         • over the blue zone  → the white halo gives the blue text contrast
-         • over the white wave → the white halo is invisible, so the blue
-                                  text reads cleanly exactly as the reference shows.
-       The text-fill colour itself stays blue (#0094f4) — untouched. */
-    position: relative;
-    z-index: 2;
-    text-shadow:
-      0 0 20px rgba(255, 255, 255, 0.95),
-      0 0 40px rgba(255, 255, 255, 0.85),
-      0 2px 8px rgba(255, 255, 255, 0.90),
-      -1px 0 0 rgba(255, 255, 255, 0.70),
-       1px 0 0 rgba(255, 255, 255, 0.70),
-       0 -1px 0 rgba(255, 255, 255, 0.70),
-       0  1px 0 rgba(255, 255, 255, 0.70);
+/* ── Hero highlights: tablet / mobile — allow wrapping, reduce gaps,
+      keep pill shape but adapt to narrower screens ── */
+@media (max-width: 768px) {
+  .hero-highlights {
+    padding: 0.75rem 0;
+  }
+  .highlights-row {
+    gap: 0.5rem;
+  }
+  .highlight-card {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.75rem;
   }
 }
 
-/* Smallest phones (≤340px, e.g. 320px iPhone SE): trim the heading a touch so
-   the nowrap "delivers real results." line always fits without overflow. */
+/* Smallest phones (≤340px, e.g. 320px iPhone SE): trim the heading so
+   the 3-line headline always fits without overflow. */
 @media (max-width: 340px) {
   .hero-title {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     letter-spacing: -0.025em;
   }
   /* Narrow drawer: shrink the brand name so the fixed pinned logo group
@@ -2568,9 +2711,9 @@
    Here we switch the same forced 3-line split used on smaller screens ON for
    desktop, and trim the font size so the heading reads polished and balanced
    rather than dominant. The two <br class="hero-break"> in Hero.tsx force:
-     Line 1: We teach working
-     Line 2: professionals AI that
-     Line 3: delivers real results.   (the highlighted <em>, blue — left untouched)
+     Line 1: Don't Watch AI
+     Line 2: Take Over – Get
+     Line 3: Paid to Build It.
    Strictly scoped to >=1024px: no mobile (<768px) or tablet (768–1023px) styles,
    font sizes, line breaks, or any other element are affected. */
 @media (min-width: 1024px) {
@@ -2578,19 +2721,14 @@
     display: block;
   }
   .hero-content {
-    max-width: 620px;
+    max-width: 680px;
   }
   .hero-title {
     font-size: clamp(2.8rem, 3.2vw, 3.5rem);
     line-height: 1.15;
-    /* Keep each forced line intact: never break a word, never auto-hyphenate. */
     word-break: keep-all;
     overflow-wrap: normal;
     hyphens: none;
-  }
-  /* "delivers real results." stays whole on its own line — colour/fill untouched. */
-  .hero-title em {
-    white-space: nowrap;
   }
 }
 
@@ -2878,6 +3016,80 @@
   width: 100%;
   height: 100%;
   display: block;
+}
+
+:root[data-theme='dark'] .signin-card {
+  background: #071A33;
+  border-color: #1E4F8F;
+  box-shadow: 0 24px 40px -8px rgba(0, 54, 120, 0.28);
+}
+
+:root[data-theme='dark'] .signin-title {
+  color: #FFFFFF;
+}
+
+:root[data-theme='dark'] .signin-subtitle {
+  color: #C7D7EA;
+}
+
+:root[data-theme='dark'] .signin-group label {
+  color: #C7D7EA;
+}
+
+:root[data-theme='dark'] .signin-field input {
+  background: #102A47;
+  border-color: #2D7BEA;
+  color: #FFFFFF;
+}
+
+:root[data-theme='dark'] .signin-field input::placeholder {
+  color: #C7D7EA;
+  opacity: 0.5;
+}
+
+:root[data-theme='dark'] .signin-field input:focus {
+  border-color: #2D7BEA;
+  box-shadow: 0 0 0 3px rgba(45, 123, 234, 0.15);
+}
+
+:root[data-theme='dark'] .signin-field-icon {
+  color: #C7D7EA;
+}
+
+:root[data-theme='dark'] .signin-password-toggle {
+  color: #C7D7EA;
+}
+
+:root[data-theme='dark'] .signin-password-toggle:hover {
+  color: #FFFFFF;
+}
+
+:root[data-theme='dark'] .signin-card .btn-primary {
+  background: #2D7BEA;
+}
+
+:root[data-theme='dark'] .signin-card .btn-primary:hover {
+  background: #1F66D1;
+}
+
+:root[data-theme='dark'] .signin-remember {
+  color: #C7D7EA;
+}
+
+:root[data-theme='dark'] .signin-passkey {
+  color: #C7D7EA;
+}
+
+:root[data-theme='dark'] .signin-passkey:hover {
+  color: #2D7BEA;
+}
+
+:root[data-theme='dark'] .signin-footer {
+  color: #C7D7EA;
+}
+
+:root[data-theme='dark'] .signin-footer a {
+  color: #2D7BEA;
 }
 
 /* ── Back button — fixed to the overlay's top-left (not the card) ───────────
@@ -3445,9 +3657,6 @@
     overflow-wrap: normal;
     hyphens: none;
   }
-  .hero-title em {
-    white-space: nowrap;
-  }
   .btn-lg {
     width: auto;
     max-width: none;
@@ -3485,6 +3694,9 @@
   .hero-container {
     gap: 0.8rem;
     padding-bottom: 0.4rem;
+  }
+  .hero-content {
+    margin-top: 1.25rem;
   }
   .hero-title {
     font-size: 1.65rem;
@@ -3543,7 +3755,8 @@
     min-height: 0;
   }
   .hero-content {
-    max-width: 460px;
+    margin-top: 1.25rem;
+    max-width: 520px;
     width: 100%;
   }
   .hero-title {

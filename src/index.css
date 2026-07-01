@@ -79,9 +79,9 @@
 
 /* Dark theme — flips the adaptive surfaces only */
 :root[data-theme='dark'] {
-  --bg: #0A1628;
+  --bg: #000000;
   --surface: #0F1F33;
-  --surface-2: #0A2540;
+  --surface-2: #000000;
   --text: #E8EDF3;
   --text-soft: #9FB0C3;
   --border: #1E3148;
@@ -155,7 +155,7 @@ button {
 
 /* Section Base */
 .section {
-  padding: 5rem 0;
+  padding: 3.5rem 0;
   position: relative;
 }
 
@@ -292,6 +292,6 @@ textarea:focus-visible {
     --container-padding: 1rem;
   }
   .section {
-    padding: 3.5rem 0;
+    padding: 2.5rem 0;
   }
 }

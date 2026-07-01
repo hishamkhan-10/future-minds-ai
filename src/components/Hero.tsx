@@ -133,13 +133,12 @@ const Hero: React.FC = () => {
       <div className="container hero-container">
         <div className="hero-content">
           <h1 className="hero-title">
-            We teach working<br className="hero-break" />
-            professionals AI that<br className="hero-break" />
-            <em>delivers real results.</em>
+            Don&rsquo;t Watch AI<br className="hero-break" />
+            Take Over &ndash; Get<br className="hero-break" />
+            Paid to Build It.
           </h1>
           <p className="hero-subtitle">
-            No computer science degree needed. Just practical, hands-on AI and ML training
-            built by people who actually work in the field. Based in Karachi. Serving students worldwide.
+            Lahore&rsquo;s Most Practical Hands-On AI Courses in Lahore. Master AI Chat, Voice, Web &amp; WhatsApp Agents in just 10 weeks — no coding required. The skill businesses across the US, UK, and UAE are paying $500–$2,000 per month for. Claim Your Seat Before It&rsquo;s Gone.
           </p>
           <div className="hero-cta">
             <Button variant="primary" size="lg" href="#contact">

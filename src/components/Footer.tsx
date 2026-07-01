@@ -59,7 +59,7 @@ const Footer: React.FC = () => {
               <img src="assets/FMA%20LOGO.svg" alt="Future Minds AI Training Logo" />
               <span>Future Minds AI</span>
             </a>
-            <p>Practical AI training for working professionals. No fluff, no degree gatekeeping, no subscription traps.</p>
+            <p>Hands-on AI agent training in Lahore. Build for international clients from week one. No coding required.</p>
             <div className="social-links">
               {socialLinks.map((social) => (
                 <a key={social.label} href={social.href || '#'} aria-label={social.label} onClick={!social.href ? (e) => e.preventDefault() : undefined}>

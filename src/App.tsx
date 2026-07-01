@@ -2,10 +2,11 @@
 import React from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import HeroHighlights from './components/HeroHighlights';
 import About from './components/About';
-import Courses from './components/Courses';
-import WhyChooseUs from './components/WhyChooseUs';
-import Stats from './components/Stats';
+import CourseCurriculum from './components/CourseCurriculum';
+import WhyThisCourseIsDifferent from './components/WhyThisCourseIsDifferent';
+import OutcomesAndLogistics from './components/OutcomesAndLogistics';
 import Testimonials from './components/Testimonials';
 import CTABanner from './components/CTABanner';
 import FAQ from './components/FAQ';
@@ -18,14 +19,15 @@ const App: React.FC = () => {
       <Navbar />
       <main>
         <Hero />
+        <HeroHighlights />
         <About />
-        <Courses />
-        <WhyChooseUs />
-        <Stats />
+        <WhyThisCourseIsDifferent />
+        <CourseCurriculum />
+        <OutcomesAndLogistics />
         <Testimonials />
-        <CTABanner />
         <FAQ />
         <Contact />
+        <CTABanner />
       </main>
       <Footer />
     </>
