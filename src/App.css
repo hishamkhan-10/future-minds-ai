@@ -555,6 +555,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
   gap: 0.75rem;
 }
 
@@ -562,10 +563,10 @@
   display: inline-flex;
   align-items: center;
   padding: 0.45rem 0.9rem;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
+  background: #000;
+  border: 1px solid #000;
   border-radius: var(--radius-full);
-  color: var(--text-soft);
+  color: #fff;
   font-family: var(--font-body);
   font-size: 0.8rem;
   font-weight: 500;
@@ -575,16 +576,9 @@
 }
 
 .highlight-card:hover {
-  color: var(--primary);
-  border-color: var(--primary-light);
-  background: rgba(30, 91, 184, 0.05);
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(30, 91, 184, 0.08);
-}
-
-/* Dark theme: highlight cards use dark navy instead of pure black */
-:root[data-theme='dark'] .highlight-card {
-  background: var(--surface);
+  transform: scale(1.06);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
 }
 
 /* ============================================
@@ -2403,37 +2397,18 @@
     position: relative;
     transition: background 0.25s ease, padding-left 0.25s ease, color 0.25s ease;
   }
-  /* The desktop animated underline isn't wanted in the drawer */
-  .nav-menu > li > .nav-link::after {
-    display: none;
+  .nav-menu > li > .nav-link .nav-arrow {
+    flex-shrink: 0;
+    margin-left: auto;
+    opacity: 0.5;
+    display: inline-flex;
+    align-items: center;
   }
-  /* Accent bar on the left edge for active and hover states */
-  .nav-menu > li > .nav-link::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 6px;
-    bottom: 6px;
-    width: 3px;
-    border-radius: 0 3px 3px 0;
-    background: transparent;
-    transition: background 0.3s ease, top 0.3s ease, bottom 0.3s ease;
-  }
-  .nav-menu > li > .nav-link:hover::before {
-    background: var(--primary-light);
-    opacity: 0.4;
-    top: 10px;
-    bottom: 10px;
-  }
-  .nav-menu > li > .nav-link.active::before {
-    background: var(--primary-light);
-    opacity: 1;
-    top: 6px;
-    bottom: 6px;
+  .nav-menu > li > .nav-link:hover .nav-arrow {
+    opacity: 0.8;
   }
   .nav-menu > li > .nav-link:hover {
     background: rgba(255, 255, 255, 0.07);
-    padding-left: 36px;        /* slight nudge on hover */
     color: var(--nav-text);
   }
   .nav-menu > li > .nav-link.active {
@@ -2591,6 +2566,9 @@
     flex-shrink: 0;
   }
   .nav-link-icon {
+    display: none;
+  }
+  .nav-arrow {
     display: none;
   }
 
@@ -2830,6 +2808,7 @@
   }
   .highlights-row {
     gap: 0.5rem;
+    justify-content: center;
   }
   .highlight-card {
     font-size: 0.75rem;
@@ -3096,14 +3075,15 @@
   .nav-menu > li > .nav-link .nav-arrow {
     flex-shrink: 0;
     margin-left: auto;
-    opacity: 0.45;
+    opacity: 0.5;
+    display: inline-flex;
+    align-items: center;
   }
-  .nav-menu > li > .nav-link::after {
-    display: none;
+  .nav-menu > li > .nav-link:hover .nav-arrow {
+    opacity: 0.8;
   }
   .nav-menu > li > .nav-link:hover {
     background: rgba(255, 255, 255, 0.07);
-    padding-left: 32px;
     color: var(--nav-text);
   }
   .nav-menu > li > .nav-link.active {

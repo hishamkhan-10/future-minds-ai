@@ -299,6 +299,12 @@ const Navbar: React.FC = () => {
                 aria-current={activeSection === link.href.slice(1) ? 'page' : undefined}
               >
                 <span>{link.label}</span>
+                <span className="nav-arrow" aria-hidden="true">
+                  <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="2" y1="5" x2="12" y2="5" />
+                    <polyline points="9,2 13,5 9,8" />
+                  </svg>
+                </span>
               </a>
             </li>
           ))}

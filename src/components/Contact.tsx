@@ -89,7 +89,7 @@ const Contact: React.FC = () => {
         <SectionHeader
           tag="Contact"
           title="Questions? We actually reply."
-          subtitle="Usually within 6 hours. Sometimes faster if Ahmad is procrastinating on his own work."
+          subtitle="Our team usually replies within 6 hours during normal business hours."
         />
         <div className="contact-wrapper">
           <ScrollReveal>

@@ -8,7 +8,6 @@ import CourseCurriculum from './components/CourseCurriculum';
 import WhyThisCourseIsDifferent from './components/WhyThisCourseIsDifferent';
 import OutcomesAndLogistics from './components/OutcomesAndLogistics';
 import Testimonials from './components/Testimonials';
-import CTABanner from './components/CTABanner';
 import FAQ from './components/FAQ';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
@@ -27,7 +26,6 @@ const App: React.FC = () => {
         <Testimonials />
         <FAQ />
         <Contact />
-        <CTABanner />
       </main>
       <Footer />
     </>

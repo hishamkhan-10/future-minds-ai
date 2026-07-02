@@ -245,37 +245,37 @@ export const contactInfo = [
 export const faqItems: FAQItem[] = [
   {
     id: 1,
-    question: 'Do I need to know coding to join?',
-    answer: 'No. This course is built for complete beginners. There is no coding, no setup, and no technical prerequisite. You will build and deploy real AI agents by week three using no-code platforms. If you can use a computer, you can complete this course.',
+    question: 'Do I need any coding experience?',
+    answer: 'Not at all — this course was built for complete beginners. No coding, no setup, no technical background needed. You will build and deploy real AI agents by week three using no-code tools. If you can use a computer, you are ready.',
   },
   {
     id: 2,
-    question: 'Where and when are classes held?',
-    answer: 'Classes are held physically in Lahore. The course runs for 8 weeks with two sessions per week, each lasting 2 hours. You should also expect 6 to 8 hours of self-practice per week outside class. The next cohort starts in June 2026. All instruction is in English.',
+    question: 'Where do the classes take place, and what does the schedule look like?',
+    answer: 'Classes are held in-person in Lahore. The course runs 8 weeks with two 2-hour sessions per week, plus about 6 to 8 hours of self-practice. The next cohort starts June 2026, and all instruction is in English.',
   },
   {
     id: 3,
-    question: 'What will I actually build and leave with?',
-    answer: 'By graduation, you will have a working sales agent that handles lead qualification and calendar booking, a working support agent connected to a knowledge base, two production-ready n8n automations with real integrations, a qualified prospect list of 200 leads with over 50 outreach messages already sent, and a portfolio website showcasing your builds that is ready to share with clients.',
+    question: 'What will I have built by the end of the course?',
+    answer: 'You will graduate with a working sales agent, a support agent connected to a knowledge base, two production-ready n8n automations, a list of 200 qualified leads with 50+ messages sent, and a portfolio website ready to share with clients.',
   },
   {
     id: 4,
-    question: 'Who teaches this course?',
-    answer: 'Your instructor is an active AI agency owner with real international clients in the US, UK, and UAE. He does not teach from textbooks. Every lesson, tool, and strategy comes directly from active client projects. When the market shifts, the curriculum shifts with it because your instructor is inside the industry, not watching from the outside.',
+    question: 'Who is the instructor?',
+    answer: 'You will learn from an active AI agency owner with real clients in the US, UK, and UAE. Every lesson comes straight from live projects — no textbooks. When the market shifts, the curriculum shifts with it, because your instructor works in the industry every day.',
   },
   {
     id: 5,
-    question: 'What are the attendance and homework rules?',
-    answer: 'You need 80% attendance minimum to receive your certificate. Homework must be submitted before the next class — late submissions are not accepted. A laptop with at least 8GB RAM (Windows or Mac) is required every session. Phones stay face-down during class with breaks every 50 minutes.',
+    question: 'What are the attendance and homework expectations?',
+    answer: 'You need 80% attendance to earn your certificate. Homework is due before each class — late work is not accepted. Bring a laptop with at least 8GB RAM (Windows or Mac). Phones stay face-down during class, with breaks every 50 minutes.',
   },
   {
     id: 6,
-    question: 'What is the cohort size and refund policy?',
-    answer: 'Cohorts are kept small — 20 to 40 students maximum — so every student gets real attention. The instructor team includes a Lead Instructor, a Teaching Assistant, and the Founder. A 50% refund is available within the first 7 days. No refunds are issued after that.',
+    question: 'How many students are in each cohort, and what if I need a refund?',
+    answer: 'We keep cohorts small — 20 to 40 students — so everyone gets real attention. Our team includes a Lead Instructor, a Teaching Assistant, and the Founder. If the course is not for you, a 50% refund is available within the first week.',
   },
   {
     id: 7,
-    question: 'How is this course different from other AI courses in Pakistan?',
-    answer: 'Four things make this course unique. First, it is built for international clients — everything points toward US, UK, and UAE clients paying $500 to $2,000 per month per agent. Second, it is taught by an active agency owner, not a trainer who learned AI last year. Third, no coding is required — complete beginners build agents from week three. Fourth, it is the only course in Pakistan that teaches voice agents at depth, which is the highest-paying AI skill in the market today.',
+    question: 'What makes this different from other AI courses in Pakistan?',
+    answer: 'Four things set this course apart. It is built for international clients paying $500 to $2,000 per agent each month. It is taught by a working agency owner, not a trainer. No coding is required — you start building agents from week three. And it is the only course in Pakistan that teaches voice agents in depth, currently the highest-paying AI skill.',
   },
 ];
