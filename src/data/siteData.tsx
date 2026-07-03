@@ -1,4 +1,4 @@
-import type { Course, Testimonial, Stat, WhyUsItem, NavLink, FooterLinkGroup, FAQItem } from '../types';
+import type { Testimonial, NavLink, FooterLinkGroup, FAQItem } from '../types';
 
 export const navLinks: NavLink[] = [
   { label: 'About', href: '#about', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg> },
@@ -7,81 +7,6 @@ export const navLinks: NavLink[] = [
   { label: 'Testimonials', href: '#testimonials', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> },
   { label: 'FAQ', href: '#faq', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg> },
   { label: 'Contact', href: '#contact', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> },
-];
-
-export const courses: Course[] = [
-  {
-    id: 1,
-    title: 'Introduction to AI',
-    description: 'No jargon, no fluff. Understand how AI actually works, what it can and cannot do, and where it fits in your industry.',
-    duration: '6 Weeks',
-    level: 'Beginner',
-    gradient: 'linear-gradient(135deg, #1E5BB8 0%, #164494 100%)',
-    price: 299,
-    originalPrice: 499,
-    instructor: 'Ahmad Raza',
-    nextStart: 'June 15, 2026',
-  },
-  {
-    id: 2,
-    title: 'Machine Learning Basics',
-    description: 'Build your first models from scratch. Learn regression, classification, and clustering with hands-on Python projects.',
-    duration: '8 Weeks',
-    level: 'Beginner',
-    gradient: 'linear-gradient(135deg, #0A2540 0%, #1A2D44 100%)',
-    price: 399,
-    originalPrice: 649,
-    instructor: 'Sana Malik',
-    nextStart: 'June 22, 2026',
-  },
-  {
-    id: 3,
-    title: 'Deep Learning Fundamentals',
-    description: 'Neural networks demystified. Build CNNs and RNNs using PyTorch. Designed for engineers who want to go deeper.',
-    duration: '10 Weeks',
-    level: 'Intermediate',
-    gradient: 'linear-gradient(135deg, #1A2D44 0%, #0A2540 100%)',
-    price: 549,
-    originalPrice: 899,
-    instructor: 'Dr. Tariq Hussain',
-    nextStart: 'July 6, 2026',
-  },
-  {
-    id: 4,
-    title: 'Prompt Engineering Mastery',
-    description: 'Stop guessing with ChatGPT. Learn systematic prompting frameworks that save 10+ hours a week.',
-    duration: '4 Weeks',
-    level: 'All Levels',
-    gradient: 'linear-gradient(135deg, #164494 0%, #1E5BB8 100%)',
-    price: 199,
-    originalPrice: 349,
-    instructor: 'Ahmad Raza',
-    nextStart: 'June 8, 2026',
-  },
-  {
-    id: 5,
-    title: 'Data Science with Python',
-    description: 'Clean, analyze, and visualize real datasets. Pandas, Matplotlib, and Seaborn taught through business case studies.',
-    duration: '8 Weeks',
-    level: 'Beginner',
-    gradient: 'linear-gradient(135deg, #0F1F33 0%, #1A2D44 100%)',
-    price: 349,
-    originalPrice: 599,
-    instructor: 'Sana Malik',
-    nextStart: 'June 29, 2026',
-  },
-  {
-    id: 6,
-    title: 'AI Automation & Agents',
-    description: 'Build agents that actually work. Automate reports, emails, and workflows using LangChain and no-code tools.',
-    duration: '12 Weeks',
-    level: 'Advanced',
-    gradient: 'linear-gradient(135deg, #1E5BB8 0%, #0A2540 100%)',
-    price: 699,
-    originalPrice: 1199,
-    instructor: 'Dr. Tariq Hussain',
-    nextStart: 'July 20, 2026',
-  },
 ];
 
 export const testimonials: Testimonial[] = [
@@ -120,75 +45,6 @@ export const testimonials: Testimonial[] = [
     rating: 5,
     image: 'https://images.unsplash.com/photo-1548810020-ea2f1da35cff?w=100&h=100&fit=crop&crop=face',
     featured: true,
-  },
-];
-
-export const stats: Stat[] = [
-  { id: 2, label: 'Average course rating', target: 4.7, suffix: '/5.0', decimals: 1 },
-  { id: 3, label: 'Students who changed careers', target: 63, suffix: '%' },
-  { id: 4, label: 'Instructor response time', target: 6, suffix: ' hours' },
-];
-
-export const whyUsItems: WhyUsItem[] = [
-  {
-    id: 1,
-    title: 'Curriculum built with hiring managers',
-    description: 'We interviewed 40+ tech leads to find out what they actually want junior AI hires to know. Then we built the course around that.',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-      </svg>
-    ),
-  },
-  {
-    id: 2,
-    title: 'Projects that look like real work',
-    description: 'No more Titanic dataset for the millionth time. You will work on messy, incomplete data from actual business scenarios.',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
-      </svg>
-    ),
-  },
-  {
-    id: 3,
-    title: 'Instructors who still write code',
-    description: 'Ahmad, Sana, and Tariq are not career coaches — they are practitioners. They teach what they used last week at work.',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-      </svg>
-    ),
-  },
-  {
-    id: 4,
-    title: 'Certificate that means something',
-    description: 'Our certificates include a portfolio link and verified project list. Hiring managers can see what you actually built.',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
-      </svg>
-    ),
-  },
-  {
-    id: 5,
-    title: 'Career support that does not stop at resume tips',
-    description: 'Mock interviews with real engineers. Salary negotiation scripts. Direct introductions to our hiring partners when you are ready.',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-      </svg>
-    ),
-  },
-  {
-    id: 6,
-    title: 'Lifetime access, including future updates',
-    description: 'AI moves fast. Pay once and get every curriculum update, new module, and bonus workshop we release. No subscriptions.',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-      </svg>
-    ),
   },
 ];
 

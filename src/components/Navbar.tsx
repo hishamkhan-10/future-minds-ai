@@ -19,7 +19,6 @@ const Navbar: React.FC = () => {
   const navLogoRef = useRef<HTMLAnchorElement>(null);
   const navMenuRef = useRef<HTMLUListElement>(null);
   const drawerHeaderLeftRef = useRef<HTMLDivElement>(null);
-  const drawerCloseRef = useRef<HTMLButtonElement>(null);
   const backdropRef = useRef<HTMLDivElement>(null);
   const swipeStartX = useRef(0);
   const swipeDeltaX = useRef(0);
@@ -161,57 +160,39 @@ const Navbar: React.FC = () => {
   useLayoutEffect(() => {
     const headerLeft = drawerHeaderLeftRef.current;
     const navLogo = navLogoRef.current;
-    const closeBtn = drawerCloseRef.current;
     if (!headerLeft || !navLogo) return;
+
+    const drawerHeader = headerLeft.closest('.drawer-header') as HTMLElement | null;
 
     // Desktop (> 1024px): never run the effect; clear any stray inline styles.
     const isHamburgerDevice = window.matchMedia('(max-width: 1024px)').matches;
     if (!isHamburgerDevice) {
       headerLeft.style.cssText = '';
-      if (closeBtn) closeBtn.style.removeProperty('--close-nudge-y');
+      if (drawerHeader) drawerHeader.style.cssText = '';
       return;
     }
 
     if (menuOpen) {
-      // Measure the navbar pill logo's live viewport rect (the source), then
-      // PIN the drawer logo group there with position:fixed. Because fixed is
-      // resolved against the viewport — not the sliding panel — the logo is
-      // physically incapable of moving while the panel opens around it. The
-      // pill logo fades out beneath it (CSS); since the drawer logo matches the
-      // pill's size / gap / font / line-height exactly, the swap is invisible:
-      // the lockup truly never moves a single pixel.
       const source = navLogo.getBoundingClientRect();
       headerLeft.style.position = 'fixed';
       headerLeft.style.top = `${source.top}px`;
       headerLeft.style.left = `${source.left}px`;
       headerLeft.style.margin = '0';
-      headerLeft.style.zIndex = '1002'; // above the fading pill logo (z 1001)
+      headerLeft.style.zIndex = '1002';
       headerLeft.style.transform = 'none';
       headerLeft.style.transition = 'none';
 
-      // Align the close (✕) button's vertical centre with the logo/title line.
-      // The logo is pinned out of normal flow, so the header would otherwise
-      // centre the ✕ on its own box and sit a few px high. Nudge it onto the
-      // exact navbar-logo centre (using the logo icon as the reference row) so
-      // the ✕ reads as perfectly in line with the logo + title at every width.
-      // Driven via a CSS var so the existing :hover rotate still composes.
-      if (closeBtn) {
-        const navImg = navLogo.querySelector('img') as HTMLElement | null;
-        const ref = (navImg ?? navLogo).getBoundingClientRect();
-        const lineCenter = ref.top + ref.height / 2;
-        closeBtn.style.setProperty('--close-nudge-y', '0px');
-        const cb = closeBtn.getBoundingClientRect();
-        closeBtn.style.setProperty('--close-nudge-y', `${(lineCenter - (cb.top + cb.height / 2)).toFixed(2)}px`);
+      if (drawerHeader) {
+        drawerHeader.style.minHeight = `${source.height}px`;
+        drawerHeader.style.paddingTop = '0';
+        drawerHeader.style.paddingBottom = '0';
       }
     } else {
-      // Closing: leave the logo pinned in place while the panel slides out and
-      // the pill logo fades back in at the identical pixel, then clear the
-      // inline styles once the panel is gone so the swap back is also invisible.
       const el = headerLeft;
-      if (!el.style.position) return; // never opened on this device yet
+      if (!el.style.position) return;
       const reset = window.setTimeout(() => {
         el.style.cssText = '';
-        if (closeBtn) closeBtn.style.removeProperty('--close-nudge-y');
+        if (drawerHeader) drawerHeader.style.cssText = '';
       }, 360);
       return () => window.clearTimeout(reset);
     }
@@ -267,7 +248,6 @@ const Navbar: React.FC = () => {
               className="drawer-close"
               onClick={handleLinkClick}
               aria-label="close menu"
-              ref={drawerCloseRef}
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <line x1="18" y1="6" x2="6" y2="18" />

@@ -491,18 +491,6 @@
           drop-shadow(0 0 50px rgba(0, 198, 255, 0.1));
 }
 
-.hero-logo {
-  margin-bottom: 1.5rem;
-  animation: fadeInDown 0.7s ease forwards;
-}
-
-.hero-logo img {
-  width: 72px;
-  height: 72px;
-  object-fit: contain;
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.25));
-}
-
 .hero-title {
   font-family: var(--font-heading);
   font-size: clamp(2.25rem, 5vw, 3.5rem);
@@ -528,27 +516,6 @@
   line-height: 1.7;
   margin-bottom: 2.25rem;
   animation: fadeInUp 0.7s ease 0.2s both;
-}
-
-.hero-cta {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 2.5rem;
-  flex-wrap: wrap;
-  animation: fadeInUp 0.7s ease 0.3s both;
-}
-
-/* The hero now sits on a white surface, so the outline ("View Pricing") button
-   needs a dark-on-light treatment to stay clearly visible (its default light
-   border + white text is meant for dark sections). */
-.hero-cta .btn-outline {
-  color: var(--primary);
-  border-color: rgba(10, 22, 40, 0.28);
-}
-
-.hero-cta .btn-outline:hover {
-  border-color: var(--primary);
-  background: rgba(30, 91, 184, 0.07);
 }
 
 /* ============================================
@@ -876,19 +843,6 @@
   box-shadow: none;
 }
 
-.advantage-icon {
-  width: 44px;
-  height: 44px;
-  background: var(--primary);
-  color: var(--white);
-  border-radius: var(--radius-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  margin-bottom: 1rem;
-}
-
 .advantage-title {
   font-family: var(--font-heading);
   font-size: 1.125rem;
@@ -1015,16 +969,6 @@
 @media (max-width: 480px) {
   .instructor-section {
     margin-top: 3rem;
-  }
-
-  .advantage-icon {
-    width: 38px;
-    height: 38px;
-  }
-
-  .advantage-icon svg {
-    width: 18px;
-    height: 18px;
   }
 }
 
@@ -1958,10 +1902,6 @@
     margin-right: 0;
     margin-bottom: 1.5rem;
   }
-  .hero-cta {
-    justify-content: center;
-    margin-bottom: 1.75rem;
-  }
   .about-inner {
     grid-template-columns: 1fr;
     gap: 2.5rem;
@@ -2198,26 +2138,7 @@
     box-sizing: border-box;
     position: relative;
     margin-bottom: 6px;
-
-    /* Gradient border-bottom instead of solid */
-    border-bottom: 1px solid transparent;
-    background-clip: padding-box;
-  }
-  .drawer-header::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 20px;
-    right: 20px;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      var(--primary-light) 0%,
-      var(--drawer-header-divider) 40%,
-      var(--drawer-header-divider) 60%,
-      var(--primary-light) 100%
-    );
-    border-radius: 1px;
+    border-bottom: 1px solid var(--drawer-divider-color);
   }
 
   /* fades + slides in just after the drawer starts opening */
@@ -2309,11 +2230,7 @@
     max-width: 160px;
   }
 
-  /* Close button — pinned to the far right of the header row (rides the right
-     edge as the drawer widens). Its vertical centre is aligned to the navbar
-     logo/title line in JS via --close-nudge-y (the logo is pinned out of flow,
-     so flex centring alone would sit it a few px high). The nudge is folded
-     into transform so the :hover rotate still composes on top of it. */
+  /* Close button — pinned to the far right of the header row. */
   .drawer-close {
     position: relative;
     margin-left: auto;      /* pushes it to the far right within the flex row */
@@ -2332,12 +2249,12 @@
     padding: 0;
     color: var(--nav-text);
 
-    transform: translateY(var(--close-nudge-y, 0px));
+    transform: translateY(-3.8%);
     transition: background 0.2s ease, transform 0.2s ease;
   }
   .drawer-close:hover {
     background: rgba(255, 255, 255, 0.10);
-    transform: translateY(var(--close-nudge-y, 0px)) rotate(180deg) scale(1.1);
+    transform: translateY(-3.8%) rotate(180deg) scale(1.1);
     transition: background 0.2s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   .drawer-close svg {
@@ -2432,37 +2349,6 @@
     font-weight: 600;
   }
 
-  /* CTA row ("Enroll Now") — left aligned, full-width tap target */
-  .nav-menu > li > .nav-cta {
-    margin: 12px 24px;
-    width: calc(100% - 48px);
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-  }
-  /* Subtle shine animation on the CTA button */
-  .nav-menu > li > .nav-cta::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 60%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.15),
-      transparent
-    );
-    transform: skewX(-20deg);
-    animation: ctaShimmer 3s ease-in-out infinite;
-    pointer-events: none;
-  }
-  @keyframes ctaShimmer {
-    0%, 100% { left: -100%; }
-    50% { left: 200%; }
-  }
-
 }
 
 /* Tablets (iPad mini 768px / iPad Air 820px / iPad Pro 1024px) still in the
@@ -2531,10 +2417,6 @@
   .hero-container {
     gap: 2rem;
     flex: 1 0 auto;
-  }
-  .hero-cta {
-    flex-direction: column;
-    align-items: center;
   }
   .btn-lg {
     width: 100%;
@@ -2620,9 +2502,6 @@
   .hero-content {
     max-width: 520px;
   }
-  .hero-cta {
-    justify-content: flex-start;
-  }
   .hero-subtitle {
     margin-left: 0;
     margin-right: 0;
@@ -2651,10 +2530,6 @@
     flex-direction: column;
     align-items: center;
   }
-  .hero-cta {
-    flex-direction: column;
-    align-items: center;
-  }
   .btn-lg {
     width: 100%;
     max-width: 280px;
@@ -2674,10 +2549,6 @@
   }
   .hero-subtitle {
     margin-bottom: 1.125rem;
-  }
-  .hero-cta {
-    gap: 0.75rem;
-    margin-bottom: 1.25rem;
   }
   .section-title {
     font-size: 1.5rem;
@@ -2749,9 +2620,6 @@
   .hero-subtitle {
     margin-bottom: 1rem;
   }
-  .hero-cta {
-    margin-bottom: 1.25rem;
-  }
 }
 
 /* Short phones (e.g. iPhone SE 375x667, small Android 360x640) */
@@ -2773,10 +2641,6 @@
     gap: 0.85rem;
     padding-bottom: 0.625rem;
   }
-  .hero-cta {
-    gap: 0.55rem;
-    margin-bottom: 0.85rem;
-  }
   .btn-lg {
     padding: 0.65rem 1.5rem;
     font-size: 0.9rem;
@@ -2797,9 +2661,6 @@
   }
   .hero-container {
     gap: 0.7rem;
-  }
-  .hero-cta {
-    margin-bottom: 0.7rem;
   }
   .btn-lg {
     padding: 0.6rem 1.5rem;
@@ -3033,7 +2894,7 @@
     padding: 18px 20px 16px 20px;
     width: 100%;
     box-sizing: border-box;
-    border-bottom: 1px solid var(--drawer-header-divider);
+    border-bottom: 1px solid var(--drawer-divider-color);
     margin-bottom: 6px;
   }
   .drawer-header-left {
@@ -3081,11 +2942,12 @@
     cursor: pointer;
     padding: 0;
     color: var(--nav-text);
+    transform: translateY(-3.8%);
     transition: background 0.2s ease, transform 0.2s ease;
   }
   .drawer-close:hover {
     background: rgba(255, 255, 255, 0.10);
-    transform: rotate(90deg);
+    transform: translateY(-3.8%) rotate(180deg) scale(1.1);
   }
   .drawer-close svg {
     width: 20px;
@@ -3179,11 +3041,6 @@
     margin-bottom: 1.25rem !important;
   }
 
-  .hero-cta {
-    justify-content: flex-start !important;
-    margin-bottom: 0 !important;
-  }
-
   .btn-lg {
     padding: 0.6rem 1.5rem !important;
     font-size: 0.875rem !important;
@@ -3235,9 +3092,6 @@
   }
   .hero-subtitle {
     margin-bottom: 1rem !important;
-  }
-  .hero-cta {
-    margin-bottom: 0.75rem !important;
   }
   .hero-visual {
     width: auto !important;
@@ -3296,11 +3150,6 @@
     margin-left: 0 !important;
     margin-right: 0 !important;
     margin-bottom: 1.25rem !important;
-  }
-
-  .hero-cta {
-    justify-content: flex-start !important;
-    margin-bottom: 0 !important;
   }
 
   .btn-lg {
@@ -3382,11 +3231,6 @@
     line-height: 1.5 !important;
   }
 
-  .hero-cta {
-    justify-content: flex-start !important;
-    margin-bottom: 0 !important;
-  }
-
   .btn-lg {
     padding: 0.6rem 1.5rem !important;
     font-size: 0.875rem !important;
@@ -3456,13 +3300,6 @@
   .hero-subtitle {
     font-size: 1rem !important;
     margin-bottom: 1.25rem !important;
-  }
-
-  .hero-cta {
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    margin-bottom: 1.75rem !important;
   }
 
   .btn-lg {

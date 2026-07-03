@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import Button from './ui/Button';
 import HeroVisual from './HeroVisual';
 
 const Hero: React.FC = () => {
