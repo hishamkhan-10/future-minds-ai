@@ -172,21 +172,6 @@ test.describe('Homepage — Full Interactive Test Suite', () => {
   });
 
   // ─────────────────────────────────────────────────────────────────────────
-  // NAVBAR — ENROLL NOW BUTTON
-  // ─────────────────────────────────────────────────────────────────────────
-  test('4. Enroll Now button navigates to /signin', async ({ page }) => {
-    const enrollBtn = page.locator('.nav-cta');
-    await expect(enrollBtn).toBeVisible();
-    await expect(enrollBtn).toContainText('Enroll Now');
-
-    await enrollBtn.click();
-
-    await page.waitForURL(`${BASE}/signin`);
-    await expect(page.locator('.signin-overlay')).toBeVisible();
-    console.log('✓ Enroll Now navigated to /signin');
-  });
-
-  // ─────────────────────────────────────────────────────────────────────────
   // NAVBAR — LOGO
   // ─────────────────────────────────────────────────────────────────────────
   test('5. Logo click scrolls to top of page', async ({ page }) => {

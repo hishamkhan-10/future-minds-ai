@@ -25,7 +25,7 @@ npm run build
 ## Project Structure
 
 ```
-app/                # Next.js App Router pages (layout, homepage, /signin, /signup)
+app/                # Next.js App Router pages (layout, homepage)
 src/
   components/       # Page sections + reusable UI
   hooks/            # Custom React hooks

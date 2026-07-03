@@ -31,23 +31,20 @@
   --text-soft: #5A6A7C;
   --border: #DDE3EB;
 
-  /* Navbar glass tokens — theme-aware so the floating pill stays readable
-     on the dark hero and over light sections alike. Light theme: frosted
-     white glass with dark navy text. */
-  --nav-bg: rgba(255, 255, 255, 0.62);
-  --nav-bg-scrolled: rgba(255, 255, 255, 0.82);
-  --nav-border: rgba(255, 255, 255, 0.7);
-  --nav-text: #0A2540;
-  --nav-text-soft: rgba(10, 37, 64, 0.66);
-  --nav-control-bg: rgba(10, 37, 64, 0.05);
-  --nav-control-border: rgba(10, 37, 64, 0.1);
-  --nav-control-hover: rgba(10, 37, 64, 0.1);
-  --nav-shadow: 0 12px 32px -12px rgba(10, 37, 64, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.65);
-  --nav-drawer-bg: rgba(255, 255, 255, 0.97);
-  /* Mobile drawer dividers — soft black so they stay visible on the light
-     drawer background (FIX 2). */
-  --drawer-divider-color: rgba(0, 0, 0, 0.15);
-  --drawer-header-divider: rgba(0, 0, 0, 0.12);
+  /* Navbar glass tokens — dark navy glass with light text. */
+  --nav-bg: rgba(10, 37, 64, 0.70);
+  --nav-bg-scrolled: rgba(10, 37, 64, 0.92);
+  --nav-border: rgba(255, 255, 255, 0.14);
+  --nav-text: #EAF0F7;
+  --nav-text-soft: rgba(234, 240, 247, 0.75);
+  --nav-control-bg: rgba(255, 255, 255, 0.08);
+  --nav-control-border: rgba(255, 255, 255, 0.16);
+  --nav-control-hover: rgba(255, 255, 255, 0.14);
+  --nav-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.10);
+  --nav-drawer-bg: #0A2540;
+  --nav-drawer-header-bg: #0A2540;
+  --drawer-divider-color: rgba(255, 255, 255, 0.12);
+  --drawer-header-divider: rgba(255, 255, 255, 0.10);
 
   --success: #10b981;
   --warning: #f59e0b;
@@ -86,20 +83,20 @@
   --text-soft: #9FB0C3;
   --border: #1E3148;
 
-  /* Navbar glass tokens — dark theme: tinted navy glass with light text. */
-  --nav-bg: rgba(16, 31, 51, 0.5);
-  --nav-bg-scrolled: rgba(16, 31, 51, 0.72);
-  --nav-border: rgba(255, 255, 255, 0.12);
+  /* Navbar glass tokens — dark theme: deep navy blue glass with light text. */
+  --nav-bg: rgba(11, 45, 69, 0.70);
+  --nav-bg-scrolled: rgba(11, 45, 69, 0.92);
+  --nav-border: rgba(255, 255, 255, 0.10);
   --nav-text: #EAF0F7;
   --nav-text-soft: rgba(234, 240, 247, 0.72);
   --nav-control-bg: rgba(255, 255, 255, 0.07);
-  --nav-control-border: rgba(255, 255, 255, 0.16);
-  --nav-control-hover: rgba(255, 255, 255, 0.14);
-  --nav-shadow: 0 14px 36px -14px rgba(0, 0, 0, 0.72), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --nav-control-border: rgba(255, 255, 255, 0.14);
+  --nav-control-hover: rgba(255, 255, 255, 0.12);
+  --nav-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.72), inset 0 1px 0 rgba(255, 255, 255, 0.06);
   --nav-drawer-bg: #000000;
-  /* Mobile drawer dividers — soft white on the dark drawer background (FIX 2). */
-  --drawer-divider-color: rgba(255, 255, 255, 0.12);
-  --drawer-header-divider: rgba(255, 255, 255, 0.10);
+  --nav-drawer-header-bg: #000000;
+  --drawer-divider-color: rgba(255, 255, 255, 0.10);
+  --drawer-header-divider: rgba(255, 255, 255, 0.08);
 
   color-scheme: dark;
 }
