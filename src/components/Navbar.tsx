@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavbarScroll } from '../hooks/useNavbarScroll';
 import { useTheme } from '../hooks/useTheme';
 import { navLinks } from '../data/siteData';
@@ -9,16 +9,7 @@ const Navbar: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
 
-  // Shared-element transition (hamburger devices only). The pill navbar's
-  // logo + brand name (.nav-logo) is the single logo/title pair visible on
-  // these screens; when the drawer opens, its own logo group
-  // (.drawer-header-left) must appear to never move — it stays locked on the
-  // exact pixel the pill logo occupied while the panel slides in around it and
-  // the pill logo fades out beneath it. We pin it with position:fixed to the
-  // navbar logo's live viewport coordinates, never touching desktop.
-  const navLogoRef = useRef<HTMLAnchorElement>(null);
   const navMenuRef = useRef<HTMLUListElement>(null);
-  const drawerHeaderLeftRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLDivElement>(null);
   const swipeStartX = useRef(0);
   const swipeDeltaX = useRef(0);
@@ -153,51 +144,6 @@ const Navbar: React.FC = () => {
     swipeDeltaX.current = 0;
   }, []);
 
-  // ── Shared element: drawer logo appears to never move ─────────────────────
-  // Scoped strictly to the hamburger breakpoint (max-width: 1024px) so desktop
-  // is never touched. Runs in useLayoutEffect so the lock is committed before
-  // the browser paints — the logo never flashes at its natural drawer spot.
-  useLayoutEffect(() => {
-    const headerLeft = drawerHeaderLeftRef.current;
-    const navLogo = navLogoRef.current;
-    if (!headerLeft || !navLogo) return;
-
-    const drawerHeader = headerLeft.closest('.drawer-header') as HTMLElement | null;
-
-    // Desktop (> 1024px): never run the effect; clear any stray inline styles.
-    const isHamburgerDevice = window.matchMedia('(max-width: 1024px)').matches;
-    if (!isHamburgerDevice) {
-      headerLeft.style.cssText = '';
-      if (drawerHeader) drawerHeader.style.cssText = '';
-      return;
-    }
-
-    if (menuOpen) {
-      const source = navLogo.getBoundingClientRect();
-      headerLeft.style.position = 'fixed';
-      headerLeft.style.top = `${source.top}px`;
-      headerLeft.style.left = `${source.left}px`;
-      headerLeft.style.margin = '0';
-      headerLeft.style.zIndex = '1002';
-      headerLeft.style.transform = 'none';
-      headerLeft.style.transition = 'none';
-
-      if (drawerHeader) {
-        drawerHeader.style.minHeight = `${source.height}px`;
-        drawerHeader.style.paddingTop = '0';
-        drawerHeader.style.paddingBottom = '0';
-      }
-    } else {
-      const el = headerLeft;
-      if (!el.style.position) return;
-      const reset = window.setTimeout(() => {
-        el.style.cssText = '';
-        if (drawerHeader) drawerHeader.style.cssText = '';
-      }, 360);
-      return () => window.clearTimeout(reset);
-    }
-  }, [menuOpen]);
-
   return (
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''} ${menuOpen ? 'menu-open' : ''}`} id="navbar" aria-label="Primary">
       <div className="container nav-container">
@@ -215,7 +161,7 @@ const Navbar: React.FC = () => {
         </button>
 
         {/* 2. Logo + brand name — second, beside the hamburger */}
-        <a href="#" className="nav-logo" ref={navLogoRef}>
+        <a href="#" className="nav-logo">
           <img src="assets/FMA%20LOGO.svg" alt="Future Minds AI Training Logo" />
           <span>Future Minds AI</span>
         </a>
@@ -240,7 +186,7 @@ const Navbar: React.FC = () => {
               far right; shown only inside the mobile drawer (hidden on desktop
               via CSS). */}
           <li className="drawer-header">
-            <div className="drawer-header-left" ref={drawerHeaderLeftRef}>
+            <div className="drawer-header-left">
               <img src="assets/FMA%20LOGO.svg" alt="Future Minds AI Training Logo" className="drawer-logo" />
               <span className="drawer-brand-name">Future Minds AI</span>
             </div>

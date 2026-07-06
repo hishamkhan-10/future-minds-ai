@@ -2089,15 +2089,9 @@
     display: none;
   }
 
-  /* FIX 1 — when the drawer is open, hide the floating pill's logo/brand so it
-     does not overlap the drawer-header logo (which has z-index:1001 and would
-     otherwise bleed on top of the open panel). The drawer's own .drawer-header
-     remains the single source of truth for the logo inside the panel. */
-  .navbar.menu-open .nav-logo {
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s ease;
-  }
+  /* Keep the navbar logo/title visible while the drawer slides open behind it.
+     The drawer's own logo/title copy is hidden (see .drawer-header-left below);
+     only the pill's logo/title remain, so they look fixed in place. */
 
   /* Hide the hamburger entirely when the drawer is open — the close button
      (✕) inside the drawer header handles dismissal on that side. */
@@ -2132,8 +2126,12 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;  /* logo-title left, close button right */
-    gap: 0;
-    padding: 18px 20px 16px 20px;    /* reduced from previous larger padding */
+    gap: 1.25rem;
+    /* Align the drawer logo/title with the navbar logo/title. Left edge is
+       navbar padding-left + nav-container padding-left + hamburger width +
+       nav-container gap. Vertical padding is symmetric so the close button
+       centres on the same line as the logo/title. */
+    padding: 23px 24px 23px calc(66px + clamp(8px, 3vw, 16px));
     width: 100%;
     box-sizing: border-box;
     position: relative;
@@ -2159,50 +2157,17 @@
     transition: none;          /* instant reset for the next open */
   }
 
-  /* ── SHARED-ELEMENT TRANSITION (hamburger devices only) ──────────────────
-     The drawer's logo + brand name must appear to never move: it lands exactly
-     where the pill navbar logo (.nav-logo) sat, then glides to its drawer
-     resting spot. The motion is driven by a JS FLIP transform on
-     .drawer-header-left (see Navbar.tsx), matched to the panel's 350ms ease
-     left-slide. So the *group* (.drawer-header-left) owns all movement; the
-     surrounding .drawer-header must NOT fade or slide on its own, or it would
-     fight the FLIP and delay the logo's visibility. These overrides win by
-     coming later in the same @media block. Desktop (>= 1025px) never sees any
-     of this. */
-  .drawer-header {
-    opacity: 1;                 /* logo group is visible the whole time */
-    transform: none;            /* the inner group carries the motion */
-    transition: none;
-  }
-  .nav-menu.active .drawer-header,
-  .nav-menu:not(.active) .drawer-header {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-
-  /* The group that actually travels (logo + brand name). The JS sets its
-     transform; we just hint the compositor and keep the close button — which
-     lives in .drawer-header but outside this group — perfectly still. */
-  .drawer-header-left {
-    will-change: transform;
-  }
-
   /* Left group — logo image and brand name together */
   .drawer-header-left {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    /* Gap, logo size and brand font below all mirror the pill .nav-logo so the
-       shared-element icon + wordmark are pixel-identical at the open handoff —
-       no size pop as the drawer logo materialises over the fading pill logo. */
-    gap: 0.75rem;       /* matches .nav-logo gap */
-    flex: 1;
-    min-width: 0;       /* prevents flex overflow */
+    display: none;      /* hide the drawer copy; navbar logo/title stay visible */
+  }
+
+  .drawer-close {
+    margin-left: auto;  /* keep the close button pinned to the right when the logo/title group is hidden */
   }
 
   /* Logo image — mirrors the pill .nav-logo img exactly (width:32px + the same
-     optical-centre nudge) so the shared element doesn't change size mid-FLIP. */
+     optical-centre nudge) for visual consistency with the navbar brand. */
   .drawer-logo {
     width: 32px;                 /* matches .nav-logo img width */
     height: auto;
@@ -2214,26 +2179,22 @@
   }
 
   /* Brand name text — matches the pill .nav-logo span exactly (font size AND
-     line-height) so the title overlays pixel-perfect during the shared-element
-     handoff. The pill span inherits the body line-height (1.65); a tighter
-     value here would sit the title a few px higher than the navbar line. */
+     line-height) for visual consistency with the navbar brand. The pill span
+     inherits the body line-height (1.65); a tighter value here would sit the
+     title a few px higher than the navbar line. */
   .drawer-brand-name {
     font-family: var(--font-heading);
     font-size: 1.05rem;          /* matches mobile .nav-logo font-size */
-    font-weight: 600;
+    font-weight: 700;            /* matches .nav-logo font-weight */
     line-height: 1.65;           /* matches inherited .nav-logo span line-height */
     color: var(--nav-text);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    letter-spacing: 0.01em;
-    max-width: 160px;
+    white-space: nowrap;         /* keep brand name on a single line */
+    overflow: visible;
   }
 
   /* Close button — pinned to the far right of the header row. */
   .drawer-close {
     position: relative;
-    margin-left: auto;      /* pushes it to the far right within the flex row */
     flex-shrink: 0;
 
     width: 34px;
@@ -2249,12 +2210,11 @@
     padding: 0;
     color: var(--nav-text);
 
-    transform: translateY(-3.8%);
     transition: background 0.2s ease, transform 0.2s ease;
   }
   .drawer-close:hover {
     background: rgba(255, 255, 255, 0.10);
-    transform: translateY(-3.8%) rotate(180deg) scale(1.1);
+    transform: rotate(180deg) scale(1.1);
     transition: background 0.2s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   .drawer-close svg {
@@ -2279,14 +2239,13 @@
   }
 
   /* Staggered entrance with scale-up. Children are: 1=header, 2-7=links,
-     8=theme(hidden), 9=CTA — so delays are keyed to those real positions. */
+     8=theme(hidden) — so delays are keyed to those real positions. */
   .nav-menu.active > li:nth-child(2) { opacity: 1; transform: translateX(0) scale(1); transition-delay: 0.12s; }
   .nav-menu.active > li:nth-child(3) { opacity: 1; transform: translateX(0) scale(1); transition-delay: 0.17s; }
   .nav-menu.active > li:nth-child(4) { opacity: 1; transform: translateX(0) scale(1); transition-delay: 0.22s; }
   .nav-menu.active > li:nth-child(5) { opacity: 1; transform: translateX(0) scale(1); transition-delay: 0.27s; }
   .nav-menu.active > li:nth-child(6) { opacity: 1; transform: translateX(0) scale(1); transition-delay: 0.32s; }
   .nav-menu.active > li:nth-child(7) { opacity: 1; transform: translateX(0) scale(1); transition-delay: 0.37s; }
-  .nav-menu.active > li:nth-child(9) { opacity: 1; transform: translateX(0) scale(1); transition-delay: 0.42s; }
 
   /* Reset items instantly when the drawer closes */
   .nav-menu:not(.active) > li:not(.drawer-header):not(.nav-theme-drawer-item) {
@@ -2295,9 +2254,10 @@
     transition: none;
   }
 
-  /* Last visible row drops its divider (in both themes). !important wins over
-     the higher-specificity :not() divider rule above. */
-  .nav-menu > li:last-child {
+  /* Last visible menu row drops its divider (the hidden theme <li> is excluded
+     so the actual final link gets the rule). !important wins over the
+     higher-specificity :not() divider rule above. */
+  .nav-menu > li:not(.drawer-header):not(.nav-theme-drawer-item):last-of-type {
     border-bottom: none !important;
   }
 
@@ -2320,6 +2280,7 @@
   .nav-menu > li > .nav-link {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 14px;
     width: 100%;
     padding: 16px 24px 16px 28px;
@@ -2367,15 +2328,30 @@
     font-size: 1.15rem;
   }
 
-  /* Drawer header — slightly larger on tablet for proportion (FIX 1).
+  /* Drawer header — sized to match the tablet navbar logo position exactly.
      Logo keeps the base width:32px so it still matches the pill .nav-logo img
      (unchanged at tablet); only the wordmark grows to the pill's tablet size. */
   .drawer-header {
-    padding: 22px 24px 18px 24px;
+    /* Tablet navbar logo sits at: 24px + 28px + 32px + 16px = 100px.
+       Symmetric vertical padding matches the navbar logo's 28px top edge
+       and keeps the close button centred with the logo/title. */
+    padding: 28px 24px 28px 100px;
   }
   .drawer-brand-name {
     font-size: 1.15rem;          /* matches tablet .nav-logo font-size */
-    max-width: 200px;
+    font-weight: 700;            /* matches .nav-logo font-weight */
+    white-space: nowrap;         /* keep brand name on a single line */
+    max-width: none;
+  }
+}
+
+/* Phones (381px–767px) where the default 300px min-width drawer is too narrow
+   for the single-line brand name once the close button grows to 34px. Increase
+   the drawer width only for this specific range; smaller phones keep the 300px
+   drawer because their scaled-down 30px close button leaves enough room. */
+@media (min-width: 381px) and (max-width: 767px) {
+  .nav-menu {
+    min-width: 360px;
   }
 }
 
@@ -2572,14 +2548,21 @@
   .nav-container {
     padding: 9px 14px;
   }
+  /* Slightly wider drawer on tiny screens so the close button keeps balanced
+     spacing from the title without crowding the panel edge. */
+  .nav-menu {
+    min-width: 320px;
+  }
   /* Drawer header — tighter padding on tiny screens. Logo + wordmark keep the
      base size (width:32px / 1.05rem) because the pill .nav-logo is NOT shrunk
      here either, so the shared element stays seamless down to 320px. */
   .drawer-header {
-    padding: 16px 16px 14px 16px;
+    /* Tiny screens: navbar logo edge is 12px + 14px + 32px + gap.
+       Vertical padding mirrors the 21px navbar logo top edge. */
+    padding: 21px 20px 21px calc(58px + clamp(8px, 3vw, 16px));
   }
   .drawer-brand-name {
-    max-width: 150px;
+    max-width: none;
   }
   .drawer-close {
     width: 30px;
@@ -2728,10 +2711,9 @@
     font-size: 1.3rem;
     letter-spacing: -0.025em;
   }
-  /* Narrow drawer: shrink the brand name so the fixed pinned logo group
-     doesn't overlap the close (✕) button on the right. */
+  /* Narrow drawer: allow the full brand name to display without truncation. */
   .drawer-brand-name {
-    max-width: 120px;
+    max-width: none;
   }
 }
 
@@ -2872,7 +2854,6 @@
   /* When the drawer is open, hide the pill logo + hamburger so they do
      not bleed over the open panel (mobile behaviour). The theme toggle
      stays visible on the right, untouched. */
-  .navbar.menu-open .nav-logo,
   .navbar.menu-open .hamburger {
     opacity: 0;
     pointer-events: none;
@@ -2890,46 +2871,59 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    gap: 0;
-    padding: 18px 20px 16px 20px;
+    gap: 1.25rem;
+    /* At this exact size the hamburger parks on the RIGHT, so the navbar
+       logo starts right after nav-container padding: 16px + 18px = 34px.
+       Vertical padding matches the navbar logo's top edge. */
+    padding: 23px 24px 23px 34px;
     width: 100%;
     box-sizing: border-box;
     border-bottom: 1px solid var(--drawer-divider-color);
     margin-bottom: 6px;
+
+    opacity: 0;
+    transform: translateX(-12px);
+    transition:
+      opacity 0.35s ease 0.15s,
+      transform 0.35s ease 0.15s;
+  }
+  .nav-menu.active .drawer-header {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .nav-menu:not(.active) .drawer-header {
+    opacity: 0;
+    transform: translateX(-12px);
+    transition: none;
   }
   .drawer-header-left {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 0.75rem;
-    flex: 1;
-    min-width: 0;
+    display: none;      /* hide the drawer copy; navbar logo/title stay visible */
   }
+
+  .drawer-close {
+    margin-left: auto;  /* keep the close button pinned to the right when the logo/title group is hidden */
+  }
+
   .drawer-logo {
     width: 32px;
     height: auto;
     object-fit: contain;
     flex-shrink: 0;
     display: block;
-    background-color: #0a192f;
-    border-radius: 6px;
+    background-color: transparent;
     transform: translateY(-3.8%);
   }
   .drawer-brand-name {
     font-family: var(--font-heading);
     font-size: 1.05rem;
-    font-weight: 600;
+    font-weight: 700;            /* matches .nav-logo font-weight */
     line-height: 1.65;
     color: var(--nav-text);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    letter-spacing: 0.01em;
-    max-width: 160px;
+    white-space: nowrap;         /* keep brand name on a single line */
+    overflow: visible;
   }
   .drawer-close {
     position: relative;
-    margin-left: auto;
     flex-shrink: 0;
     width: 34px;
     height: 34px;
@@ -2942,12 +2936,11 @@
     cursor: pointer;
     padding: 0;
     color: var(--nav-text);
-    transform: translateY(-3.8%);
     transition: background 0.2s ease, transform 0.2s ease;
   }
   .drawer-close:hover {
     background: rgba(255, 255, 255, 0.10);
-    transform: translateY(-3.8%) rotate(180deg) scale(1.1);
+    transform: rotate(180deg) scale(1.1);
   }
   .drawer-close svg {
     width: 20px;
@@ -2962,22 +2955,21 @@
     align-items: center;
     border-bottom: 1px solid var(--drawer-divider-color);
   }
-  .nav-menu > li:last-child {
+  .nav-menu > li:not(.drawer-header):not(.nav-theme-drawer-item):last-of-type {
     border-bottom: none !important;
-  }
-  .nav-link {
-    font-size: 1.125rem;
   }
   .nav-menu > li > .nav-link {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 14px;
     width: 100%;
-    padding: 15px 24px;
+    padding: 16px 24px 16px 28px;
     text-align: left;
+    font-size: 1.05rem;
     letter-spacing: 0.02em;
     color: var(--nav-text-soft);
-    transition: background 0.2s ease, padding-left 0.2s ease, color 0.2s ease;
+    transition: background 0.25s ease, padding-left 0.25s ease, color 0.25s ease;
   }
   .nav-menu > li > .nav-link .nav-arrow {
     flex-shrink: 0;
