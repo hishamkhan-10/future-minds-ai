@@ -7,12 +7,13 @@ import { contactInfo } from '../data/siteData';
 interface FormErrors {
   name: string;
   email: string;
+  phone: string;
   message: string;
 }
 
 const Contact: React.FC = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-  const [errors, setErrors] = useState<FormErrors>({ name: '', email: '', message: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
+  const [errors, setErrors] = useState<FormErrors>({ name: '', email: '', phone: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -25,6 +26,10 @@ const Contact: React.FC = () => {
       case 'email':
         if (!value.trim()) return 'Please enter your email.';
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Please enter a valid email.';
+        return '';
+      case 'phone':
+        if (!value.trim()) return 'Please enter your phone number.';
+        if (!/^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,4}[-\s.]?[0-9]{1,9}$/.test(value)) return 'Please enter a valid phone number.';
         return '';
       case 'message':
         if (!value.trim()) return 'Please enter a message.';
@@ -61,6 +66,7 @@ const Contact: React.FC = () => {
       const newErrors: FormErrors = {
         name: validateField('name', formData.name),
         email: validateField('email', formData.email),
+        phone: validateField('phone', formData.phone),
         message: validateField('message', formData.message),
       };
 
@@ -74,7 +80,7 @@ const Contact: React.FC = () => {
       await new Promise((resolve) => setTimeout(resolve, 1500));
       setIsSubmitting(false);
       setShowSuccess(true);
-      setFormData({ name: '', email: '', message: '' });
+      setFormData({ name: '', email: '', phone: '', message: '' });
 
       setTimeout(() => {
         setShowSuccess(false);
@@ -123,6 +129,21 @@ const Contact: React.FC = () => {
                 <span className="error-msg">{errors.name}</span>
               </div>
               <div className="form-group">
+                <label htmlFor="phone">Phone No</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  placeholder="+92 300 1234567"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={errors.phone ? 'error' : ''}
+                  required
+                />
+                <span className="error-msg">{errors.phone}</span>
+              </div>
+              <div className="form-group">
                 <label htmlFor="email">Email</label>
                 <input
                   type="email"
@@ -138,7 +159,7 @@ const Contact: React.FC = () => {
                 <span className="error-msg">{errors.email}</span>
               </div>
               <div className="form-group">
-                <label htmlFor="message">Message</label>
+                <label htmlFor="message">Purpose Of Inquiry</label>
                 <textarea
                   id="message"
                   name="message"
@@ -153,7 +174,7 @@ const Contact: React.FC = () => {
                 <span className="error-msg">{errors.message}</span>
               </div>
               <Button type="submit" variant="primary" className="btn-full" isLoading={isSubmitting}>
-                Send Message
+                Submit
               </Button>
               <div className={`form-success ${showSuccess ? 'show' : ''}`}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
