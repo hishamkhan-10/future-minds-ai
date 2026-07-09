@@ -1,5 +1,8 @@
 import type { Testimonial, NavLink, FooterLinkGroup, FAQItem } from '../types';
 
+export const WHATSAPP_NUMBER = '+92 302 0441896';
+export const WHATSAPP_CHAT_URL = 'https://wa.me/923020441896';
+
 export const navLinks: NavLink[] = [
   { label: 'About', href: '#about', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg> },
   { label: 'Why Us', href: '#why-us', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> },
@@ -85,7 +88,7 @@ export const contactInfo = [
       </svg>
     ),
     label: 'WhatsApp',
-    value: '+92 303 0441896',
+    value: WHATSAPP_NUMBER,
   },
   {
     icon: (
