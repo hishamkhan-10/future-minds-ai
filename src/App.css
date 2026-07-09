@@ -37,51 +37,6 @@
   box-shadow: 0 6px 16px rgba(30, 91, 184, 0.35);
 }
 
-.btn-outline {
-  background: transparent;
-  color: var(--white);
-  border-color: rgba(255, 255, 255, 0.35);
-}
-
-.btn-outline:hover {
-  border-color: var(--white);
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.btn-white {
-  background: var(--white);
-  color: var(--primary);
-  border-color: var(--white);
-}
-
-.btn-white:hover {
-  background: var(--light);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-lg);
-}
-
-.btn-outline-white {
-  background: transparent;
-  color: var(--white);
-  border-color: rgba(255, 255, 255, 0.5);
-}
-
-.btn-outline-white:hover {
-  border-color: var(--white);
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.btn-lg {
-  padding: 1rem 2.25rem;
-  font-size: 1rem;
-  border-radius: var(--radius-lg);
-}
-
-.btn-sm {
-  padding: 0.5rem 1.25rem;
-  font-size: 0.875rem;
-}
-
 .btn-full {
   width: 100%;
 }
@@ -104,8 +59,7 @@
 }
 
 /* Subtle light sheen sweep on filled buttons */
-.btn-primary::before,
-.btn-white::before {
+.btn-primary::before {
   content: '';
   position: absolute;
   top: 0;
@@ -118,8 +72,7 @@
   pointer-events: none;
 }
 
-.btn-primary:hover::before,
-.btn-white:hover::before {
+.btn-primary:hover::before {
   left: 125%;
 }
 
@@ -285,10 +238,6 @@
 .nav-link.active::after {
   width: 100%;
   background: var(--primary-light);
-}
-
-.nav-cta {
-  margin-left: 0.25rem;
 }
 
 .theme-toggle {
@@ -1415,57 +1364,6 @@
 }
 
 /* ============================================
-   CTA BANNER SECTION
-   ============================================ */
-.cta-banner {
-  background: var(--primary);
-  padding: 2.5rem 0;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.cta-banner::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse at 15% 20%, rgba(255, 255, 255, 0.16) 0%, transparent 45%),
-    radial-gradient(ellipse at 85% 90%, rgba(10, 22, 40, 0.25) 0%, transparent 50%);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.cta-content {
-  position: relative;
-  z-index: 2;
-  max-width: 640px;
-  margin: 0 auto;
-}
-
-.cta-content h2 {
-  font-family: var(--font-heading);
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
-  font-weight: 700;
-  color: var(--white);
-  margin-bottom: 0.875rem;
-}
-
-.cta-content p {
-  font-size: 1.0625rem;
-  color: rgba(255, 255, 255, 0.85);
-  margin-bottom: 1.75rem;
-  line-height: 1.65;
-}
-
-.cta-buttons {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-/* ============================================
    FAQ SECTION
    ============================================ */
 .faq-list {
@@ -2151,10 +2049,6 @@
     margin-left: auto;
     flex-shrink: 0;
   }
-  .nav-desktop-actions .nav-cta {
-    display: none;
-  }
-
   /* Keep the navbar logo/title visible while the drawer slides open behind it.
      The drawer's own logo/title copy is hidden (see .drawer-header-left below);
      only the pill's logo/title remain, so they look fixed in place. */
@@ -2327,21 +2221,6 @@
     border-bottom: none !important;
   }
 
-  /* Link icon — sits to the left of the label */
-  .nav-link-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
-    opacity: 0.6;
-    transition: opacity 0.2s ease;
-  }
-  .nav-link:hover .nav-link-icon {
-    opacity: 1;
-  }
-
   /* Links fill the row, text flush left, with breathing room */
   .nav-menu > li > .nav-link {
     display: flex;
@@ -2460,10 +2339,6 @@
     gap: 2rem;
     flex: 1 0 auto;
   }
-  .btn-lg {
-    width: 100%;
-    max-width: 280px;
-  }
 }
 
 /* 768–769px — extra breathing room between navbar and hero content. */
@@ -2528,9 +2403,6 @@
     flex-shrink: 0;
     margin-left: 0.5rem;
   }
-  .nav-link-icon {
-    display: none;
-  }
   .nav-arrow {
     display: none;
   }
@@ -2567,14 +2439,6 @@
   .footer-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
-  }
-  .cta-buttons {
-    flex-direction: column;
-    align-items: center;
-  }
-  .btn-lg {
-    width: 100%;
-    max-width: 280px;
   }
   .newsletter-form {
     flex-direction: column;
@@ -2647,10 +2511,6 @@
     opacity: 0.95;
     will-change: transform;
   }
-  .btn-lg {
-    padding: 0.875rem 1.5rem;
-    font-size: 0.9375rem;
-  }
   .nav-logo span {
     font-size: 1.05rem;
   }
@@ -2690,10 +2550,6 @@
     gap: 0.85rem;
     padding-bottom: 0.625rem;
   }
-  .btn-lg {
-    padding: 0.65rem 1.5rem;
-    font-size: 0.9rem;
-  }
 }
 
 /* Very short phones (e.g. 360x640) — final trim */
@@ -2710,9 +2566,6 @@
   }
   .hero-container {
     gap: 0.7rem;
-  }
-  .btn-lg {
-    padding: 0.6rem 1.5rem;
   }
 }
 
@@ -3099,13 +2952,6 @@
     margin-bottom: 1.25rem !important;
   }
 
-  .btn-lg {
-    padding: 0.6rem 1.5rem !important;
-    font-size: 0.875rem !important;
-    max-width: 240px !important;
-    width: auto !important;
-  }
-
   .hero-visual {
     flex: unset !important;
     position: absolute !important;
@@ -3210,12 +3056,6 @@
     margin-bottom: 1.25rem !important;
   }
 
-  .btn-lg {
-    padding: 0.6rem 1.5rem !important;
-    font-size: 0.875rem !important;
-    max-width: 240px !important;
-  }
-
   .hero-visual {
     flex: 1.45 !important;
     position: relative !important;
@@ -3289,13 +3129,6 @@
     line-height: 1.5 !important;
   }
 
-  .btn-lg {
-    padding: 0.6rem 1.5rem !important;
-    font-size: 0.875rem !important;
-    max-width: 240px !important;
-    width: auto !important;
-  }
-
   .hero-visual {
     flex: 1.3 !important;
     position: relative !important;
@@ -3358,11 +3191,6 @@
   .hero-subtitle {
     font-size: 1rem !important;
     margin-bottom: 1.25rem !important;
-  }
-
-  .btn-lg {
-    width: 100% !important;
-    max-width: 280px !important;
   }
 
   .hero-visual {
