@@ -1,6 +1,13 @@
 import React, { useEffect } from 'react';
 import HeroVisual from './HeroVisual';
 
+const renderLetterSpans = (text: string) =>
+  text.split('').map((char, index) => (
+    <span key={`${char}-${index}`} className="hero-letter">
+      {char}
+    </span>
+  ));
+
 const Hero: React.FC = () => {
   // Mobile browsers report 100vh as the *largest* viewport (URL bar hidden), so
   // a strictly-locked hero can still spill under the address bar. We mirror the
@@ -132,9 +139,11 @@ const Hero: React.FC = () => {
       <div className="container hero-container">
         <div className="hero-content">
           <h1 className="hero-title">
-            Don&rsquo;t Watch AI<br className="hero-break" />
-            Take Over &ndash; Get<br className="hero-break" />
-            Paid to Build It.
+            {renderLetterSpans("Don\u2019t Watch AI")}
+            <br className="hero-break" />
+            {renderLetterSpans("Take Over \u2013 Get")}
+            <br className="hero-break" />
+            {renderLetterSpans("Paid to Build It.")}
           </h1>
           <p className="hero-subtitle">
             Lahore&rsquo;s Most Practical Hands-On AI Courses in Lahore. Master AI Chat, Voice, Web &amp; WhatsApp Agents in just 10 weeks — no coding required. The skill businesses across the US, UK, and UAE are paying $500–$2,000 per month for. Claim Your Seat Before It&rsquo;s Gone.
