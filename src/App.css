@@ -3228,3 +3228,60 @@
   }
 }
 
+
+
+/* ============================================================
+   HERO HEADING WORD SPACING — targeted devices only
+   Adds a small visible gap between words in the hero title for
+   the exact devices listed in the design screenshots. No other
+   section, device, or breakpoint is touched.
+   ============================================================ */
+
+/* iPad Pro (1024 × 1366) */
+@media (min-width: 1020px) and (max-width: 1028px) and (min-height: 1300px) and (max-height: 1400px) {
+  .hero-letter--space {
+    margin-right: 0.1em;
+  }
+}
+
+/* Nest Hub (1024 × 600) */
+@media (min-width: 1020px) and (max-width: 1028px) and (min-height: 580px) and (max-height: 620px) {
+  .hero-letter--space {
+    margin-right: 0.1em;
+  }
+}
+
+/* 1024 × 744 */
+@media (min-width: 1020px) and (max-width: 1028px) and (min-height: 744px) and (max-height: 744px) {
+  .hero-letter--space {
+    margin-right: 0.1em;
+  }
+}
+
+/* Nest Hub Max (1280 × 800) */
+@media (min-width: 1260px) and (max-width: 1300px) and (min-height: 780px) and (max-height: 820px) {
+  .hero-letter--space {
+    margin-right: 0.1em;
+  }
+}
+
+/* Responsive 1440 × 1116 */
+@media (min-width: 1420px) and (max-width: 1460px) and (min-height: 1090px) and (max-height: 1140px) {
+  .hero-letter--space {
+    margin-right: 0.1em;
+  }
+}
+
+/* Responsive 2560 × 1860 */
+@media (min-width: 2540px) and (max-width: 2580px) and (min-height: 1840px) and (max-height: 1880px) {
+  .hero-letter--space {
+    margin-right: 0.1em;
+  }
+}
+
+/* Laptop 1366 × 768 */
+@media (min-width: 1340px) and (max-width: 1380px) and (min-height: 600px) and (max-height: 780px) {
+  .hero-letter--space {
+    margin-right: 0.1em;
+  }
+}

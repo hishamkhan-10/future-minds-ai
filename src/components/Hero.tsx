@@ -3,7 +3,10 @@ import HeroVisual from './HeroVisual';
 
 const renderLetterSpans = (text: string) =>
   text.split('').map((char, index) => (
-    <span key={`${char}-${index}`} className="hero-letter">
+    <span
+      key={`${char}-${index}`}
+      className={`hero-letter ${char === ' ' ? 'hero-letter--space' : ''}`}
+    >
       {char}
     </span>
   ));
