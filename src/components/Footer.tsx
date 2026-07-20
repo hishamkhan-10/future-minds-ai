@@ -4,7 +4,7 @@ import { footerLinkGroups } from '../data/siteData';
 interface SocialLink {
   label: string;
   href: string;
-  icon: JSX.Element;
+  icon: React.ReactElement;
 }
 
 const socialLinks: SocialLink[] = [
