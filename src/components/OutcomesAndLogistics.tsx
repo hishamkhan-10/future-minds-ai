@@ -6,7 +6,7 @@ const outcomes = [
   {
     title: 'Working Sales Agent',
     description:
-      'Lead qualification + calendar booking \u2014 deployed for a real or simulated client.',
+      'Lead qualification + calendar booking deployed for a real or simulated client.',
   },
   {
     title: 'Working Support Agent',

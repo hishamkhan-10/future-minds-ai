@@ -149,7 +149,7 @@ const Hero: React.FC = () => {
             {renderLetterSpans("Paid to Build It.")}
           </h1>
           <p className="hero-subtitle">
-            Lahore&rsquo;s Most Practical Hands-On AI Courses in Lahore. Master AI Chat, Voice, Web &amp; WhatsApp Agents in just 10 weeks — no coding required. The skill businesses across the US, UK, and UAE are paying $500–$2,000 per month for. Claim Your Seat Before It&rsquo;s Gone.
+            Lahore&rsquo;s Most Practical, Hands-On AI Course helps you master AI chatbots, voice agents, web agents, and WhatsApp automation in just 10 weeks, with no coding experience required. You will develop high-demand AI automation skills and learn how to offer services valued at $500&ndash;$2,000 per month to businesses across the US, UK, and UAE. Claim your seat before it&rsquo;s gone!
           </p>
         </div>
         <HeroVisual />
