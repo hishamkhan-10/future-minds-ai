@@ -1,0 +1,46 @@
+/* Animated top accent line on card hover — every card on the site */
+.about-fact,
+.curriculum-card,
+.advantage-card,
+.instructor-card,
+.outcome-card,
+.logistics-column,
+.contact-form,
+.faq-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.about-fact::after,
+.curriculum-card::after,
+.advantage-card::after,
+.instructor-card::after,
+.outcome-card::after,
+.logistics-column::after,
+.contact-form::after,
+.faq-item::after,
+.testimonial-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition-base);
+  z-index: 3;
+}
+
+.about-fact:hover::after,
+.curriculum-card:hover::after,
+.advantage-card:hover::after,
+.instructor-card:hover::after,
+.outcome-card:hover::after,
+.logistics-column:hover::after,
+.contact-form:hover::after,
+.faq-item:hover::after,
+.testimonial-card:hover::after {
+  transform: scaleX(1);
+}

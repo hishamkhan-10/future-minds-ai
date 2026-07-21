@@ -1,0 +1,63 @@
+/* WhatsApp floating action button — fixed to the bottom-left on all pages */
+.whatsapp-float {
+  position: fixed;
+  left: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #25D366;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.45), 0 8px 24px rgba(0, 0, 0, 0.22);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow var(--transition-base);
+  animation: fadeInUp 0.7s ease 0.4s both;
+  will-change: transform;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.2);
+  box-shadow: 0 6px 18px rgba(37, 211, 102, 0.55), 0 12px 32px rgba(0, 0, 0, 0.28);
+}
+
+.whatsapp-float:hover svg {
+  transform: scale(1.15);
+}
+
+.whatsapp-float:active {
+  transform: scale(1.1);
+}
+
+.whatsapp-float svg {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform;
+}
+
+@media (max-width: 768px) {
+  .whatsapp-float {
+    left: 1rem;
+    bottom: 1rem;
+    width: 56px;
+    height: 56px;
+  }
+
+  .whatsapp-float svg {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+/* Keep the WhatsApp float hidden while the hamburger drawer is open on the
+   devices that use it (≤1024px), so it never overlaps the drawer panel.
+   Its position and behavior on the main landing page are unchanged. */
+@media (max-width: 1024px) {
+  body.drawer-open .whatsapp-float {
+    display: none;
+  }
+}

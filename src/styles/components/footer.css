@@ -1,0 +1,153 @@
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+  background: var(--almost-black);
+  color: var(--white);
+  padding: 3.5rem 0 0;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  gap: 2.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--dark-lighter);
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 0.875rem;
+  color: var(--white);
+}
+
+.footer-logo img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+.footer-brand p {
+  font-size: 0.875rem;
+  color: var(--gray-light);
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+}
+
+.social-links {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.social-links a {
+  width: 36px;
+  height: 36px;
+  background: var(--dark-lighter);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-light);
+  transition: all var(--transition-fast);
+}
+
+.social-links a:hover {
+  background: var(--primary);
+  color: var(--white);
+  transform: translateY(-1px);
+}
+
+.footer-links h4 {
+  font-family: var(--font-heading);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--white);
+}
+
+.footer-links ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.footer-links a {
+  font-size: 0.875rem;
+  color: var(--gray-light);
+  transition: color var(--transition-fast);
+}
+
+.footer-links a:hover {
+  color: var(--primary-light);
+}
+
+/* Newsletter */
+.newsletter h4 {
+  font-family: var(--font-heading);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--white);
+}
+
+.newsletter p {
+  font-size: 0.8125rem;
+  color: var(--gray-light);
+  margin-bottom: 0.875rem;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.newsletter-form input {
+  flex: 1;
+  padding: 0.6rem 0.875rem;
+  font-size: 0.875rem;
+  border: 1px solid var(--dark-lighter);
+  border-radius: var(--radius-sm);
+  background: var(--dark-light);
+  color: var(--white);
+  outline: none;
+}
+
+.newsletter-form input::placeholder {
+  color: var(--gray-light);
+}
+
+.newsletter-form input:focus {
+  border-color: var(--primary);
+}
+
+.newsletter-form button {
+  padding: 0.6rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  background: var(--primary);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.newsletter-form button:hover {
+  background: var(--primary-dark);
+}
+
+.footer-bottom {
+  padding: 1.25rem 0;
+  text-align: center;
+}
+
+.footer-bottom p {
+  font-size: 0.8125rem;
+  color: var(--gray-light);
+}

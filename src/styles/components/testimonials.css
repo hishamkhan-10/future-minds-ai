@@ -1,0 +1,67 @@
+
+/* ============================================
+   TESTIMONIALS SECTION
+   ============================================ */
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.testimonial-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  transition: all var(--transition-base);
+}
+
+.testimonial-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: transparent;
+}
+
+.testimonial-card.featured {
+  border-left: 3px solid var(--primary);
+}
+
+.testimonial-stars {
+  color: var(--warning);
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+}
+
+.testimonial-text {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.testimonial-author img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.author-info h4 {
+  font-family: var(--font-heading);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.author-info span {
+  font-size: 0.75rem;
+  color: var(--text-soft);
+}

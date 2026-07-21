@@ -1,0 +1,166 @@
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+.hero {
+  position: relative;
+  /* Strictly lock the hero to exactly one viewport so the whole section is
+     visible without scrolling a single pixel. Three layered declarations give
+     the best result per browser (later wins where supported):
+       1. 100vh                     — universal fallback
+       2. calc(var(--vh)*100)       — JS-driven real innerHeight (mobile URL-bar
+                                       safe; see setVH() in Hero.tsx)
+       3. 100dvh                    — dynamic viewport height on modern browsers */
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* Layered navy base, recreated entirely with gradients (no image):
+       • Zone 1 (top-left): natural dark-blue ↔ black blend
+       • Zone 2 (bottom): fully dark navy band
+       • everything else: the existing navy field */
+  background:
+    radial-gradient(ellipse 48% 44% at 17% 12%, rgba(26, 50, 92, 0.5) 0%, rgba(6, 12, 24, 0) 60%),
+    linear-gradient(to bottom, rgba(11, 29, 58, 0) 55%, #0b1d3a 90%, #0d2143 100%),
+    radial-gradient(ellipse 88% 72% at 60% 30%, #14243f 0%, #0b1830 52%, #070e1c 100%),
+    var(--almost-black);
+  color: var(--white);
+  overflow: hidden;
+  padding-top: 80px;
+}
+
+/* Top vignette for depth — darkens the upper edge (reinforces the black in
+   Zone 1) while leaving the navy bottom untouched. Sits below the SVG layer. */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(ellipse 75% 55% at 48% 0%, rgba(3, 7, 16, 0.55) 0%, transparent 72%);
+  pointer-events: none;
+}
+
+/* Code-generated HUD background layer (decorative). */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-bg-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Two white-band variants share the blue base (see Hero.tsx). The "wide" wave
+   matches the reference on the two-column layout; the "stack" wave takes over
+   once the hero collapses to a single column so the taller content stays on
+   white. Toggled here (SVG path data can't be swapped from CSS otherwise). */
+.hero-wave--stack {
+  display: none;
+}
+
+/* Default: signin-style gradient background SVG hidden on desktop (≥1180px).
+   On mobile, tablet and iPad (≤1179px) it replaces the desktop SVG to match
+   the sign-in / sign-up overlay gradient background style. */
+.hero-bg-svg--signin {
+  display: none;
+}
+
+/* SVG toggle: desktop SVG visible by default, signin SVG hidden.
+   For ≤1179px the inverse is applied in the breakpoint below. */
+
+@media (max-width: 1179px) {
+  .hero-bg-svg--desktop {
+    display: none;
+  }
+  .hero-bg-svg--signin {
+    display: block;
+  }
+}
+
+.hero-container {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  padding-bottom: 3rem;
+}
+
+/* The hero content sits directly on the curved background (no card). The wave
+   bands are arranged so the whole content block rests on the white middle
+   section, letting the title and subtitle use dark text for crisp, accessible
+   contrast. */
+.hero-content {
+  position: relative;
+}
+
+.hero-visual {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: flex-end;
+  z-index: 1;
+  will-change: transform;
+  backface-visibility: hidden;
+  cursor: default;
+  pointer-events: none;
+}
+
+.hero-visual img {
+  width: 50%;
+  height: auto;
+  max-height: 80vh;
+  object-fit: contain;
+  image-rendering: high-quality;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  pointer-events: auto;
+  transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1),
+              filter 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.hero-visual img:hover {
+  transform: translateZ(0) scale(1.06);
+  filter: drop-shadow(0 0 22px rgba(0, 198, 255, 0.2))
+          drop-shadow(0 0 50px rgba(0, 198, 255, 0.1));
+}
+
+.hero-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-top: 2.5rem;
+  margin-bottom: 1.25rem;
+  color: #000000;
+  animation: fadeInUp 0.7s ease 0.1s both;
+}
+
+/* Forced line breaks in the hero heading. Inert on desktop/laptop (≥1180px):
+   the <br> does not render, so the heading wraps exactly as it always has.
+   They are switched on only for non-desktop widths in the media query below. */
+.hero-break {
+  display: none;
+}
+
+.hero-subtitle {
+  font-size: clamp(1rem, 1.8vw, 1.125rem);
+  color: #000000;
+  line-height: 1.7;
+  margin-bottom: 2.25rem;
+  animation: fadeInUp 0.7s ease 0.2s both;
+}

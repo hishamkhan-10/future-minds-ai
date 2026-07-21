@@ -1,0 +1,16 @@
+@import './base.css';
+@import './shared/buttons.css';
+@import './components/navbar.css';
+@import './components/hero.css';
+@import './components/whatsapp-float.css';
+@import './components/hero-highlights.css';
+@import './components/about.css';
+@import './components/curriculum.css';
+@import './components/why-different.css';
+@import './components/outcomes.css';
+@import './shared/card-accent.css';
+@import './components/testimonials.css';
+@import './components/faq.css';
+@import './components/contact.css';
+@import './components/footer.css';
+@import './responsive/global.css';

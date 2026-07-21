@@ -1,0 +1,208 @@
+
+/* ============================================
+   NAVIGATION
+   ============================================ */
+/* The navbar is a transparent, horizontally-centred wrapper; the visible
+   "pill" is .nav-container. The wrapper ignores pointer events so the
+   transparent side gutters never intercept clicks on the page below. */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  padding: 1rem var(--container-padding);
+  background: transparent;
+  pointer-events: none;
+  transition: padding var(--transition-base);
+}
+
+.navbar.scrolled {
+  padding-top: 0.55rem;
+}
+
+/* Glassmorphism pill — semi-transparent, blurred, softly elevated. */
+.nav-container {
+  position: relative;
+  isolation: isolate;
+  pointer-events: auto;
+  width: min(var(--container-max), 100%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  max-width: none;
+  margin: 0;
+  padding: 0.55rem 0.7rem 0.55rem 1.25rem;
+  border-radius: var(--radius-full);
+}
+
+/* The glass surface lives on a pseudo-element, NOT on .nav-container itself.
+   A backdrop-filter on .nav-container would make it the containing block for
+   the position:fixed mobile drawer (a descendant), pulling the drawer off the
+   real viewport edge. Keeping the filter on ::before avoids that entirely. */
+.nav-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  /* Over the Hero (page at top, not scrolled): a perfectly clear pane — no
+     background, blur, border, or shadow — so the Hero shows through sharply. */
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border: 1px solid transparent;
+  box-shadow: none;
+  transition: background var(--transition-base), box-shadow var(--transition-base),
+    border-color var(--transition-base), -webkit-backdrop-filter var(--transition-base),
+    backdrop-filter var(--transition-base);
+}
+
+/* Once scrolled past the Hero, the frosted-glass pill returns. */
+.navbar.scrolled .nav-container::before {
+  background: var(--nav-bg-scrolled);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  backdrop-filter: blur(20px) saturate(170%);
+  border-color: var(--nav-border);
+  box-shadow: var(--nav-shadow);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--nav-text);
+  z-index: 1001;
+}
+
+.nav-logo img {
+  width: 40px;
+  height: auto;
+  object-fit: contain;
+  background-color: transparent;
+  /* The FMA mark has a diagonal composition (light sparkles up top, heavy
+     letterforms low), so its optical centre renders ~3.8% of the box height
+     below the geometric centre — making it look lower than the wordmark.
+     Nudge it up by that proportion so the lockup is optically centred on
+     every device. Percentage is relative to the box, so it scales 1:1. */
+  transform: translateY(-3.8%);
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* Drawer-only header (logo + brand name). Hidden on desktop where .nav-menu is
+   the horizontal bar; revealed only inside the mobile off-canvas drawer. */
+.drawer-header {
+  display: none;
+}
+
+.nav-link {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--nav-text-soft);
+  transition: color var(--transition-fast);
+  position: relative;
+}
+
+.nav-link:hover {
+  color: var(--nav-text);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--primary);
+  transition: width var(--transition-base);
+  border-radius: 2px;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.nav-link.active {
+  color: var(--nav-text);
+  font-weight: 600;
+}
+
+.nav-link.active::after {
+  width: 100%;
+  background: var(--primary-light);
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-full);
+  background: var(--nav-control-bg);
+  border: 1px solid var(--nav-control-border);
+  color: var(--nav-text-soft);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+}
+
+.theme-toggle:hover {
+  background: var(--nav-control-hover);
+  color: var(--nav-text);
+  transform: translateY(-1px);
+}
+
+.theme-toggle svg {
+  display: block;
+}
+
+/* Arrow icons for drawer nav links — hidden on desktop where the nav is horizontal */
+@media (min-width: 1025px) {
+  .nav-arrow {
+    display: none;
+  }
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+  padding: 4px;
+}
+
+.bar {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--nav-text);
+  border-radius: var(--radius-full);
+  transition: all var(--transition-base);
+}
+
+.hamburger.active .bar:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active .bar:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}

@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from 'next';
-// Global styles — same files, same order as the old Vite entry
-// (main.tsx imported index.css; App.tsx imported App.css).
-import '../src/index.css';
-import '../src/App.css';
+// Global styles — refactored into scoped partials under src/styles.
+// The single aggregator preserves the exact cascade order of the original
+// src/index.css + src/App.css, so the rendered page is unchanged.
+import '../src/styles/index.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://futuremindsai.com'),

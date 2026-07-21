@@ -1,0 +1,39 @@
+
+/* ============================================
+   HERO HIGHLIGHTS — Compact one-line cards
+   ============================================ */
+.hero-highlights {
+  background: var(--dark);
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.highlights-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.highlight-card {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.9rem;
+  background: #000;
+  border: 1px solid #000;
+  border-radius: var(--radius-full);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+  cursor: default;
+}
+
+.highlight-card:hover {
+  transform: scale(1.06);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
