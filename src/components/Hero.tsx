@@ -152,9 +152,8 @@ const Hero: React.FC = () => {
             Lahore&rsquo;s Most Practical Hands-On AI Courses in Lahore. Master AI Chat, Voice, Web &amp; WhatsApp Agents in just 10 weeks — no coding required. The skill businesses across the US, UK, and UAE are paying $500–$2,000 per month for. Claim Your Seat Before It&rsquo;s Gone.
           </p>
         </div>
+        <HeroVisual />
       </div>
-
-      <HeroVisual />
     </section>
   );
 };
